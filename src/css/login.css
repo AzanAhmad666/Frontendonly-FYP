@@ -1,0 +1,110 @@
+.main-color{
+    color: #6319B8;
+}
+.outsource-heading{
+    color: #6319B8;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: 20px;
+}
+
+.signin-text{
+    color: #6319B8;
+font-style: normal;
+font-weight: 600;
+line-height: normal
+}
+.create-account-text{
+color: #6319B8;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+.main-signin-padding{
+    padding: 70px;
+    padding-bottom: 0px;
+}
+.signin-img{
+    object-fit: cover;
+    width: 100%; 
+}
+.image-padding{
+    padding: 70px;
+    padding-bottom: 0px;
+}
+
+.input-bg{
+    background: white;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+}
+ /* to remove border color when we click on input field  */
+input:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+  }
+.forget-pass{
+text-decoration: none;
+display: flex;
+justify-content: end;
+color: #6319B8;
+font-size: 15px;
+font-style: normal;
+font-weight: 600;
+line-height: normal;
+}
+
+.signin-button{
+background-color:#6319B8 ;
+border: none;
+border-radius: 10px;
+padding: 10px 20px;
+width: 100%;
+}
+.space{
+    margin-right: 10px;
+}
+
+/* media query for doesn't have an account  */
+@media (max-width: 1400px) { 
+    .doesnt-have-account{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+    }
+ }
+ @media (min-width: 1400px) { 
+    .doesnt-have-account{
+        display: flex;
+        justify-content: space-between;
+    }
+  }
+  /* query for main container padding  */
+  @media (max-width: 1200px){
+     .container-bg{
+   background-color:#6319b830;
+   border-radius: 10px;
+   padding: 26px;
+   
+}
+  } 
+ @media (min-width: 1200px) { 
+    .container-bg{
+   background-color:#6319b830;
+   border-radius: 10px;
+   padding: 45px;
+   
+}
+}
+ 
+
+   .main-signin-padding{
+        padding: 70px;
+        padding-bottom: 0px;
+    }

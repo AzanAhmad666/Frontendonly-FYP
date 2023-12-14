@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoIosInformationCircle } from "react-icons/io";
-import '../css/sidebar.css'
+import '../css/createProject.css';
 import Sidebar from './Sidebar';
 
 
@@ -16,11 +16,25 @@ const CreateProject = () => {
   const [description, setDescription] = useState('');
   const [membersRequired, setMembersRequired] = useState('');
   const [addedMembers, setAddedMembers] = useState([]);
+  const [budget, setBudget] = useState();
+  const [isTeamProject, setIsTeamProject] = useState(true);
+
+  
 
   const handleAddMember = () => {
+  
+  
     if (membersRequired.trim() !== '') {
-      // Only add non-empty members
-      setAddedMembers((prevMembers) => [...prevMembers, membersRequired]);
+      // If it's a team project and the member input is not empty, add the member
+      if (isTeamProject) {
+        setAddedMembers((prevMembers) => [...prevMembers, membersRequired]);
+      } else {
+        // If it's not a team project, allow adding only one member
+        if (addedMembers.length === 0) {
+          setAddedMembers([membersRequired]);
+        }
+      }
+  
       setMembersRequired(''); // Clear the input field after adding the member
     }
   };
@@ -32,45 +46,73 @@ const CreateProject = () => {
     setAddedMembers((prevMembers) => prevMembers.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = () => {
-    // Parse membersRequired as an integer, defaulting to 0 if not a valid number
-    const parsedMembersRequired = parseInt(membersRequired, 10) || 0;
+  const fettchapi=(projectTitle,
+    projectType,
+    technologyStack,
+    description,
+    addedMembers,
+    budget,
+    isTeamProject)=>{
+    
+      
+    try {
+      var myHeaders = new Headers();
+myHeaders.append("Content-Type", "application/json");
+myHeaders.append("Cookie", "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTczNzMyZDYzNjUzNGUzNzgyNTBjMjUiLCJpYXQiOjE3MDIwNjQ5NjZ9.In6HZLkcWb75kuVErmvwQ41XiUXiPuMKaqnsFI14ymI");
+
+var raw = JSON.stringify({
+  "title": projectTitle,
+  "description": description,
+  "budget": budget,
+  "type": projectType,
+  "technologystack": technologyStack,
+  "requiresTeam":isTeamProject,
+  "requiredMembers":addedMembers
+});
+
+
+
+var requestOptions = {
+  method: 'POST',
+  headers: myHeaders,
+  body: raw,
+  redirect: 'follow'
+};
+
+fetch("http://localhost:3000/api/v1/project/post", requestOptions)
+  .then(response => response.text())
+  .then(result => console.log(result))
+  .catch(error => console.log('error', error));
+    } catch (error) {
+      console.log(error)
+    }
+
+
+  }
   
-    // Calculate the total number of required members
-    const totalMembersRequired = addedMembers.length + parsedMembersRequired;
   
-    // Handle form submission with the state values
-    console.log('Form submitted:', {
-      projectTitle,
-      projectType,
-      technologyStack,
-      description,
-      membersRequired: totalMembersRequired,
-      addedMembers,
-    });
-  };
-  
-  
-  console.log('State:', {
+    console.log('State:', {
     projectTitle,
     projectType,
     technologyStack,
     description,
     membersRequired,
-  });
+    isTeamProject,
+    addedMembers
+ });
 
 
     return( 
     <>
      <div className="flexContainer">
     <Sidebar/>
-    <div className="main-content">
+    <div className="main-content ">
     <div>
         <h1 className="createProjecttext mt-5">Create Project</h1>
       <p className="createProjecttext mt-2">You can create your project here.</p>
       <form>
         <p className="createProjecttext mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Project title:</p>
-        <input className="inputTitle"
+        <input  className="inputTitle"
         value={projectTitle}
         onChange={(e) => setProjectTitle(e.target.value)}
         />
@@ -92,6 +134,22 @@ const CreateProject = () => {
         value={description}
         onChange={(e) => setDescription(e.target.value)}
         />
+        <p className="createProjecttext mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Budget (in PKR):</p>
+        <input className="inputTitle"
+        value={budget}
+        onChange={(e) => setBudget(e.target.value)}
+        />
+
+<p className="createProjecttext mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Team Project:</p>
+
+<select
+  name="dropdown"
+  className='dropdown'
+  onChange={(e) => setIsTeamProject(e.target.value === "option1")}
+>
+  <option value="option1">Yes</option>
+  <option value="option2">No</option>
+</select>
         
         <p className="createProjecttext mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Members Required:</p>
         <div className="row">
@@ -125,7 +183,14 @@ const CreateProject = () => {
               {/* ... (rest of the form) */}
         <div className='d-flex justify-content-center align-items-center'>
         <input className=" submitButton mx-5 mt-5 " type="button" value="Submit"
-        onClick={handleSubmit}
+        onClick={() =>
+          fettchapi(
+            projectTitle,
+            projectType,
+            technologyStack,
+            description,
+            addedMembers,
+            budget,isTeamProject)}
         />
         </div>
       </form>

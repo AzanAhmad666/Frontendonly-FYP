@@ -3,11 +3,6 @@ body {
     font-family: Arial, sans-serif;
   }
   
-  .flexContainer {
-    display: flex;
-    min-height: 100vh;
-  }
-  
   .outsource {
     color: #6319B8;
   }
@@ -20,71 +15,69 @@ body {
     position: fixed; /* Set the position to fixed */
   }
   
-  .main-content {
-    flex: 1;
-    padding: 20px;
-    margin-left: 250px; /* Add margin to the main content to make space for the fixed sidebar */
-    background-color: #FBFEFD;
+ 
 
-    @media (max-width: 768px) {
-        margin-left: 0; /* Remove margin for smaller screens */
-      }
-  }
-
-  
-  .createProjecttext {
-    color: #6C7172;
-  }
-  
-  .inputTitle {
-    background-color: #6c717223;
-    border: none;
-    box-shadow: none;
-    height: 40px;
-    width: 300px;
-    color: black !important;
-    border-radius: 5px;
-  }
-  
-  .textArea {
-    background-color: #6c717223;
-    opacity: 1;
-    border: none;
-    box-shadow: none;
-    width: 300px;
-    height: 100px;
-    color: black !important;
-    border-radius: 5px;
-  }
-  
-  .inputTitle::placeholder {
-    color: black;
-  }
-  
-  .addButton {
-    background-color: #6319B8;
-    color: white;
-    border: none;
-    box-shadow: none;
-    width: 60px;
-    height: 30px;
-  }
-  .submitButton{
-    background-color: #6319B8;
-    color: white;
-    border: none;
-    box-shadow: none;
-    width: 90px;
-    height: 30px;
-  }
-  
   @media (max-width: 768px) {
-    .flexContainer {
-      flex-direction: column;
+    
+    .parentSidebar{
+      position: static;
     }
+    .sidebar{
+      position: relative;
+      right: 50%;
+    }
+  }
+  @media (max-width: 552px) {
+    .sidebar{
+      position: relative;
+      right: 20%;
+    }
+    .sidebar a{
+      padding: 0px 10px 0px 10px;
+    }
+    
+
+  }
+  @media (min-width: 554px) and (max-width: 574px) {
+    .sidebar a{
+      padding: 0px 25px 0px 25px;
+    }
+    .sidebarLink{
+      font-size: small;
+    }
+  }
+  @media (min-width: 402px) and (max-width: 552px) {
+
+    .sidebarLink{
+      font-size: small;
+    }
+  }
+
+  
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  
+  
+  
+  
+
+  @media (max-width: 768px) {
+    
   
     .sidebar {
-      width: 100%;
+      display: flex;
+
     }
   }
   
@@ -95,16 +88,11 @@ body {
     }
   }
   
-  @media screen and (max-width: 700px) {
-    .sidebar a {
-      float: left;
-    }
-  }
+  
   
   .sidebar a {
     display: block;
     color: #6C7172;
-    padding: 16px;
     text-decoration: none;
   }
   
@@ -116,7 +104,5 @@ body {
   
  
   
-  div.content {
-    margin-left: 0;
-  }
+  
   

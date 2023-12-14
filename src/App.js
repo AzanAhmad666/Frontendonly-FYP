@@ -5,6 +5,10 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 import CreateProject from './components/CreateProject';
 import UserTypeSelection from './components/UserTypeSelection';
+import AllProjects from './components/AllProjects';
+import Login from './components/login';
+import Signup from './components/Signup.js';
+
 
 
 function App() {
@@ -14,6 +18,9 @@ function App() {
       <Routes>
               <Route path="/" element={<UserTypeSelection />} />
               <Route path="/createProject" element={<CreateProject />} />
+              <Route path="/allProjects" element={<AllProjects />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
             </Routes>
     </div>
   );

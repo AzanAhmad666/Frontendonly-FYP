@@ -1,0 +1,102 @@
+.main-color{
+    color: #6319B8;
+}
+.outsource-heading{
+    color: #6319B8;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: 20px;
+}
+
+.signin-text{
+    color: #6319B8;
+font-style: normal;
+font-weight: 600;
+line-height: normal
+}
+
+.input-bg{
+    background: white;
+    border-radius: 10px;
+    border: none;
+    padding: 10px;
+}
+ /* to remove border color when we click on input field  */
+input:focus {
+    outline: none;
+    border: none;
+    box-shadow: none;
+  }
+
+
+.signin-button{
+background-color:#6319B8 ;
+border: none;
+border-radius: 10px;
+padding: 10px 20px;
+width: 100%;
+}
+.space{
+    margin-right: 10px;
+}
+/* signin box padding  */
+@media (min-width: 1200px) { 
+    .main-signin-padding{
+        padding: 400px;
+        padding-bottom: 0px;
+        padding-top: 30px;
+    }
+}
+@media (max-width: 1200px) { 
+    .main-signin-padding{
+        padding: 295px;
+        padding-bottom: 0px;
+        padding-top: 22px;
+    }
+} 
+@media (max-width: 992px) { 
+    .main-signin-padding{
+        padding: 237px;
+        padding-bottom: 0px;
+        padding-top: 22px;
+    }
+} 
+@media (max-width: 768px) { 
+    .main-signin-padding{
+        padding: 150px;
+        padding-bottom: 0px;
+        padding-top: 22px;
+    }
+} 
+/* container padding  */
+@media (min-width:1200px){
+    .container-bg{
+    background-color:#6319b830;
+    border-radius: 10px;
+    padding: 21px;
+    
+ }
+}
+@media (max-width:1200px){
+    .container-bg{
+    background-color:#6319b830;
+    border-radius: 10px;
+    padding: 25px;
+ }
+} 
+@media (max-width:992px){
+    .container-bg{
+    background-color:#6319b830;
+    border-radius: 10px;
+    padding: 25px;
+ }
+} 
+@media (max-width:768px){
+    .container-bg{
+    background-color:#6319b830;
+    border-radius: 10px;
+    padding: 31px;
+ }
+} 

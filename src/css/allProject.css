@@ -1,0 +1,23 @@
+
+.detailButton{
+    background-color: #6319B8;
+    color: white;
+    border: none;
+    box-shadow: none;
+    width: 90px;
+    height: 30px;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 5px;
+}
+.projectText{
+    color:#6319B8;
+}
+
+.card-background{
+    background-color: rgba(224, 224, 211, 0.11);
+}
+
+.cardHeader{
+    background-color: #7107eb3a;
+}
