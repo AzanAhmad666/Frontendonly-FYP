@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import Sidebar from './Sidebar';
 import '../css/allProject.css';
 
 const AllProjects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch projects and update state
@@ -64,9 +66,13 @@ const AllProjects = () => {
                           <p className="card-text mb-4">
                             <span className="projectText">Required Members: </span><span style={{color:'#6C7172'}}>{project.requiredMembers.join(' , ')}</span>
                           </p>
-                          <a href="#" className="mt-auto btn detailButton">
-                            Details
-                          </a>
+                          <Link
+                              to={`/projectDetails/${project._id}`}
+                              className="mt-auto btn detailButton"
+                              onClick={() => navigate(`/projectDetails/${project._id}`)}
+                            >
+                              Details
+                          </Link>
                         </div>
                       </div>
                     </div>

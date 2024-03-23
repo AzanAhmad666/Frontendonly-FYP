@@ -22,7 +22,7 @@ font-style: normal;
 font-weight: 600;
 line-height: normal;
 }
-.main-signin-padding{
+.main-signin-padding1{
     padding: 70px;
     padding-bottom: 0px;
 }
@@ -69,6 +69,15 @@ width: 100%;
     margin-right: 10px;
 }
 
+.signin-button:hover{
+    opacity: 80%;
+}
+
+.signin-button:active{
+    transform: translateY(2px);
+    background-color: black;
+}
+
 /* media query for doesn't have an account  */
 @media (max-width: 1400px) { 
     .doesnt-have-account{
@@ -87,7 +96,7 @@ width: 100%;
   }
   /* query for main container padding  */
   @media (max-width: 1200px){
-     .container-bg{
+     .container-bg1{
    background-color:#6319b830;
    border-radius: 10px;
    padding: 26px;
@@ -95,7 +104,7 @@ width: 100%;
 }
   } 
  @media (min-width: 1200px) { 
-    .container-bg{
+    .container-bg1{
    background-color:#6319b830;
    border-radius: 10px;
    padding: 45px;
@@ -104,7 +113,7 @@ width: 100%;
 }
  
 
-   .main-signin-padding{
+   .main-signin-padding1{
         padding: 70px;
         padding-bottom: 0px;
     }

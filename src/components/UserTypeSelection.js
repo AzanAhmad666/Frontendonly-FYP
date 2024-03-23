@@ -19,14 +19,14 @@ const UserTypeSelection = () => {
       <div className="row pt-5" >
        
         <div className="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6 d-flex justify-content-center align-items-center">
-          <div className="box">
+          <Link to='/loginFreelancer' className="box">
             <p className="fontcolor pt-2 ">
             <IoPeopleOutline className="companyIcon mx-4" style={{fontSize:"xx-large"}} />
                 Freelancer</p>
-          </div>
+          </Link>
         </div>
         <div className="col-lg-6 col-sm-12 col-xs-12 col-md-6 col-xl-6 d-flex justify-content-center align-items-center">
-          <Link to="/createProject" className="box mt-4 ">
+          <Link to="/login" className="box mt-4 ">
             <p className="fontcolor pt-2 ">
               <LiaBuildingSolid className="companyIcon mx-4" style={{fontSize:"xx-large"}} />
               Company
