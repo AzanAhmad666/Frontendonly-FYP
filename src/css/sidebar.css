@@ -11,7 +11,7 @@ body {
     width: 250px;
     background-color: #FFFFFF;
     color: #fff;
-    padding: 20px;
+    padding: 20px 20px 20px 0px;
     position: fixed; /* Set the position to fixed */
   }
   
@@ -21,6 +21,7 @@ body {
     
     .parentSidebar{
       position: static;
+
     }
     .sidebar{
       position: relative;
@@ -50,27 +51,11 @@ body {
 
     .sidebarLink{
       font-size: small;
+     
     }
   }
 
-  
 
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-
-  
-  
-  
-  
 
   @media (max-width: 768px) {
     
@@ -94,14 +79,37 @@ body {
     display: block;
     color: #6C7172;
     text-decoration: none;
+    transition: all 0.3x;
+    padding-top:3px;
+    padding-bottom:3px;
+    width:100%
   }
   
   .sidebar a:hover:not(.active) {
     background-color: #6319b83d;
     color: black;
+    padding: 4px 0px 6px 0px;
+    border-left: 2px solid #6319B8;
+    
+  }
+
+  .signOutButton{
+    background-color: #6319B8;
+    color: white;
+    border-radius: 10%;
+    border: none;
+    justify-content: center;
+    margin-left: 35%;
+    padding: 5px 10px 5px 10px;
+    transition: all 0.5s;
     
   }
   
+  .signOutButton:hover{
+    background-color: #6319b88c;
+    color: black;
+  
+  }
  
   
   

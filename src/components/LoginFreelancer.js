@@ -40,6 +40,7 @@ const LoginFreelancer = () => {
                 setCookie('token',result.token)
                 setCookie('freelancer', result.freelancer)
                 setCookie('freelancerID', result.freelancer._id)
+                setCookie('userType','freelancer')
                 console.log(result.freelancer._id)
                 //console.log("cookies token: ", cookies.token)
                 toast.success("Login Successfull")

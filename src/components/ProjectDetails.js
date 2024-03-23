@@ -17,8 +17,8 @@ const ProjectDetails = () => {
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
-        console.log(cookies.token)
-        console.log(cookies.freelancerID)
+        //console.log(cookies.token)
+        //console.log(cookies.freelancerID)
         const response = await fetch(`http://localhost:3000/api/v1/project/getProject/${id}`, {
           method: 'POST',
           headers: new Headers({
@@ -26,6 +26,7 @@ const ProjectDetails = () => {
             'Content-Type': 'application/json',
           }),
           redirect: 'follow',
+          
         });
 
         if (!response.ok) {
@@ -45,14 +46,16 @@ const ProjectDetails = () => {
   }, [id]); // Include id in the dependency array to re-fetch details when id changes
   const handleApplyClick = async (e) => {
     e.preventDefault()
+    console.log(cookies.token)
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/project/applyToProject/${id}`, {
+      const response = await fetch(`http://localhost:3000/api/v1/project/${id}/applyToProjectAuthenticated`, {
         method: 'POST',
         headers: new Headers({
           'Cookie': `token=${cookies.token}`, // Include the token in the request headers
           'Content-Type': 'application/json',
         }),
         redirect: 'follow',
+        credentials:'include',
         body: JSON.stringify({
             freelancerID: cookies.freelancerID, // Replace with the actual freelancer ID
           }),

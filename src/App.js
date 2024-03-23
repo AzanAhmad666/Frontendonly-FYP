@@ -14,6 +14,7 @@ import LoginFreelacner from './components/LoginFreelancer.js';
 import SignupFreelancer from './components/SignupFreelancer.js';
 import ProjectDetails from './components/ProjectDetails';
 import ForgetPasswordForm from './components/ForgetPasswordForm';
+import ForgetPasswordFormCompany from './components/ForgetPasswordFormCompany';
 
 
 
@@ -32,6 +33,7 @@ function App() {
               <Route path="/signupfreelancer" element={<SignupFreelancer />} />
               <Route path="/projectDetails/:id" element={<ProjectDetails />} />
               <Route path="/forgetpassword" element={<ForgetPasswordForm />} />
+              <Route path="/forgetpasswordCompany" element={<ForgetPasswordFormCompany />} />
             </Routes>
     </div>
   );

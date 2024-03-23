@@ -10,6 +10,7 @@ const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const navigate = useNavigate();
+    const [cookies, setCookie] = useCookies(['token']);
 
 
 
@@ -40,7 +41,12 @@ const Login = () => {
             console.log(result);
            
             if(result.success){
-                
+                console.log(result)
+                setCookie('token',result.token)
+                setCookie('company', result.company)
+                setCookie('companyID', result.company._id)
+                setCookie('userType','company')
+                console.log(result.company._id)
                 toast.success("Login Successfull")
                 navigate('/createProject')
             }
@@ -93,7 +99,7 @@ const Login = () => {
                                     <input type='password' required placeholder='Enter Your Password' className='w-100 input-bg' value={password} onChange={(e) => setPassword(e.target.value)} />
                                 </div>
                                 <div className='mt-3 mb-4'>
-                                    <a href='' className='forget-pass'>Forget Password?</a>
+                                <Link to='/forgetpasswordCompany' className='forget-pass'>Forget Password?</Link>
                                 </div>
                                 {/* Sign-in button  */}
                                 <div className='d-flex mb-3 justify-content-end'>

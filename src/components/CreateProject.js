@@ -58,7 +58,8 @@ const CreateProject = () => {
     try {
       var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Cookie", "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTczNzMyZDYzNjUzNGUzNzgyNTBjMjUiLCJpYXQiOjE3MDIwNjQ5NjZ9.In6HZLkcWb75kuVErmvwQ41XiUXiPuMKaqnsFI14ymI");
+//myHeaders.append("Cookie", "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTczNzMyZDYzNjUzNGUzNzgyNTBjMjUiLCJpYXQiOjE3MDIwNjQ5NjZ9.In6HZLkcWb75kuVErmvwQ41XiUXiPuMKaqnsFI14ymI");
+
 
 var raw = JSON.stringify({
   "title": projectTitle,
@@ -76,7 +77,8 @@ var requestOptions = {
   method: 'POST',
   headers: myHeaders,
   body: raw,
-  redirect: 'follow'
+  redirect: 'follow',
+  credentials:'include'
 };
 
 fetch("http://localhost:3000/api/v1/project/post", requestOptions)
