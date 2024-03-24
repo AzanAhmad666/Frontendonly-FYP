@@ -58,7 +58,6 @@ const CreateProject = () => {
     try {
       var myHeaders = new Headers();
 myHeaders.append("Content-Type", "application/json");
-//myHeaders.append("Cookie", "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTczNzMyZDYzNjUzNGUzNzgyNTBjMjUiLCJpYXQiOjE3MDIwNjQ5NjZ9.In6HZLkcWb75kuVErmvwQ41XiUXiPuMKaqnsFI14ymI");
 
 
 var raw = JSON.stringify({
@@ -107,7 +106,7 @@ fetch("http://localhost:3000/api/v1/project/post", requestOptions)
     return( 
     <>
      <div className="flexContainer">
-    <Sidebar/>
+     <Sidebar/>
     <div className="main-content ">
     <div>
         <h1 className="createProjecttext mt-5">Create Project</h1>
