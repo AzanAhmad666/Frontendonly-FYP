@@ -5,36 +5,42 @@ import Sidebar from "./Sidebar";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
+import io from 'socket.io-client';
 import "../css/FreelancerHome.css";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import CompanyLayout from "./CompanyLayout";
 import { Link } from "react-router-dom";
 
+const socket = io('http://localhost:3000');
+
 const FreelancerHome = () => {
 
 
-  const [messages, setMessages] = useState([
-    {
-      sender: 'BOT',
-      time: '12:45',
-      text: 'Hi, welcome to SimpleChat! Go ahead and send me a message. 😄',
-      imageUrl: 'https://image.flaticon.com/icons/svg/327/327779.svg'
-    },
-    {
-      sender: 'Sajad',
-      time: '12:46',
-      text: 'You can change your name in JS section!',
-      imageUrl: 'https://image.flaticon.com/icons/svg/145/145867.svg'
-    }
-  ]);
+  // const [messages, setMessages] = useState([
+  //   {
+  //     sender: 'BOT',
+  //     time: '12:45',
+  //     text: 'Hi, welcome to SimpleChat! Go ahead and send me a message. 😄',
+  //     imageUrl: 'https://image.flaticon.com/icons/svg/327/327779.svg'
+  //   },
+  //   {
+  //     sender: 'Sajad',
+  //     time: '12:46',
+  //     text: 'You can change your name in JS section!',
+  //     imageUrl: 'https://image.flaticon.com/icons/svg/145/145867.svg'
+  //   }
+  // ]);
 
+  const [messages, setMessages] = useState([]);
+  const [messageInput, setMessageInput] = useState('');
+  const [teamId, setTeamid] = useState('');
 
   const [teamMembers, setTeamMembers] = useState([]);
   const [show, setShow] = useState(false);
   const [username, setUsername] = useState("");
   const [searchedFreelancers, setSearchedFreelancers] = useState([]);
-  const [cookies, setCookie] = useCookies(["token"]);
+  const [cookies, setCookie] = useCookies(["token","freelancerID"]);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   
   const [activeDeleteIndex, setActiveDeleteIndex] = useState(null); // State to store index of member with active delete button
@@ -132,6 +138,9 @@ const handleIconClick = (index) => {
     }
   };
   useEffect(() => {
+    socket.on('newMessage',(message)=>{
+      setMessages((prevMessages)=>[...prevMessages,message]);
+    });
     try {
       const myHeaders = new Headers();
       myHeaders.append("Cookie", `token=${cookies.token}`);
@@ -149,6 +158,7 @@ const handleIconClick = (index) => {
           console.log(result);
           if (result.success) {
             setTeamMembers(result.freelancer.teams.members);
+            setTeamid(result.freelancer.teams._id)
             console.log(result.freelancer.teams.members);
           } else {
             console.log(result.message);
@@ -159,6 +169,46 @@ const handleIconClick = (index) => {
       console.log("Error: ", err);
     }
   }, []);
+
+  const sendMessage =async (e) => {
+     e.preventDefault();
+    if (!messageInput.trim()) return;
+
+    const messageData = {
+        senderId: cookies.freelancerID,
+        team: teamId,
+        content: messageInput,
+        type: 'team',
+        // Add any other necessary fields...
+    };
+
+    console.log(messageData)
+
+    try {
+        const response = await fetch('http://localhost:3000/api/v1/Chat/sendMessage', { // Replace with your backend URL
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(messageData)
+        });
+
+        const result = await response.json();
+
+        if (response.ok) {
+            console.log('Message sent successfully:', result);
+            // Update the UI to show the message as sent
+        } else {
+            console.error('Failed to send message:', result.message);
+            // Update the UI to indicate the message failed to send
+        }
+    } catch (error) {
+        console.error('Error sending message:', error);
+        // Handle any network errors
+    }
+
+    setMessageInput('');
+  };
 
   const handleAddMember = (member) => {
     //e.preventDefault()
@@ -385,8 +435,8 @@ const handleIconClick = (index) => {
         ))}
       </main>
 
-      <form className="msger-inputarea">
-        <input type="text" className="msger-input" placeholder="Enter your message..." />
+      <form className="msger-inputarea" onSubmit={sendMessage}>
+        <input type="text" className="msger-input" placeholder="Enter your message..." value={messageInput} onChange={(e) => setMessageInput(e.target.value)} />
         <button type="submit" className="msger-send-btn">Send</button>
       </form>
     </section>
