@@ -48,7 +48,7 @@ const Login = () => {
                 setCookie('userType','company')
                 console.log(result.company._id)
                 toast.success("Login Successfull")
-                navigate('/createProject')
+                navigate('/CompanyHome')
             }
             else{
                 toast.error(result.message)

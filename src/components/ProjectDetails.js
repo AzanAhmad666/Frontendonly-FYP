@@ -6,6 +6,7 @@ import Sidebar from './Sidebar';
 import { toast } from 'react-toastify';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
+import CompanyLayout from './CompanyLayout';
 
 
 const ProjectDetails = () => {
@@ -80,8 +81,8 @@ const ProjectDetails = () => {
     }
   };
   return (
-    <div className="flexContainer">
-      <Sidebar />
+    <>
+      <CompanyLayout >
       <div className="main-content">
         <div>
           <h1 className="createProjecttext mt-5">Project Details</h1>
@@ -165,7 +166,9 @@ const ProjectDetails = () => {
           )}
         </div>
       </div>
-    </div>
+      </CompanyLayout>
+    
+    </>
   );
 };
 

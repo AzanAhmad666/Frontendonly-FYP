@@ -1,4 +1,4 @@
-
+/* 
   
   h1 {
    
@@ -41,4 +41,128 @@
  .companyIcon{
 
     font-size: 20px;
+ } */
+
+ body {
+   font-family: Verdana, Geneva, Tahoma, sans-serif;
+   position: relative;
+ 
+}
+.logo-div{
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   background-color: whitesmoke;
+   height: 50px;
+  
+}
+.content-div{
+   background-image: url('/src/images/outsourcing.jpg');
+   background-size: cover;
+   background-position: center;
+   position: absolute;
+   top: 0;
+   left: 0;
+   right: 0;
+   bottom: 0;
+   opacity: 0.9; 
+   z-index: -1; 
+   height: 100vh; 
+}
+.headings-div{
+   text-align: center;
+   color: white;
+}
+.headings-div h3{
+   font-weight: bold;
+   font-size: 35px;
+}
+.headings-div p{
+   font-family: cursive;
+   margin-bottom: 55px;
+}
+.headings-div span{
+font-size: 20px;
+font-weight: bolder;
+
+   font-family: cursive;
+}
+.logo-div img{
+   height: 40%;
+}
+.content-div{
+   
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+}
+.purple-text {
+    color: white;
+  }
+  
+  .user-choice{
+   display: flex;
+ margin-top: 10px;
+   
+   justify-content: center;
+   align-items: center;
+   margin-left: auto;
+   margin-right: auto;
+   flex-wrap: wrap;
+   gap: 20px;
+
+  }
+  
+   a{
+   text-decoration: none;
+   }
+  
+
+  .btn  img{
+   width: 40px;
+   height: auto;
+   
+  }
+  .btn p{
+   margin: 0;
+   color: #6319B8;
+   font-size: 17px;
+   font-weight: bolder;
+  }
+
+
+  .btn {
+   background-image: linear-gradient(to right, #ECE9E6 0%, #FFFFFF  51%, #ECE9E6  100%);
+   margin: 10px;
+   padding: 7px;
+   text-align: center;
+gap: 0px;
+width: 100%;
+   text-transform: uppercase;
+   transition: 0.5s;
+   background-size: 200% auto;
+   color: white;            
+   box-shadow: 0 0 20px #eee;
+   border-radius: 10px;
+   display: flex;
+   flex-direction: row;
+   align-items: center;
+ }
+ .btn:hover {
+   background-position: right center; /* change the direction of the change here */
+   color: #fff;
+   text-decoration: none;
+ }
+
+ .parentBtn{
+   display: flex;
+   flex-direction: column;
+ margin-top: 10px;
+   
+   justify-content: center;
+   align-items: center;
+   margin-left: auto;
+   margin-right: auto;
+   flex-wrap: wrap;
  }

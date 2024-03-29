@@ -1,0 +1,258 @@
+/* //Edit profile css */
+.body{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+
+
+.containerProfile{
+    margin: 0px;
+    padding: 0px;
+    background-color: whitesmoke;
+}
+/* .icon{
+    color: white;
+    background-color: #6319B8;
+    text-align: center;
+    width: 20px;
+    border-radius: 90px;
+} */
+.logo-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
+.logo-container img{
+    margin-top: 20px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.profile-btn {
+    background-image: linear-gradient(to right, #4b6cb7 0%, #182848  51%, #4b6cb7  100%);
+    padding: 6px;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;     
+    width: 15%;       
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    border: none;
+  }
+
+  .profile-btn:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+  }
+ 
+ 
+
+/* input fields css  */
+.data-container{
+    display: flex;
+    flex-direction: column;
+    margin-top: 40px;
+   margin-left:30px ;
+}
+.data-container label{
+    font-size: 20px;
+    margin-top: 30px;
+   
+    font-weight: bold;
+    color: #2E085A;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.data-container input{
+    width: 40%;
+    height: 50px;
+    border-radius: 5px;
+    outline: none; 
+    border: none;
+  
+}
+
+.input-row {
+    gap:10px;
+    width:40% ;
+    margin-top: 10px;
+    height: 35px;
+    align-items: center;
+    /* Add margin between rows */
+}
+
+.input-row button {
+    border: none;
+    background: none;
+    margin-left: 20px;
+    font-size:20px;
+    color: #2E085A;
+    font-weight: bolder;
+}
+.last-button{
+    display: flex;   
+    margin-top: 40px;
+    margin-bottom: 20px;
+}
+.last-button a{
+    text-decoration: none;
+    color: #2E085A;
+    font-weight: bolder;
+    font-size: 15px;
+}
+
+.save-btn {
+    background-image: linear-gradient(to right, #4b6cb7 0%, #182848  51%, #4b6cb7  100%);
+    padding: 6px;
+    margin: auto;
+    text-align: center;
+    text-transform: uppercase;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;     
+    width: 15%;       
+    box-shadow: 0 0 20px #eee;
+    border-radius: 10px;
+    display: block;
+    border: none;
+  }
+
+  .save-btn:hover {
+    background-position: right center; /* change the direction of the change here */
+    color: #fff;
+    text-decoration: none;
+  }
+ .education-div{
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+   height: auto;
+   padding: 10px;
+    border-radius: 5px;
+    outline: none; 
+    color: #fff;
+    border: none;
+ }
+ .education-div input{
+   margin-left: 5px;
+   width: auto;
+    height: auto;
+ }
+ .education-div label{
+    font-size: 15px;
+    font-weight: 100;
+    
+    color: #2e085abf;
+ }
+ input::placeholder{
+    font-size: 12px;
+ }
+
+ .experience-container{
+    border-radius: 10px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+   height: auto;
+   padding: 10px;
+    border-radius: 5px;
+    outline: none; 
+    color: #fff;
+    border: none;
+ }
+
+ .experience-container input{
+    margin-left: 5px;
+    width: auto;
+     height: auto;
+  }
+  .experience-container label{
+     font-size: 15px;
+     font-weight: 100;
+     
+     color: #2e085abf;
+  }
+
+
+
+ .section-header {
+    display: flex;
+    align-items: center;
+    padding-bottom: 10px;
+     /* Example styling for the bottom border */
+  }
+  
+  .section-title {
+    /* Your existing styles for the section title */
+    margin-right: 5px;
+  }
+  
+  .add-button {
+    /* Add any specific styles you want for this button */
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 1.5em; /* Adjust if the size is too large or too small */
+    line-height: 1; /* This ensures the button is aligned properly without extra height */
+    vertical-align: middle;
+    margin-top: 30px;
+    font-weight: bold;
+    color: #2E085A;
+  }
+
+  .experience-entry-container {
+    position: relative; /* This enables absolute positioning for children */
+    background-color: white;
+    padding: 15px; /* Or your desired padding */
+    border-radius: 10px; /* If you want rounded corners */
+    margin-bottom: 15px; /* Space between each entry */
+  }
+  
+  .experience-entry {
+    /* Styles for the experience entry */
+  }
+  
+  .remove-experience {
+    position: absolute;
+    top: 0; /* Align to the top of the container */
+    right: 0; /* Align to the right of the container */
+    padding: 5px; /* Padding for the button */
+    margin: 5px; /* To ensure it doesn't stick to the very edge of the container */
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1em; /* Adjust to your preference */
+    color: #2E085A; /* Your color preference */
+  }
+  
+  /* Add other styles as needed */
+  
+  .education-entry-container {
+    position: relative;
+    /* Rest of your styles */
+  }
+  
+  .remove-education-entry {
+    position: absolute;
+    top: 0;  /* Align to the top of the container */
+    right: 0; /* Align to the right of the container */
+    background: none;
+    border: none;
+    cursor: pointer;
+    /* Add padding if needed, and adjust font size and color as necessary */
+    padding: 0.5em; /* Example padding */
+    font-size: 1em; /* Adjust the size as needed */
+    color: #2E085A; /* Example color */
+    /* Ensure it appears on top of other elements if needed */
+    z-index: 10;
+  }

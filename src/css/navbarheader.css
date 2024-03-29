@@ -1,0 +1,12 @@
+.main{
+    min-width: 100%;
+    display: flex;
+    justify-content: space-between;
+    background-color: #2E085A;
+    color: white;
+    padding: 20px;
+    align-items: center;
+}
+img{
+    border-radius: 25px;
+}

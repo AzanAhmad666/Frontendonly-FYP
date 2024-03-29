@@ -81,19 +81,19 @@ const Sidebar = () => {
         <h2 className="outsource text-center">OutsourcePro</h2>
         <div className="sidebar mt-4 ">
           <a className="sidebarLink my-lg-4 " href="#home">
-            <IoMdHome className="mx-3 mb-2" style={{ fontSize: 'x-large', color:'#6319B8'}} />
+            <IoMdHome className="mx-3 mb-2" style={{ fontSize: 'x-large'}} />
             Home
           </a>
           <Link className="sidebarLink my-lg-4 " to="/CreateProject">
-            <FaPeopleGroup className="mx-3 mb-2" style={{ fontSize: 'x-large', color:'#6319B8'}} />
+            <FaPeopleGroup className="mx-3 mb-2" style={{ fontSize: 'x-large'}} />
             Projects
           </Link>
           <Link className="sidebarLink my-lg-4 " to="/AllProjects">
-            <IoIosSettings className="mx-3 mb-2" style={{ fontSize: 'x-large', color:'#6319B8'}} />
+            <IoIosSettings className="mx-3 mb-2" style={{ fontSize: 'x-large'}} />
             Settings
           </Link>
           <a className="sidebarLink my-lg-4 " href="#about">
-            <MdContactSupport className="mx-3 mb-2" style={{ fontSize: 'x-large', color:'#6319B8'}} />
+            <MdContactSupport className="mx-3 mb-2" style={{ fontSize: 'x-large'}} />
             About Us
           </a>
         </div>

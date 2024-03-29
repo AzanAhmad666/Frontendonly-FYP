@@ -12,14 +12,11 @@ body {
   .main-content {
     flex: 1;
     padding: 20px;
-    margin-left: 250px; /* Add margin to the main content to make space for the fixed sidebar */
     background-color: #FBFEFD;
 
     @media (max-width: 768px) {
         margin-left: 0; /* Remove margin for smaller screens */
       }
-
-      
   }
 
 
@@ -86,7 +83,7 @@ body {
     transform: translateY(2px);
     background-color: black;
   }
-  .dropdown{
+  .dropdownTeamProject{
     background-color: #6c717223;
     width: 75px;
     border-radius: 0;

@@ -1,0 +1,90 @@
+/*.nav{
+    background-color: #2E085A;
+    display: flex;
+    flex-direction: column;
+    padding: 0px  50px 50px 50px;
+   
+
+}
+.heading{
+    color: white;
+}
+.tabs{
+    display: flex;
+    margin-bottom: 15px;
+    padding: 10px 20px 10px 20px;
+
+    gap: 10px;
+    align-items: center;   
+}
+
+
+*/
+
+
+.nav{
+    background-color: #2E085A;
+    display: flex;
+    flex-direction: column;
+    padding: 0px  50px 50px 50px;
+   
+
+}
+.heading{
+    color: white;
+}
+.tabs{
+    display: flex;
+    margin-bottom: 15px;
+    padding: 10px 20px 10px 20px;
+
+    gap: 10px;
+    align-items: center;   
+}
+
+
+  
+ 
+
+.tabs:hover{
+    cursor: pointer;
+    background-color: blueviolet;
+    border-radius: 5px;
+}
+/* Add this style to highlight the active tab */
+.tabs.active {
+    background-color: blueviolet;
+    border-radius: 5px;
+}
+
+  
+ 
+
+.tabs:hover{
+    cursor: pointer;
+    background-color: blueviolet;
+    border-radius: 5px;
+}
+/* Add this style to highlight the active tab */
+.tabs.active {   
+    background-image: linear-gradient(to right, #DA22FF 0%, #9733EE  51%, #DA22FF  100%);
+    border:1px solid white;
+}
+
+
+
+       
+.tabs {
+  
+    transition: 0.5s;
+    background-size: 200% auto;
+    border-radius: 5px;
+    width: 100%;
+   
+  }
+
+  .tabs:hover {
+    background-position: right center; 
+    color: #fff;
+    text-decoration: none;
+  }

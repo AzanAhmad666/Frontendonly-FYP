@@ -1,0 +1,35 @@
+.outerHome{
+    display: flex;
+    
+    justify-content: center;
+    align-items: center;
+    margin: 100px;
+    padding: 50px;
+    gap: 20px;
+    width: 100%;
+    
+}
+.div-22 {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #6319b8;
+    border-radius: 8px;
+    color: #6319b8
+  }
+
+  .div-44 {
+    color: #6319b8;
+    margin: 13px 0 10px;
+    font: 400 20px Work Sans, sans-serif;
+    
+    
+  }
+  
+
+  .div-22:hover{
+    cursor: pointer;
+    
+  }
