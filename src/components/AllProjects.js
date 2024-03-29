@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { IoSearchOutline } from "react-icons/io5";
-import Sidebar from './Sidebar';
 import '../css/allProject.css';
 import CompanyLayout from './CompanyLayout';
 
@@ -140,7 +139,7 @@ const AllProjects = () => {
                       </p>
                       <Link
                           to={`/projectDetails/${project._id}`}
-                          className="mt-auto btn detailButton"
+                          className="mt-auto  detailButton22"
                           onClick={() => navigate(`/projectDetails/${project._id}`)}
                         >
                           Details

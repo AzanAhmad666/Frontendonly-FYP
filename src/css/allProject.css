@@ -19,8 +19,9 @@
     color: rgba(255, 255, 255, 0.781);
 }
 
-.detailButton{
+.detailButton22{
     background-color: #6319B8;
+    text-align: center;
     color: white;
     border: none;
     box-shadow: none;
@@ -30,6 +31,11 @@
     border-radius: 5px;
     padding: 5px;
 }
+.detailButton22:hover{
+    background-color: #814abe;
+    
+}
+
 .projectText{
     color:#6319B8;
 }
