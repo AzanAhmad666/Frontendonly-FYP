@@ -1,6 +1,8 @@
 .main{
     min-width: 100%;
     display: flex;
+    position: fixed;
+    z-index: 10;
     justify-content: space-between;
     background-color: #2E085A;
     color: white;

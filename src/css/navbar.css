@@ -23,10 +23,14 @@
 
 
 .nav{
+    margin-top: 50px;
+    position: fixed;
+    z-index: 10;
     background-color: #2E085A;
     display: flex;
     flex-direction: column;
-    padding: 0px  50px 50px 50px;
+    padding: 150px  50px 50px 50px;
+    height: 100%;
    
 
 }
