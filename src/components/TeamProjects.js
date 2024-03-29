@@ -4,7 +4,7 @@ import { IoSearchOutline } from "react-icons/io5";
 import "../css/allProject.css";
 import CompanyLayout from "./CompanyLayout";
 
-const AllProjects = () => {
+const TeamProjects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
@@ -69,7 +69,7 @@ const AllProjects = () => {
     const fetchProjects = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/api/v1/project/getProjects",
+          "http://localhost:3000/api/v1/project/getTeamProjects",
           {
             method: "GET",
             headers: new Headers({
@@ -105,7 +105,7 @@ const AllProjects = () => {
     <>
       <CompanyLayout>
         <div className="main-content p-5">
-          <h1 className="createProjecttext mt-2 mb-5">All Projects</h1>
+          <h1 className="createProjecttext mt-2 mb-5">Team Projects</h1>
           <div className="search22 mb-4" ref={searchRef}>
             <form onSubmit={handleSubmit}>
               <input
@@ -177,4 +177,4 @@ const AllProjects = () => {
   );
 };
 
-export default AllProjects;
+export default TeamProjects;

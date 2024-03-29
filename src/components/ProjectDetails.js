@@ -49,7 +49,7 @@ const ProjectDetails = () => {
     e.preventDefault()
     console.log(cookies.token)
     try {
-      const response = await fetch(`http://localhost:3000/api/v1/project/${id}/applyToProjectAuthenticated`, {
+      const response = await fetch(`http://localhost:3000/api/v1/project/applyToProjectasTeam/${id}`, {
         method: 'POST',
         headers: new Headers({
           'Cookie': `token=${cookies.token}`, // Include the token in the request headers
@@ -57,9 +57,7 @@ const ProjectDetails = () => {
         }),
         redirect: 'follow',
         credentials:'include',
-        body: JSON.stringify({
-            freelancerID: cookies.freelancerID, // Replace with the actual freelancer ID
-          }),
+        
       });
 
       if (!response.ok) {
@@ -71,9 +69,9 @@ const ProjectDetails = () => {
 
       if (result.success) {
         toast.success('Application successful');
-        navigate('/allProjects')
+        navigate('/TeamProjects')
       } else {
-        toast.error('Failed to apply to the project. Please try again.');
+        toast.error(result.message);
       }
     } catch (error) {
       console.error('Error applying to the project:', error);
@@ -83,7 +81,7 @@ const ProjectDetails = () => {
   return (
     <>
       <CompanyLayout >
-      <div className="main-content">
+      <div className="main-content p-5">
         <div>
           <h1 className="createProjecttext mt-5">Project Details</h1>
           <p className="createProjecttext mt-2">Details of the selected project.</p>

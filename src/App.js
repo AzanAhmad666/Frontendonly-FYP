@@ -8,6 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import CreateProject from './components/CreateProject';
 import UserTypeSelection from './components/UserTypeSelection';
 import AllProjects from './components/AllProjects';
+import TeamProjects from './components/TeamProjects';
 import Login from './components/login';
 import Signup from './components/Signup.js';
 import LoginFreelacner from './components/LoginFreelancer.js';
@@ -32,6 +33,7 @@ function App() {
               <Route path="/" element={<UserTypeSelection />} />
               <Route path="/createProject" element={<CreateProject />} />
               <Route path="/allProjects" element={<AllProjects />} />
+              <Route path="/TeamProjects" element={<TeamProjects />} />
               <Route path="/login" element={<Login />} />
               <Route path="/loginfreelancer" element={<LoginFreelacner />} />
               <Route path="/signup" element={<Signup />} />

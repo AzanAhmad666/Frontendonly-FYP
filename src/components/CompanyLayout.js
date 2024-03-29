@@ -7,7 +7,7 @@ const CompanyLayout = ({children}) => {
           <NavbarHeader/>
         <div className='d-flex  flex-md-row flex-column '>
             <Navbar />
-            <div style={{width:'100%', marginLeft:'300px'}}>
+            <div style={{width:'100%', paddingLeft:'250px', paddingTop:'80px'}}>
                 {children}
             </div>
         </div>

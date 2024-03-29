@@ -25,7 +25,7 @@
 .nav{
     margin-top: 50px;
     position: fixed;
-    z-index: 10;
+    z-index: 1;
     background-color: #2E085A;
     display: flex;
     flex-direction: column;

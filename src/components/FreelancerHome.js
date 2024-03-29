@@ -9,6 +9,7 @@ import "../css/FreelancerHome.css";
 import { useCookies } from "react-cookie";
 import { toast } from "react-toastify";
 import CompanyLayout from "./CompanyLayout";
+import { Link } from "react-router-dom";
 
 const FreelancerHome = () => {
 
@@ -205,8 +206,13 @@ const handleIconClick = (index) => {
     <>
       
         <CompanyLayout>
-        <div className="main-content">
-          <h1 className="createProjecttext mb-5">My Team</h1>
+        <div className="main-content p-5">
+          <div style={{display:"flex", justifyContent:"space-between", alignItems:"center"}}>
+            <h1 className="createProjecttext mb-5">My Team</h1>
+            <Link to={"/TeamProjects"} className="applyAsTeamBtn mb-5" style={{border:"1px solid #2E085A", borderRadius:"8px", padding:"10px", marginRight:"30px", cursor:"pointer"}} >Apply as Team</Link>
+
+
+          </div>
           <div className="cards">
             {teamMembers.map((member, index) => (
               <div className="div" key={index}>
@@ -331,15 +337,16 @@ const handleIconClick = (index) => {
             </Form>
           </Modal.Body>
           <Modal.Footer>
-            <Button variant="secondary" onClick={handleClose}>
+            <div className="closeAndSearchBtn" variant="secondary" onClick={handleClose}>
               Close
-            </Button>
-            <Button
-              style={{ backgroundColor: "#6319B8" }}
+            </div>
+            <div
+              className="add-btn"
+              style={{ backgroundColor: "#6319B8", padding:"5px", borderRadius:"5px",color:"white" }}
               onClick={handleSearch}
             >
               Search
-            </Button>
+            </div>
           </Modal.Footer>
         </Modal>
 
