@@ -1,11 +1,11 @@
 
-.search{
+.search22{
     display: flex;
     justify-content: center;
     
 }
 
-.search-input{
+.search-inputprojects{
  color: white;
     margin-right: 2px;
     padding: 8px 5px 8px 5px;
@@ -15,7 +15,7 @@
     outline:none !important;
 }
 
-.search-input::placeholder{
+.search-inputprojects::placeholder{
     color: rgba(255, 255, 255, 0.781);
 }
 
