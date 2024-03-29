@@ -77,7 +77,7 @@ const UserTypeSelection = () => {
           <Link to="/login" className="box">
             <button class="btn">
               <LiaBuildingSolid className="companyIcon mx-4" style={{fontSize:"xx-large", color:'#6319b8'}}/>
-              <p>Company</p>
+              <p>Company <span className="opacity-0">xx</span></p>
             </button>
             </Link>
           </div>
