@@ -206,7 +206,7 @@ const handleIconClick = (index) => {
       
         <CompanyLayout>
         <div className="main-content">
-          <h1 className="createProjecttext mt-5 mb-5">My Team</h1>
+          <h1 className="createProjecttext mb-5">My Team</h1>
           <div className="cards">
             {teamMembers.map((member, index) => (
               <div className="div" key={index}>
