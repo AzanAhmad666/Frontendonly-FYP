@@ -4,7 +4,7 @@ import { FiLogOut } from "react-icons/fi";
 import { BsMicrosoftTeams } from "react-icons/bs";
 import { Link,useNavigate } from 'react-router-dom';
 import { useCookies } from "react-cookie";
-
+import { GrProjects } from "react-icons/gr";
 
 const Navbar = () =>{
   const [cookies, setCookie] = useCookies(["userType"]);
@@ -109,7 +109,15 @@ const Navbar = () =>{
                 <path d="M20.0207 13.4257H18.6281C21.042 14.872 22.6612 17.5139 22.6612 20.5268C22.6612 21.0143 22.6711 21.2941 22.609 21.7469C23.983 21.4384 25.013 20.2095 25.013 18.7437V18.418C25.013 15.6652 22.7734 13.4257 20.0207 13.4257Z" fill="white"/>
                 </svg>
 
-                <Link to='/allProjects' style={{fontSize:18, paddingTop:3, textDecoration:'none', color:'white'}}>Projects</Link>
+                <Link to='/MyProjects' style={{fontSize:18, paddingTop:3, textDecoration:'none', color:'white'}}>My Projects</Link>
+            </div>
+            <div             
+            className={`tabs ${activeTab === 'Projects' ? 'active' : ''}`} onClick={() => handleTabClick('Projects')}
+
+            >
+              <GrProjects size={25}/> 
+
+                <Link to='/allProjects' style={{fontSize:18, paddingTop:3, textDecoration:'none', color:'white'}}>All Projects</Link>
             </div>
             <div 
             className={`tabs ${activeTab === 'Analytics' ? 'active' : ''}`} onClick={() => handleTabClick('Analytics')}
