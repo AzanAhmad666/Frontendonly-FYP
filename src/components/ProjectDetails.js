@@ -2,17 +2,22 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { IoIosInformationCircle } from "react-icons/io";
 import "../css/createProject.css";
-import Sidebar from "./Sidebar";
 import { toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import CompanyLayout from "./CompanyLayout";
+
 
 const ProjectDetails = () => {
   const { id } = useParams();
   const [projectDetails, setProjectDetails] = useState(null);
   const navigate = useNavigate();
   const [cookies] = useCookies(["token", "freelancer", "freelancerID"]);
+
+  //If my projects then not show apply button
+  const containsProjectDetails = window.location.pathname.includes('myProjects');
+
+  //console.log(containsProjectDetails)
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
@@ -199,7 +204,9 @@ const ProjectDetails = () => {
                       </div>
                     </div>
                   </div>
-
+                  {/* Apply button */}
+                  {!containsProjectDetails && (
+                    
                   <div className="text-center mt-5">
                     <button
                       className="submitButton py-3 px-5 "
@@ -209,6 +216,8 @@ const ProjectDetails = () => {
                       Apply
                     </button>
                   </div>
+                  )}
+
                 </form>
               </>
             ) : (

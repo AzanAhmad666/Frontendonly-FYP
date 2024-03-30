@@ -41,6 +41,7 @@ function App() {
               <Route path="/signup" element={<Signup />} />
               <Route path="/signupfreelancer" element={<SignupFreelancer />} />
               <Route path="/projectDetails/:id" element={<ProjectDetails />} />
+              <Route path="/myProjects/projectDetails/:id" element={<ProjectDetails />} />
               <Route path="/forgetpassword" element={<ForgetPasswordForm />} />
               <Route path="/forgetpasswordCompany" element={<ForgetPasswordFormCompany />} />
               <Route path="/FreelancerHome" element={<FreelancerHome />} />
