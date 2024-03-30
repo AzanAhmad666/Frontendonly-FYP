@@ -19,8 +19,8 @@ import ForgetPasswordForm from './components/ForgetPasswordForm';
 import ForgetPasswordFormCompany from './components/ForgetPasswordFormCompany';
 import FreelancerHome from './components/FreelancerHome';
 import CompanyHome from './components/CompanyHome';
-import CompanyLayout from './components/CompanyLayout.js';
 import FreelancerProfile from './components/FreelancerProfile';
+import Tasks from './components/tasks/Tasks';
 
 
 
@@ -46,6 +46,7 @@ function App() {
               <Route path="/FreelancerHome" element={<FreelancerHome />} />
               <Route path="/CompanyHome" element={<CompanyHome />} />
               <Route path="/freelancerProfile" element={<FreelancerProfile />} />
+              <Route path="/tasks/:id" element={<Tasks />} />
             </Routes>
     </div>
   );

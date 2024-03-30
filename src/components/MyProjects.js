@@ -108,11 +108,9 @@ const MyProjects = () => {
                       {type === "team" && (
                           
                       <Link
-                        to={`/projectDetails/${project._id}`}
+                        to={`/tasks/${project._id}`}
                         className="mt-auto p-2 detailButton22"
-                        onClick={() =>
-                          navigate(`/projectDetails/${project._id}`)
-                        }
+                        
                       >
                         Assign Tasks
                       </Link>
