@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+  }
+  
+  .flexContainer {
+    display: flex;
+    min-height: 100vh;
+  }
+  
+  .main-content {
+    flex: 1;
+  
+    padding: 20px;
+    background-color: #fbfefd;
+  
+    @media (max-width: 768px) {
+      margin-left: 0; /* Remove margin for smaller screens */
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .flexContainer {
+      flex-direction: column;
+    }
+  }
+  
+  .createProjecttext {
+    color: #6c7172;
+  }
+  
+  .inputTitle {
+    background-color: rgba(255, 255, 255, 0.27);
+    border: none;
+    width: 90%;
+    outline: none !important;
+    color: rgba(0, 0, 0, 0.663) !important;
+  
+  }
+  
+  textarea {
+    resize: none;
+  }
+  
+  .commonFields{
+    min-height: 150px !important;
+    max-height: 150px !important;
+    text-align: start;
+  }
+  
+  .textArea {
+    background-color: #6c717223;
+    opacity: 1;
+    border: none;
+    box-shadow: none;
+    width: 300px;
+    height: 100px;
+    color: black !important;
+    border-radius: 5px;
+  }
+  
+  .inputTitle::placeholder {
+    color: black;
+  }
+  
+  .addButton {
+    background-color: #6319b8;
+    color: white;
+    border: none;
+    box-shadow: none;
+    width: 60px;
+    height: 30px;
+  }
+  .submitButton {
+    background-color: #6319b8;
+    color: white;
+    border: none;
+    box-shadow: none;
+  }
+  
+  .submitButton:hover {
+    opacity: 80%;
+  }
+  
+  .submitButton:active {
+    transform: translateY(2px);
+  }
+  .dropdownTeamProject {
+    background-color: #6c717223;
+    width: 75px;
+    border-radius: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .flexContainer {
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+  
+  div.content {
+    margin-left: 0;
+  }
+  

@@ -105,34 +105,34 @@ fetch("http://localhost:3000/api/v1/project/post", requestOptions)
      <CompanyLayout>
       <div className="main-content ">
         <div>
-            <h1 className="createProjecttext mt-5">Create Project</h1>
-          <p className="createProjecttext mt-2">You can create your project here.</p>
+            <h1 className="createProjecttext11 mt-5">Create Project</h1>
+          <p className="createProjecttext11 mt-2">You can create your project here.</p>
           <form>
-            <p className="createProjecttext mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Project title:</p>
-            <input  className="inputTitle"
+            <p className="createProjecttext11 mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Project title:</p>
+            <input  className="inputTitle11"
             value={projectTitle}
             onChange={(e) => setProjectTitle(e.target.value)}
             />
             
-            <p className="createProjecttext mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Project type:</p>
-            <input className="inputTitle"
+            <p className="createProjecttext11 mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Project type:</p>
+            <input className="inputTitle11"
             value={projectType}
             onChange={(e) => setProjectType(e.target.value)}
             />
             
             
-            <p className="createProjecttext mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Description:</p>
+            <p className="createProjecttext11 mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Description:</p>
             <textarea className="textArea"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             />
-            <p className="createProjecttext mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Budget (in PKR):</p>
-            <input className="inputTitle"
+            <p className="createProjecttext11 mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Budget (in PKR):</p>
+            <input className="inputTitle11"
             value={budget}
             onChange={(e) => setBudget(e.target.value)}
             />
 
-    <p className="createProjecttext mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Team Project:</p>
+    <p className="createProjecttext11 mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Team Project:</p>
 
     <select
       name="dropdown"
@@ -143,10 +143,10 @@ fetch("http://localhost:3000/api/v1/project/post", requestOptions)
       <option value="option2">No</option>
     </select>
             
-            <p className="createProjecttext mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Members Required:</p>
+            <p className="createProjecttext11 mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Members Required:</p>
             <div className="row">
               <div className="col-sm-12 col-xs-12 col-lg-6 col-md-6 col-xl-6 col-xxl-12 ">
-                <input className="inputTitle mt-2"
+                <input className="inputTitle11 mt-2"
                 value={membersRequired}
                 onChange={(e) => setMembersRequired(e.target.value)}
                 />
@@ -156,7 +156,7 @@ fetch("http://localhost:3000/api/v1/project/post", requestOptions)
             {/* Display added members */}
             {addedMembers.length > 0 && (
                     <div className="mt-3">
-                      <p className="createProjecttext">Added Members:</p>
+                      <p className="createProjecttext11">Added Members:</p>
                       <div>
                         {addedMembers.map((member, index) => (
                           <div key={index} className="d-flex align-items-center">

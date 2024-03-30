@@ -29,8 +29,9 @@ body {
   color: #6c7172;
 }
 
-.inputTitle {
-  background-color: rgba(255, 255, 255, 0.27);
+.inputTitle11 {
+  background-color: #6c717223;
+  width:50px;
   border: none;
   width: 90%;
   outline: none !important;
@@ -59,7 +60,7 @@ textarea {
   border-radius: 5px;
 }
 
-.inputTitle::placeholder {
+.inputTitle11::placeholder {
   color: black;
 }
 
