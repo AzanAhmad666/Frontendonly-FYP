@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { IoIosInformationCircle } from "react-icons/io";
 import "../css/createProject.css";
+import Sidebar from "./Sidebar";
 import { toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";

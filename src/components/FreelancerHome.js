@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { IoIosAddCircle } from "react-icons/io";
 import { IoChatbubblesSharp } from "react-icons/io5";
 import moment from "moment";
@@ -16,20 +16,7 @@ import { Link } from "react-router-dom";
 const socket = io("http://localhost:3000");
 
 const FreelancerHome = () => {
-  // const [messages, setMessages] = useState([
-  //   {
-  //     sender: 'BOT',
-  //     time: '12:45',
-  //     text: 'Hi, welcome to SimpleChat! Go ahead and send me a message. 😄',
-  //     imageUrl: 'https://image.flaticon.com/icons/svg/327/327779.svg'
-  //   },
-  //   {
-  //     sender: 'Sajad',
-  //     time: '12:46',
-  //     text: 'You can change your name in JS section!',
-  //     imageUrl: 'https://image.flaticon.com/icons/svg/145/145867.svg'
-  //   }
-  // ]);
+  
 
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
@@ -50,11 +37,12 @@ const FreelancerHome = () => {
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  const messagesEndRef = useRef(null);
 
-  // const handleDivClick = () => {
-  //   setIsDropdownOpen(!isDropdownOpen); // Toggle dropdown open/close
-  // };
-  // Define a new function to handle the icon click
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   const handleIconClick = (index) => {
     setActiveDeleteIndex(index); // Set active index for delete button
     setIsDropdownOpen(!isDropdownOpen);
@@ -210,6 +198,7 @@ const FreelancerHome = () => {
       } catch (error) {
         console.error("Error: ", error);
       }
+      scrollToBottom();
     };
 
     if (teamId !== "") {
@@ -219,7 +208,7 @@ const FreelancerHome = () => {
 
       initialize();
     }
-  }, [teamId]);
+  }, [teamId, messages]);
   // Added dependencies
 
   const sendMessage = async (e) => {
@@ -557,6 +546,7 @@ const FreelancerHome = () => {
                     </div>
                   );
                 })}
+                <div ref={messagesEndRef} />
               </main>
 
               <form className="msger-inputarea" onSubmit={sendMessage}>
