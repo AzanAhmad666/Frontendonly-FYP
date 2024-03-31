@@ -1,10 +1,11 @@
-import { Route, Routes } from 'react-router-dom';
+import React from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useCookies } from "react-cookie";
 import CreateProject from './components/CreateProject';
 import UserTypeSelection from './components/UserTypeSelection';
 import AllProjects from './components/AllProjects';
@@ -26,13 +27,21 @@ import Tasks from './components/tasks/Tasks';
 
 
 
-function App() {
+
+const App = () => {
+  const [cookies] = useCookies(['token']); // Read 'jwt' cookie
+  
+
+  const isAuthenticated = () => {
+    return cookies.token ? true : false; // Check if 'jwt' cookie exists
+  };
+
   return (
     <div className="App">
       <ToastContainer/>
       <Routes>
               <Route path="/" element={<UserTypeSelection />} />
-              <Route path="/createProject" element={<CreateProject />} />
+              <Route path="/createProject" element={isAuthenticated() ? <CreateProject /> : <Navigate to="/" />} />
               <Route path="/allProjects" element={<AllProjects />} />
               <Route path="/TeamProjects" element={<TeamProjects />} />
               <Route path="/MyProjects" element={<MyProjects />} />

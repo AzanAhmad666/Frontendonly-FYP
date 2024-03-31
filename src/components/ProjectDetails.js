@@ -49,6 +49,8 @@ const ProjectDetails = () => {
   const handleApplyClick = async (e) => {
     e.preventDefault();
     console.log(cookies.token);
+    
+    
     try {
       const response = await fetch(
         `http://localhost:3000/api/v1/project/applyToProjectasTeam/${id}`,
@@ -82,6 +84,7 @@ const ProjectDetails = () => {
         "An error occurred while applying to the project. Please try again."
       );
     }
+  
   };
   return (
     <>

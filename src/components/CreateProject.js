@@ -103,7 +103,7 @@ fetch("http://localhost:3000/api/v1/project/post", requestOptions)
     return( 
     <>
      <CompanyLayout>
-      <div className="main-content ">
+      <div className="main-content mx-2 ">
         <div>
             <h1 className="createProjecttext11 mt-5">Create Project</h1>
           <p className="createProjecttext11 mt-2">You can create your project here.</p>
