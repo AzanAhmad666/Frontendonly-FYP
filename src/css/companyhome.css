@@ -1,35 +1,33 @@
-.outerHome{
-    display: flex;
-    
-    justify-content: center;
-    align-items: center;
-    margin: 100px;
-    padding: 50px;
-    gap: 20px;
-    width: 100%;
-    
+.outerHome {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: -2rem;
+  height: 100vh;
+  gap: 4rem;
+  width: 100%;
 }
 .div-22 {
-    display: flex;
-    width: 100%;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    border: 1px solid #6319b8;
-    border-radius: 8px;
-    color: #6319b8
-  }
-
-  .div-44 {
-    color: #6319b8;
-    margin: 13px 0 10px;
-    font: 400 20px Work Sans, sans-serif;
-    
-    
-  }
-  
-
-  .div-22:hover{
-    cursor: pointer;
-    
-  }
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #6319b8;
+  border-radius: 8px;
+  color: #6319b8;
+  box-shadow: 0 6px 10px rgba(0, 0, 0, .08), 0 0 6px rgba(0, 0, 0, .05);
+  transition: .3s transform cubic-bezier(.155, 1.105, .295, 1.12), .3s box-shadow, .3s -webkit-transform cubic-bezier(.155, 1.105, .295, 1.12);
+  transition: transform 0.3s ease;
+}
+.div-22:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, .12), 0 4px 8px rgba(0, 0, 0, .06);
+}
+.div-44 {
+  color: #6319b8;
+  font-size: 18px !important;
+}
+.div-22:hover {
+  cursor: pointer;
+}

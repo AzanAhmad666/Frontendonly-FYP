@@ -4,9 +4,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import CreateProject from './components/CreateProject';
 import UserTypeSelection from './components/UserTypeSelection';
+import AllTeamProjects from './components/AllProjects';
+import AllSoloProjects from './components/AllProjects';
 import AllProjects from './components/AllProjects';
 import TeamProjects from './components/TeamProjects';
 import MyProjects from './components/MyProjects';
@@ -21,6 +22,7 @@ import FreelancerHome from './components/FreelancerHome';
 import CompanyHome from './components/CompanyHome';
 import FreelancerProfile from './components/FreelancerProfile';
 import Tasks from './components/tasks/Tasks';
+
 
 
 
@@ -47,6 +49,8 @@ function App() {
               <Route path="/FreelancerHome" element={<FreelancerHome />} />
               <Route path="/CompanyHome" element={<CompanyHome />} />
               <Route path="/freelancerProfile" element={<FreelancerProfile />} />
+              <Route path="/allTeamProject" element={<AllTeamProjects />} />
+              <Route path="/allSoloProject" element={<AllSoloProjects />} />
               <Route path="/tasks/:id" element={<Tasks />} />
             </Routes>
     </div>
