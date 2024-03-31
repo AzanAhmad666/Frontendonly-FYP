@@ -75,14 +75,11 @@ const AllTeamProjects = () => {
           "Cookie",
           `token=${cookies.token}`
         );
-
-        const raw = "";
-
         const requestOptions = {
           method: "GET",
           headers: myHeaders,
-          body: raw,
           redirect: "follow",
+          credentals:"include"
         };
 
         fetch(
@@ -99,8 +96,6 @@ const AllTeamProjects = () => {
         setLoading(false);
             }
           })
-
-          
           .catch((error) => console.error(error));
         
       } 
@@ -115,7 +110,7 @@ const AllTeamProjects = () => {
     }
   }, [showAllProjects]); // Empty dependency array means this effect will run once when the component mounts
 
-  
+
   return (
     <>
       <CompanyLayout>
