@@ -61,19 +61,21 @@ const FreelancerApplicants = () => {
 
     fetchProjectDetails();
   }, [id]); // Include id in the dependency array to re-fetch details when id changes
-  const handleAssignApplicantClick = async (e) => {
-    e.preventDefault();
+  const handleAssignApplicantClick = async (applicantId) => {
+    console.log(applicantId)
+    // e.preventDefault();
     try {
 
-      const apiURL = containsAllSoloProject ? `http://localhost:3000/api/v1/project/applyToProjectasTeam/${id}` : `http://localhost:3000/api/v1/project/applyToProject/${id}`;
+      const apiURL = `http://localhost:3000/api/v1/Company/select/${id}`
       console.log(apiURL)
       const response = await fetch(apiURL,
         {
-          method: "POST",
+          method: "PATCH",
           headers: new Headers({
             Cookie: `token=${cookies.token}`, // Include the token in the request headers
             "Content-Type": "application/json",
           }),
+          body: JSON.stringify({ selectedId: applicantId }),
           redirect: "follow",
           credentials: "include",
         }
@@ -88,8 +90,8 @@ const FreelancerApplicants = () => {
       console.log("Application result:", result);
 
       if (result.success) {
-        toast.success("Application successful");
-        navigate("/AvailableTeamProjects");
+        toast.success("Project Assigned successfully");
+        navigate("/allSoloProject");
       } else {
         toast.error(result.message);
       }
@@ -259,6 +261,7 @@ const FreelancerApplicants = () => {
                                         {applicant.skills.map((skill, index) => (
                                             <li key={index}>{skill}</li>
                                         ))}
+                                        {applicant.skills.length===0 && <li>No skills</li>}
                                         
                                     </ul>
                                 </div>
