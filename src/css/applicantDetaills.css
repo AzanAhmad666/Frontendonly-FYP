@@ -45,3 +45,27 @@
     margin: 0 7px 7px 0;
     padding: 7px;
 }
+
+
+.assignProjectToTeamBtn{
+    border: 1px solid white;
+    background-color: #211944;
+    color: white;
+    border-radius: 5px;
+    padding: 7px 20px;
+}
+.assignProjectToTeamBtn:hover{
+    background-image: linear-gradient(to right, #DA22FF 0%, #9733EE  51%, #DA22FF  100%);
+    border:1px solid white;
+    cursor: pointer;
+    background-position: right center; 
+    color: #fff;
+    text-decoration: none;
+}
+.assignProjectToTeamBtn:hover{
+    
+    background-position: right center; 
+    color: #fff;
+    text-decoration: none;
+}
+

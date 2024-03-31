@@ -2,12 +2,19 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { IoIosInformationCircle } from "react-icons/io";
 import "../../css/createProject.css";
+import "../../css/applicantDetaills.css";
+
 import { toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import CompanyLayout from "../CompanyLayout";
-import ShowProfile from "../ShowProfile";
-import ApplicantDetails from "./ApplicantDetails";
+import {
+    MDBCard,
+    MDBCardText,
+    MDBCardBody,
+    MDBTypography,
+    MDBIcon
+  } from 'mdb-react-ui-kit';
 import { Link } from 'react-router-dom';
 
 
@@ -91,7 +98,14 @@ const FreelancerApplicants = () => {
 
       if (result.success) {
         toast.success("Project Assigned successfully");
-        navigate("/allSoloProject");
+        if (containsAllSoloProject){
+
+            navigate("/allSoloProject");
+        }
+        else{
+
+            navigate("/allTeamProject");
+        }
       } else {
         toast.error(result.message);
       }
@@ -223,10 +237,20 @@ const FreelancerApplicants = () => {
                   
 
                 </form>
-                <h2 className="mt-5">Applicants Details</h2>   
-                <h4 className="mt-3">Total Applicants: {applicantsCount}</h4>         
+                {containsAllSoloProject ? (
+                    <>
+
+                    <h2 className="mt-5">Applicants Details</h2> 
+                    <h4 className="mt-3">Total Applicants: {applicantsCount}</h4>         
+                    </>
+                ):(
+                    <>
+                    <h2 className="mt-5">Applied Teams Details</h2>
+                    <h4 className="my-3">Total Applied Teams: {applicantsCount}</h4>         
+                    </>
+                )}
                 {/* Solo applicant list */}
-                {containsAllSoloProject && (
+                {containsAllSoloProject ? (
                     <div className=" solo-applicant-card">
                         {applicants.map((applicant, index) => (
                             
@@ -266,6 +290,57 @@ const FreelancerApplicants = () => {
                                     </ul>
                                 </div>
                             </div>
+                            </div>
+                        ))}
+                    </div>
+                ):(
+                    <div className="team-applicant-card">
+                        {applicants.map((applicant, index) => (
+                            <div key={index}>
+                                <MDBCard className="mb-5" style={{ borderRadius: '15px', marginBottom: "10px",backgroundColor:'#211944', color:'white'  }}>
+                                <MDBCardBody className="p-4">
+                                    <MDBTypography tag='h3'>{applicant.teamApplicant.name}</MDBTypography>
+                                    
+                                    <div className="skills mt-4" style={{backgroundColor:"#211944"}}>
+                                        <h6 className="mb-4">Team Members Skills</h6>
+                                        <ul >
+                                            {applicant.skills.map((skill, index) => (
+                                                <li key={index} style={{border:"1px solid white", borderRadius:"5px"}}>{skill}</li>
+                                            ))}
+                                            {applicant.skills.length===0 && <li>No skills</li>}
+                                        </ul>
+                                    </div>
+                                    
+                                    <hr className="my-4" />
+                                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+                                    <MDBCardText style={{ display: "flex", alignItems: "center" }} className="text-uppercase mb-0">
+                                        <MDBIcon fas icon="users me-2" /> <span className=" small" style={{marginRight:"20px"}}>Team Members</span>
+                                    
+                                        <div>
+                                            {applicant.teamApplicant.members.map((member, index) => (
+                                                <div style={{ display: "inline-block", marginRight: "10px" }} key={index}>
+                                                    {member?.pfp ? (
+                                                            <img src={member?.pfp} alt="Profile" style={{ width: "40px", height: "40px", borderRadius: "50%" }} />
+                                                        ):(
+                                                            
+                                                            <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvzCHk4vxVX-5J0QrW4fmsT4AjslKpeLnx3A&usqp=CAU' height={40} width={40}/>
+                                                        )}
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </MDBCardText>
+                                    
+                                        
+                                        <div 
+                                            onClick={() => handleAssignApplicantClick(applicant.teamApplicant._id)} 
+                                            className="assignProjectToTeamBtn">
+                                            <MDBIcon fas icon="gavel" style={{marginRight:"5px"}}/> Assign
+                                        </div>
+                                    </div>
+                                    
+                                </MDBCardBody>
+                                </MDBCard>
+
                             </div>
                         ))}
                     </div>

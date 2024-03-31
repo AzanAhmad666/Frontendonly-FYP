@@ -169,15 +169,23 @@ const AllTeamProjects = () => {
                           {project.requiredMembers.join(" , ")}
                         </span>
                       </p>
-                      <Link
-                        to={`/projectDetails/${project._id}`}
-                        className="mt-auto  detailButton22"
-                        onClick={() =>
-                          navigate(`/projectDetails/${project._id}`)
-                        }
+                      <div className="d-flex gap-3">
+                     <Link
+                        to={`/team/checkProgress/${project._id}`}
+                        className="px-2 py-2 detailButton25"
+                        
                       >
-                        Details
+                        Check Progress
                       </Link>
+
+                      <Link
+                        to={`/allTeamProject/applicants/${project._id}`}
+                        className="px-2 py-2  detailButton26"
+                       
+                      >
+                       View Applicants
+                      </Link>
+                     </div>
                     </div>
                   </div>
                 </div>

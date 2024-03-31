@@ -1,8 +1,14 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
+
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
+
+import 'mdb-react-ui-kit/dist/css/mdb.min.css';
+import "@fortawesome/fontawesome-free/css/all.min.css";
+
+
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useCookies } from "react-cookie";
@@ -25,10 +31,10 @@ import CompanyHome from './components/CompanyHome';
 import FreelancerProfile from './components/FreelancerProfile';
 import Tasks from './components/tasks/Tasks';
 import OngoingTeamProjects from './components/teams/OngoingTeamProjects.js';
-import ApplicantDetails from './components/company/ApplicantDetails.js'
 
 import ShowProfile from './components/ShowProfile';
 import FreelancerApplicants from './components/company/freelancerApplicants.js';
+import CheckProgress from './components/company/CheckProgress.js';
 
 
 
@@ -66,6 +72,9 @@ const App = () => {
               <Route path="/projectDetails/:id" element={<ProjectDetails />} />
               <Route path="/AvailableTeamProjects/projectDetails/:id" element={<ProjectDetails />} />
               <Route path="/myProjects/projectDetails/:id" element={<ProjectDetails />} />
+
+              <Route path="/team/checkProgress/:id" element={<CheckProgress />} />
+              <Route path="/freelancer/checkProgress/:id" element={<CheckProgress />} />
               
 
               <Route path="/forgetpassword" element={<ForgetPasswordForm />} />
@@ -78,6 +87,7 @@ const App = () => {
               <Route path="/allTeamProject" element={<AllTeamProjects />} />
               <Route path="/allSoloProject" element={<AllSoloProjects />} />
               <Route path="/allSoloProject/applicants/:id" element={<FreelancerApplicants />} />
+              <Route path="/allTeamProject/applicants/:id" element={<FreelancerApplicants />} />
               <Route path="/allSoloProject/Profile" element={<ShowProfile />} />
               <Route path="/tasks/:id" element={<Tasks />} />
             </Routes>

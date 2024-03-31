@@ -175,11 +175,9 @@ const AllSoloProjects = () => {
                      
                      <div className="d-flex gap-3">
                      <Link
-                        to={`/projectDetails/${project._id}`}
+                        to={`/freelancer/checkProgress/${project._id}`}
                         className="px-2 py-2 detailButton25"
-                        onClick={() =>
-                          navigate(`/projectDetails/${project._id}`)
-                        }
+                        
                       >
                         Check Progress
                       </Link>
@@ -189,7 +187,7 @@ const AllSoloProjects = () => {
                         className="px-2 py-2  detailButton26"
                        
                       >
-                       View Applicant
+                       View Applicants
                       </Link>
                      </div>
                     
