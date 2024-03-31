@@ -18,6 +18,9 @@ const ProjectDetails = () => {
   //If my projects then not show apply button
   const containsProjectDetails = window.location.pathname.includes('myProjects');
 
+  //If as team apply on projects then call api of apply as team
+  const containsAvailableTeamProjects = window.location.pathname.includes('availableTeamProjects');
+  //console.log(containsAvailableTeamProjects)
   //console.log(containsProjectDetails)
 
   useEffect(() => {
@@ -54,12 +57,11 @@ const ProjectDetails = () => {
   }, [id]); // Include id in the dependency array to re-fetch details when id changes
   const handleApplyClick = async (e) => {
     e.preventDefault();
-    console.log(cookies.token);
-    
-    
     try {
-      const response = await fetch(
-        `http://localhost:3000/api/v1/project/applyToProjectasTeam/${id}`,
+
+      const apiURL = containsAvailableTeamProjects ? `http://localhost:3000/api/v1/project/applyToProjectasTeam/${id}` : `http://localhost:3000/api/v1/project/applyToProject/${id}`;
+      console.log(apiURL)
+      const response = await fetch(apiURL,
         {
           method: "POST",
           headers: new Headers({
@@ -70,6 +72,7 @@ const ProjectDetails = () => {
           credentials: "include",
         }
       );
+      console.log(response)
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -80,7 +83,7 @@ const ProjectDetails = () => {
 
       if (result.success) {
         toast.success("Application successful");
-        navigate("/TeamProjects");
+        navigate("/AvailableTeamProjects");
       } else {
         toast.error(result.message);
       }

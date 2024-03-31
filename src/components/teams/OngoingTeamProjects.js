@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link,useNavigate } from "react-router-dom";
-import CompanyLayout from "./CompanyLayout";
+import CompanyLayout from "../CompanyLayout";
 import { useCookies } from "react-cookie";
 
-const MyProjects = () => {
+const OngoingTeamProjects = () => {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [type, settype] = useState();
     const navigate = useNavigate();
 
     const [showAllProjects, setShowAllProjects] = useState(true);
@@ -20,7 +19,7 @@ const MyProjects = () => {
             myHeaders.append("Content-Type", "application/json");
             myHeaders.append("Cookie", `token=${cookies.token}`);
             const response = await fetch(
-              "http://localhost:3000/api/v1/project/myAppliedProjects",
+              "http://localhost:3000/api/v1/project/myTeamAssignedProjects",
               {
                 method: "GET",
                 headers: myHeaders,
@@ -36,9 +35,8 @@ const MyProjects = () => {
             const result = await response.json();
             console.log("Fetched projects:", result); // Log the fetched projects
     
-            setProjects(result.projects || []); // Use result.projects if it exists, otherwise use an empty array
+            setProjects(result.Projects || []); // Use result.projects if it exists, otherwise use an empty array
             setLoading(false);
-            settype(result.type);
           } catch (error) {
             console.error("Error fetching projects:", error);
             setLoading(false);
@@ -52,12 +50,8 @@ const MyProjects = () => {
     return (
         <CompanyLayout>
             <div className="main-content p-5">
-                {type==="team"?(
-                    <h1 className="mb-5">Team Projects</h1>
-                ):(
-
-                <h1 className="mb-5">My Projects</h1>
-                )}
+                
+                <h1 className="mb-5">Ongoing Team Projects</h1>
                 {loading ? (
             <p>Loading projects...</p>
           ) : (
@@ -105,7 +99,7 @@ const MyProjects = () => {
                       >
                         View Details
                       </Link>
-                      {type === "team" && (
+                      
                           
                       <Link
                         to={`/tasks/${project._id}`}
@@ -114,7 +108,7 @@ const MyProjects = () => {
                       >
                         Assign Tasks
                       </Link>
-                      )}
+                      
 
                       
                       </div>
@@ -130,4 +124,4 @@ const MyProjects = () => {
         
 }
 
-export default MyProjects
+export default OngoingTeamProjects
