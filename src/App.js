@@ -25,8 +25,7 @@ import CompanyHome from './components/CompanyHome';
 import FreelancerProfile from './components/FreelancerProfile';
 import Tasks from './components/tasks/Tasks';
 import OngoingTeamProjects from './components/teams/OngoingTeamProjects.js';
-import FreelancerApplicants from './components/company/freelancerApplicants.js';
-
+import ApplicantDetails from './components/ApplicantDetails'
 
 
 
@@ -75,10 +74,10 @@ const App = () => {
               <Route path="/CompanyHome" element={<CompanyHome />} />
 
               <Route path="/freelancerProfile" element={<FreelancerProfile />} />
-              <Route path="/companyProfile" element={<FreelancerProfile />} />
-
-              
-
+              <Route path="/allTeamProject" element={<AllTeamProjects />} />
+              <Route path="/allSoloProject" element={<AllSoloProjects />} />
+              <Route path="/allSoloProject/details" element={<ApplicantDetails />} />
+              <Route path="/allSoloProject/Profile" element={<ShowProfile />} />
               <Route path="/tasks/:id" element={<Tasks />} />
             </Routes>
     </div>

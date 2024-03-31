@@ -175,7 +175,7 @@ const FreelancerHome = () => {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
-              Cookie: `token=${cookies.token}`,
+              "Cookie": `token=${cookies.token}`,
             },
             credentials: "include",
             body: JSON.stringify({ teamId: teamId }),

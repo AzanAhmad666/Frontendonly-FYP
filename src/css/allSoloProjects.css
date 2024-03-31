@@ -1,0 +1,38 @@
+
+.detailButton25{
+    background-color: #6319B8;
+    text-align: center;
+    color: white;
+    border: 1px solid transparent;
+    box-shadow: none;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 5px;
+    transition: all 0.3s;
+}
+.detailButton25:hover{
+    background-color: white !important;
+    border:1px solid #6319B8  ;
+    color: #6319B8 !important;
+    
+}
+
+
+.detailButton26{
+    background-color: white;
+    text-align: center;
+    color:  #6319B8 ;
+    border:1px solid #6319B8  ;
+    box-shadow: none;
+    text-decoration: none;
+    border-radius: 5px;
+    padding: 5px;
+    transition: all 0.3s;
+}
+
+.detailButton26:hover{
+    background-color: #6319B8 !important;
+    border:1px solid transparent;
+    color: white !important;
+    
+}

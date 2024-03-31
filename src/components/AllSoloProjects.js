@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoSearchOutline } from "react-icons/io5";
-import "../css/allProject.css";
+import "../css/allSoloProjects.css";
+import { useCookies } from "react-cookie";
+
 import CompanyLayout from "./CompanyLayout";
 import { useCookies } from "react-cookie";
 
@@ -13,6 +15,8 @@ const AllSoloProjects = () => {
   const [cookies] = useCookies(["token"]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showAllProjects, setShowAllProjects] = useState(true);
+  const [cookies, setCookie] = useCookies(["token", "companyID", "company"]);
+
   const searchRef = useRef(null);
 
   const handleChange = (event) => {
@@ -71,29 +75,39 @@ const AllSoloProjects = () => {
     // Fetch projects and update state
     const fetchProjects = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:3000/api/v1/Project/getmyFreelancerprojects",
-          {
-            method: "GET",
-            headers: new Headers({
-              "Cookie":`token=${cookies.token}`,
-              "Content-Type": "application/json",
-            }),
-            redirect: "follow",
-            credentials:'include'
-          }
+        const myHeaders = new Headers();
+        myHeaders.append(
+          "Cookie",
+          `token=${cookies.token}`
         );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+        
 
-        const result = await response.json();
-        console.log("Fetched projects:", result); // Log the fetched projects
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+          redirect: "follow",
+          credentials:'include'
+        };
+
+        fetch(
+          "http://localhost:3000/api/v1/Project/getmyFreelancerprojects",
+          requestOptions
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result)
+            if(result.success){
+              console.log("Fetched projects:", result); // Log the fetched projects
 
         setProjects(result.data || []); // Use result.projects if it exists, otherwise use an empty array
         setLoading(false);
-      } catch (error) {
+            }
+          })
+          .catch((error) => console.error(error));
+        
+      } 
+      catch (error) {
         console.error("Error fetching projects:", error);
         setLoading(false);
       }
@@ -107,8 +121,9 @@ const AllSoloProjects = () => {
   return (
     <>
       <CompanyLayout>
+       
         <div className="main-content p-5">
-          <h1 className="createProjecttext mt-2 mb-5">All Projects</h1>
+          <h1 className="createProjecttext mt-2 mb-5">These are your Projects for Freelancers</h1>
           <div className="search22 mb-4" ref={searchRef}>
             <form onSubmit={handleSubmit}>
               <input
@@ -159,27 +174,27 @@ const AllSoloProjects = () => {
                           {project.requiredMembers.join(" , ")}
                         </span>
                       </p>
-                      <div>
-
-                      
-
-                      <Link
-                        to={`/freelancerApplicants/${project._id}`}
-                        className="mt-auto p-2 detailButton22"
-                        style={{ marginLeft: "5px" }}
-                        
-                      >
-                        Applicants
-                      </Link>
-                      <Link
-                        to={`/tasks/${project._id}`}
-                        className="mt-auto p-2 detailButton22"
-                        style={{ marginLeft: "5px" }}
-                        
+                     
+                     <div className="d-flex gap-3">
+                     <Link
+                        to={`/projectDetails/${project._id}`}
+                        className="px-2 py-2 detailButton25"
+                        onClick={() =>
+                          navigate(`/projectDetails/${project._id}`)
+                        }
                       >
                         Check Progress
                       </Link>
-                      </div>
+
+                      <Link
+                        to="/allSoloProject/details"
+                        className="px-2 py-2  detailButton26"
+                       
+                      >
+                       View Applicant
+                      </Link>
+                     </div>
+                    
                     </div>
                   </div>
                 </div>

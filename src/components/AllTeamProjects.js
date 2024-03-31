@@ -99,8 +99,6 @@ const AllTeamProjects = () => {
         setLoading(false);
             }
           })
-
-          
           .catch((error) => console.error(error));
         
       } 
@@ -115,12 +113,12 @@ const AllTeamProjects = () => {
     }
   }, [showAllProjects]); // Empty dependency array means this effect will run once when the component mounts
 
-  
+
   return (
     <>
       <CompanyLayout>
         <div className="main-content p-5">
-          <h1 className="createProjecttext mt-2 mb-5">All Team Projects</h1>
+          <h1 className="createProjecttext mt-2 mb-5">These are your Projects for Teams</h1>
           <div className="search22 mb-4" ref={searchRef}>
             <form onSubmit={handleSubmit}>
               <input
