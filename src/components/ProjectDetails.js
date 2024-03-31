@@ -57,7 +57,6 @@ const ProjectDetails = () => {
   }, [id]); // Include id in the dependency array to re-fetch details when id changes
   const handleApplyClick = async (e) => {
     e.preventDefault();
-    //console.log(cookies.token);
     try {
 
       const apiURL = containsAvailableTeamProjects ? `http://localhost:3000/api/v1/project/applyToProjectasTeam/${id}` : `http://localhost:3000/api/v1/project/applyToProject/${id}`;
@@ -94,6 +93,7 @@ const ProjectDetails = () => {
         "An error occurred while applying to the project. Please try again."
       );
     }
+  
   };
   return (
     <>

@@ -31,9 +31,9 @@ body {
 
 .inputTitle11 {
   background-color: #6c717223;
-  width:50px;
   border: none;
-  width: 90%;
+  width: 50%;
+  height:40px;
   outline: none !important;
   color: rgba(0, 0, 0, 0.663) !important;
 

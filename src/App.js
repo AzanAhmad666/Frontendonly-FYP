@@ -1,12 +1,15 @@
-import { Route, Routes } from 'react-router-dom';
+import React from 'react';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import { useCookies } from "react-cookie";
 import CreateProject from './components/CreateProject';
 import UserTypeSelection from './components/UserTypeSelection';
+import AllTeamProjects from './components/AllProjects';
+import AllSoloProjects from './components/AllProjects';
 import AllProjects from './components/AllProjects';
 import TeamProjects from './components/teams/AvailableTeamProjects.js';
 import MyProjects from './components/MySoloProjects.js';
@@ -27,13 +30,21 @@ import OngoingTeamProjects from './components/teams/OngoingTeamProjects.js';
 
 
 
-function App() {
+
+const App = () => {
+  const [cookies] = useCookies(['token']); // Read 'jwt' cookie
+  
+
+  const isAuthenticated = () => {
+    return cookies.token ? true : false; // Check if 'jwt' cookie exists
+  };
+
   return (
     <div className="App">
       <ToastContainer/>
       <Routes>
               <Route path="/" element={<UserTypeSelection />} />
-              <Route path="/createProject" element={<CreateProject />} />
+              <Route path="/createProject" element={isAuthenticated() ? <CreateProject /> : <Navigate to="/" />} />
               <Route path="/allProjects" element={<AllProjects />} />
 
               <Route path="/AvailableTeamProjects" element={<TeamProjects />} />
@@ -54,6 +65,8 @@ function App() {
               <Route path="/FreelancerHome" element={<FreelancerHome />} />
               <Route path="/CompanyHome" element={<CompanyHome />} />
               <Route path="/freelancerProfile" element={<FreelancerProfile />} />
+              <Route path="/allTeamProject" element={<AllTeamProjects />} />
+              <Route path="/allSoloProject" element={<AllSoloProjects />} />
               <Route path="/tasks/:id" element={<Tasks />} />
             </Routes>
     </div>
