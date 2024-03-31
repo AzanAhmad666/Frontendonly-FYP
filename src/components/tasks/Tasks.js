@@ -161,7 +161,7 @@ useEffect(() => {
       .then((result) => {
         console.log(result)
         settasks(result.tasks)
-        setcompletedTasks(result.tasks.filter((task) => task.status==="submitted"))
+        setcompletedTasks(result.tasks.filter((task) => task.status==="completed"))
 
         
       })
@@ -200,8 +200,13 @@ useEffect(() => {
               </div>
           </div>
           <div style={{padding:"20px"}}>
+            {tasks?.length===0 ? (
+          <h3 className='mb-3'>No tasks yet</h3>
+          ):(
 
           <h3 className='mb-3'>Completed {completedTasks?.length} out of {tasks?.length} tasks</h3>
+            )}
+
           
           {showprogress && ( // Render progress bar only when progress is not null
           <ProgressBar variant="success" now={progress} label={`${progress}%`} />

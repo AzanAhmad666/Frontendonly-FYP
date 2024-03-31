@@ -69,7 +69,7 @@ const AllProjects = () => {
     const fetchProjects = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/api/v1/project/getProjects",
+          "http://localhost:3000/api/v1/project/getFreelancerProjects",
           {
             method: "GET",
             headers: new Headers({

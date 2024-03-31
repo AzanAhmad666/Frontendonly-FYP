@@ -13,6 +13,15 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
     borderRadius: '8px',
   },
+  completed: {
+    width:'97%',
+    margin: '20px ',
+    padding: '10px',
+    boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
+    borderRadius: '8px',
+    backgroundColor: 'lightgreen',
+    color: 'black'
+  },
   header: {
     display: 'flex',
     justifyContent: 'space-between',
@@ -113,7 +122,53 @@ const TaskCard = ({ task }) => {
   };
   
 
+  const handleSaveChanges = (taskId) => {
+    // Implement your submission logic here
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    myHeaders.append("Cookie", `token=${cookies.token}`);
+    
+    const raw = JSON.stringify({
+      "taskId": taskId,
+      "status": selectedStatus
+    });
+    console.log(raw)
+    
+    const requestOptions = {
+      method: "PUT",
+      headers: myHeaders,
+      body: raw,
+      redirect: "follow",
+      credentials: "include"
+    };
+    
+    fetch("http://localhost:3000/api/v1/Freelancer/updateTaskStatus", requestOptions)
+      .then((response) => response.json())
+      .then((result) => {
+        console.log(result)
+        if (result.success){
+          toast.success(result.message)
+         
+        
+        
+        window.location.reload()
+    
+    
+        }
+        else {
+          toast.error(result.message)
+    
+        }
+      })
+      .catch((error) => console.error(error));
+    
+          
+         
+    
+    
+  };
   const handleSubmit = async (taskId) => {
+
     settaskID(taskId)
     console.log(taskId, file)
     // Implement your submission logic here
@@ -186,11 +241,11 @@ fetch("http://localhost:3000/api/v1/Freelancer/updateTask", requestOptions)
   }, [fileURL,taskID]);
 
   return (
-    <Card className={classes.root}>
+    <Card className={task.status==='completed' ? classes.completed :classes.root}>
       <CardContent>
         <div className={classes.header}>
           <Typography variant="h6">{task.description}</Typography>
-          {task.owner!==cookies.freelancerID ? (
+          {task.owner===cookies.freelancerID ? (
             <FormControl className='mb-3' style={{ marginBottom: 10 }}>
             <Select
               value={selectedStatus}
@@ -229,8 +284,9 @@ fetch("http://localhost:3000/api/v1/Freelancer/updateTask", requestOptions)
               </div>
             )}
             {/*Only logged in freelancer can submit*/}
+            <div style={{display: 'flex', justifyContent: 'space-between'}}>
         {cookies.freelancerID === task.assignee._id &&  (
-          <>
+            <div>
             <input
               type="file"
               className={classes.fileInput}
@@ -248,9 +304,20 @@ fetch("http://localhost:3000/api/v1/Freelancer/updateTask", requestOptions)
             <Button style={{marginLeft: '6px'}} variant="contained" color="primary" onClick={()=>handleSubmit(task._id)}>
               Submit
             </Button>
-          </>
+            </div>
 
-          )}
+            )}
+            <div></div>
+            
+            {(task.status !== selectedStatus) && cookies.freelancerID === task.owner && (
+              <Button style={{marginLeft: '6px'}} variant="contained" color="primary" onClick={()=>handleSaveChanges(task._id)}>
+              Save Changes
+            </Button>
+            )}
+            
+          </div>
+
+          
         {fileName && <Typography style={{marginTop: '10px'}} className={classes.fileName}>{fileName}</Typography>}
         {/* Add other task details as needed */}
 
