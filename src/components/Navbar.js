@@ -74,7 +74,7 @@ const Navbar = () =>{
         document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
       };
 
-    const [activeTab, setActiveTab] = useState('Project'); // State to manage active tab
+    const [activeTab, setActiveTab] = useState('Home'); // State to manage active tab
 
     const handleTabClick = (tabName) => {
         setActiveTab(tabName); // Set the active tab when clicked
@@ -146,7 +146,7 @@ const Navbar = () =>{
             ): (
               <>
               <div             
-            className={`tabs ${activeTab === 'Projects' ? 'active' : ''}`} onClick={() => handleTabClick('Projects')}
+            className={`tabs ${activeTab === 'Home' ? 'active' : ''}`} onClick={() => handleTabClick('Home')}
 
             >
                 <svg width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -158,7 +158,7 @@ const Navbar = () =>{
                 <path d="M20.0207 13.4257H18.6281C21.042 14.872 22.6612 17.5139 22.6612 20.5268C22.6612 21.0143 22.6711 21.2941 22.609 21.7469C23.983 21.4384 25.013 20.2095 25.013 18.7437V18.418C25.013 15.6652 22.7734 13.4257 20.0207 13.4257Z" fill="white"/>
                 </svg>
 
-                <Link to='/Projects' style={{fontSize:18, paddingTop:3, textDecoration:'none', color:'white'}}>Projects</Link>
+                <Link to='/CompanyHome' style={{fontSize:18, paddingTop:3, textDecoration:'none', color:'white'}}>Home</Link>
             </div>
 
             <div 
