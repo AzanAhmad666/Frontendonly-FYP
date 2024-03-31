@@ -75,11 +75,14 @@ const AllTeamProjects = () => {
           "Cookie",
           `token=${cookies.token}`
         );
+
+        
+
         const requestOptions = {
           method: "GET",
           headers: myHeaders,
           redirect: "follow",
-          credentals:"include"
+          credentials:'include'
         };
 
         fetch(
@@ -115,7 +118,7 @@ const AllTeamProjects = () => {
     <>
       <CompanyLayout>
         <div className="main-content p-5">
-          <h1 className="createProjecttext mt-2 mb-5">All Projects</h1>
+          <h1 className="createProjecttext mt-2 mb-5">All Team Projects</h1>
           <div className="search22 mb-4" ref={searchRef}>
             <form onSubmit={handleSubmit}>
               <input
