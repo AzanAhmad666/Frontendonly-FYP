@@ -3,11 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoSearchOutline } from "react-icons/io5";
 import "../css/allProject.css";
 import CompanyLayout from "./CompanyLayout";
+import { useCookies } from "react-cookie";
+
 
 const AllSoloProjects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
+  const [cookies] = useCookies(["token"]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showAllProjects, setShowAllProjects] = useState(true);
   const searchRef = useRef(null);
@@ -69,15 +72,15 @@ const AllSoloProjects = () => {
     const fetchProjects = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3000/api/v1/project/getProjects",
+          "http://localhost:3000/api/v1/Project/getmyFreelancerprojects",
           {
             method: "GET",
             headers: new Headers({
-              Cookie:
-                "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTczNzMyZDYzNjUzNGUzNzgyNTBjMjUiLCJpYXQiOjE3MDIwNjQ5NjZ9.In6HZLkcWb75kuVErmvwQ41XiUXiPuMKaqnsFI14ymI",
+              "Cookie":`token=${cookies.token}`,
               "Content-Type": "application/json",
             }),
             redirect: "follow",
+            credentials:'include'
           }
         );
 
@@ -88,7 +91,7 @@ const AllSoloProjects = () => {
         const result = await response.json();
         console.log("Fetched projects:", result); // Log the fetched projects
 
-        setProjects(result.projects || []); // Use result.projects if it exists, otherwise use an empty array
+        setProjects(result.data || []); // Use result.projects if it exists, otherwise use an empty array
         setLoading(false);
       } catch (error) {
         console.error("Error fetching projects:", error);
@@ -156,15 +159,27 @@ const AllSoloProjects = () => {
                           {project.requiredMembers.join(" , ")}
                         </span>
                       </p>
+                      <div>
+
+                      
+
                       <Link
-                        to={`/projectDetails/${project._id}`}
-                        className="mt-auto  detailButton22"
-                        onClick={() =>
-                          navigate(`/projectDetails/${project._id}`)
-                        }
+                        to={`/freelancerApplicants/${project._id}`}
+                        className="mt-auto p-2 detailButton22"
+                        style={{ marginLeft: "5px" }}
+                        
                       >
-                        Details
+                        Applicants
                       </Link>
+                      <Link
+                        to={`/tasks/${project._id}`}
+                        className="mt-auto p-2 detailButton22"
+                        style={{ marginLeft: "5px" }}
+                        
+                      >
+                        Check Progress
+                      </Link>
+                      </div>
                     </div>
                   </div>
                 </div>

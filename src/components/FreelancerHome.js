@@ -170,7 +170,7 @@ const FreelancerHome = () => {
     const fetchChatMessages = async (teamId) => {
       try {
         const chatResponse = await fetch(
-          "http://localhost:3000/api/v1/Chat/getChatMessages",
+          "http://localhost:3000/api/v1/Chat/getChatMessagesWeb",
           {
             method: "POST",
             headers: {
@@ -538,9 +538,7 @@ const FreelancerHome = () => {
                       <div className="msg-bubble">
                         <div className="msg-info">
                           <div className="msg-info-name">
-                            {message.sender
-                              ? message.sender.firstname
-                              : cookies.freelancer.firstname}
+                            {message.sender?message.sender.firstname:cookies.freelancer.firstname}
                           </div>
                           <div className="msg-info-time">
                             {moment(message.timestamp).format("HH:mm")}

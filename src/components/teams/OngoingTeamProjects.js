@@ -116,6 +116,9 @@ const OngoingTeamProjects = () => {
                   </div>
                 </div>
               ))}
+              {projects.length === 0 && (
+                <h3>No projects found.</h3>
+              )}
             </div>
           )}
             </div>

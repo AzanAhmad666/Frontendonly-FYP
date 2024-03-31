@@ -25,6 +25,7 @@ import CompanyHome from './components/CompanyHome';
 import FreelancerProfile from './components/FreelancerProfile';
 import Tasks from './components/tasks/Tasks';
 import OngoingTeamProjects from './components/teams/OngoingTeamProjects.js';
+import FreelancerApplicants from './components/company/freelancerApplicants.js';
 
 
 
@@ -44,7 +45,13 @@ const App = () => {
       <ToastContainer/>
       <Routes>
               <Route path="/" element={<UserTypeSelection />} />
+
+              {/*Company Routes*/}
               <Route path="/createProject" element={isAuthenticated() ? <CreateProject /> : <Navigate to="/" />} />
+              <Route path="/freelancerApplicants/:id" element={<FreelancerApplicants />} />
+              <Route path="/allTeamProject" element={<AllTeamProjects />} />
+              <Route path="/allSoloProject" element={<AllSoloProjects />} />
+
               <Route path="/allProjects" element={<AllProjects />} />
 
               <Route path="/AvailableTeamProjects" element={<TeamProjects />} />
@@ -59,14 +66,19 @@ const App = () => {
               <Route path="/projectDetails/:id" element={<ProjectDetails />} />
               <Route path="/AvailableTeamProjects/projectDetails/:id" element={<ProjectDetails />} />
               <Route path="/myProjects/projectDetails/:id" element={<ProjectDetails />} />
+              
 
               <Route path="/forgetpassword" element={<ForgetPasswordForm />} />
               <Route path="/forgetpasswordCompany" element={<ForgetPasswordFormCompany />} />
+
               <Route path="/FreelancerHome" element={<FreelancerHome />} />
               <Route path="/CompanyHome" element={<CompanyHome />} />
+
               <Route path="/freelancerProfile" element={<FreelancerProfile />} />
-              <Route path="/allTeamProject" element={<AllTeamProjects />} />
-              <Route path="/allSoloProject" element={<AllSoloProjects />} />
+              <Route path="/companyProfile" element={<FreelancerProfile />} />
+
+              
+
               <Route path="/tasks/:id" element={<Tasks />} />
             </Routes>
     </div>
