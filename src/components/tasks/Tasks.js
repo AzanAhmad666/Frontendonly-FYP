@@ -5,6 +5,7 @@ import TasksDisplay from './TasksDisplay'; // Import the TasksDisplay component
 
 import {useCookies} from 'react-cookie'
 import { toast } from 'react-toastify';
+import ProgressBar from 'react-bootstrap/ProgressBar';
 
 import { Link } from "react-router-dom";
 import { useParams } from "react-router-dom";
@@ -29,6 +30,9 @@ export default function Tasks() {
   const [description, setDescription] = useState('');
   const [deadline, setDeadline] = useState(null);
   const [members, setmembers] = useState([])
+  const [progress, setprogress] = useState();
+  const [showprogress, setshowprogress] = useState(false)
+  const [completedTasks, setcompletedTasks] = useState([]);
 useEffect(() => {
   
 
@@ -157,28 +161,62 @@ useEffect(() => {
       .then((result) => {
         console.log(result)
         settasks(result.tasks)
+        setcompletedTasks(result.tasks.filter((task) => task.status==="completed"))
+
+        
       })
       .catch((error) => console.error(error));
   }, [refresh])
+
+  useEffect(() => {
+    
+    if(completedTasks.length>0 && tasks.length>0){
+      setprogress(((completedTasks?.length / tasks?.length) * 100).toFixed())
+      if(completedTasks.length===tasks.length){
+        setprogress(100)
+      }
+      setshowprogress(true)
+    }
+  }, [completedTasks,tasks])
+
+  
+
   return (
     <CompanyLayout>
-        <div className='main-content p-5'>
-        <div className='mb-5'
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
-            <h1 className="createProjecttext">Tasks</h1>
-            <div 
-            onClick={handleOpen} className="applyAsTeamBtn" style={{display:"flex",alignItems:"center",gap:8,border:"1px solid #2E085A", borderRadius:"8px", padding:"10px", marginRight:"30px", cursor:"pointer"}} >
-            <GrAdd size={18} />
-            <div>Create Task</div>
-            </div>
-
-
+        <div className='main-content p-5' style={{margin:"20px", padding:"10px"}}>
+          <div className='mb-3'
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                padding: "10px",
+              }}
+            >
+              <h1 className="createProjecttext">Tasks</h1>
+              <div 
+              onClick={handleOpen} className="applyAsTeamBtn" style={{display:"flex",alignItems:"center",gap:8,border:"1px solid #2E085A", borderRadius:"8px", padding:"10px", cursor:"pointer"}} >
+              <GrAdd size={18} />
+              <div>Create Task</div>
+              </div>
           </div>
+          <div style={{padding:"20px"}}>
+            {tasks?.length===0 ? (
+          <h3 className='mb-3'>No tasks yet</h3>
+          ):(
+
+          <h3 className='mb-3'>Completed {completedTasks?.length} out of {tasks?.length} tasks</h3>
+            )}
+
+          
+          {showprogress && ( // Render progress bar only when progress is not null
+          <ProgressBar variant="success" now={progress} label={`${progress}%`} />
+          )}
+          </div>
+          
+          
+          
+            
+          
           <Modal open={open} onClose={handleClose}>
         <div style={{display:'flex',width:'400px',borderRadius:'8px', flexDirection:'column', position: 'absolute', top: '50%', left: '60%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', padding: 20 }}>
           <Typography variant="h6"className='mb-5'>Create Task</Typography>
@@ -203,10 +241,10 @@ useEffect(() => {
             />
           <Button style={{ marginTop: 10 }} onClick={handleSave} variant="contained" color="primary">Save Changes</Button>
         </div>
-      </Modal>
+          </Modal>
 
-            {/* Render TasksDisplay component with tasks */}
-            <TasksDisplay tasks={tasks || []} />
+          {/* Render TasksDisplay component with tasks */}
+          <TasksDisplay tasks={tasks || []} />
             
         </div>
     </CompanyLayout>

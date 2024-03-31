@@ -96,14 +96,14 @@ const MyProjects = () => {
                       <div>
 
                       <Link
-                        to={`/projectDetails/${project._id}`}
+                        to={`/myProjects/projectDetails/${project._id}`}
                         className="mt-auto p-2 detailButton22"
                         style={{marginRight:5}}
                         onClick={() =>
-                          navigate(`/projectDetails/${project._id}`)
+                          navigate(`/myProjects/projectDetails/${project._id}`)
                         }
                       >
-                        Details
+                        View Details
                       </Link>
                       {type === "team" && (
                           

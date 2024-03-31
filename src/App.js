@@ -8,6 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useCookies } from "react-cookie";
 import CreateProject from './components/CreateProject';
 import UserTypeSelection from './components/UserTypeSelection';
+import AllTeamProjects from './components/AllProjects';
+import AllSoloProjects from './components/AllProjects';
 import AllProjects from './components/AllProjects';
 import TeamProjects from './components/TeamProjects';
 import MyProjects from './components/MyProjects';
@@ -50,11 +52,14 @@ const App = () => {
               <Route path="/signup" element={<Signup />} />
               <Route path="/signupfreelancer" element={<SignupFreelancer />} />
               <Route path="/projectDetails/:id" element={<ProjectDetails />} />
+              <Route path="/myProjects/projectDetails/:id" element={<ProjectDetails />} />
               <Route path="/forgetpassword" element={<ForgetPasswordForm />} />
               <Route path="/forgetpasswordCompany" element={<ForgetPasswordFormCompany />} />
               <Route path="/FreelancerHome" element={<FreelancerHome />} />
               <Route path="/CompanyHome" element={<CompanyHome />} />
               <Route path="/freelancerProfile" element={<FreelancerProfile />} />
+              <Route path="/allTeamProject" element={<AllTeamProjects />} />
+              <Route path="/allSoloProject" element={<AllSoloProjects />} />
               <Route path="/tasks/:id" element={<Tasks />} />
             </Routes>
     </div>

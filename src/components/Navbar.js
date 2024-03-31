@@ -97,7 +97,7 @@ const Navbar = () =>{
                 <Link to='/FreelancerHome' style={{fontSize:18, paddingTop:3, textDecoration:'none', color:'white'}}>Teams</Link>
             </div>
             <div             
-            className={`tabs ${activeTab === 'Projects' ? 'active' : ''}`} onClick={() => handleTabClick('Projects')}
+            className={`tabs ${activeTab === 'MyProjects' ? 'active' : ''}`} onClick={() => handleTabClick('MyProjects')}
 
             >
                 <svg width="26" height="25" viewBox="0 0 26 25" fill="none" xmlns="http://www.w3.org/2000/svg">
