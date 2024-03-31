@@ -118,7 +118,7 @@ const AllTeamProjects = () => {
     <>
       <CompanyLayout>
         <div className="main-content p-5">
-          <h1 className="createProjecttext mt-2 mb-5">All Team Projects</h1>
+          <h1 className="createProjecttext mt-2 mb-5">These are your Projects for Teams</h1>
           <div className="search22 mb-4" ref={searchRef}>
             <form onSubmit={handleSubmit}>
               <input
