@@ -161,7 +161,7 @@ useEffect(() => {
       .then((result) => {
         console.log(result)
         settasks(result.tasks)
-        setcompletedTasks(result.tasks.filter((task) => task.status==="completed"))
+        setcompletedTasks(result.tasks.filter((task) => task.status==="submitted"))
 
         
       })
