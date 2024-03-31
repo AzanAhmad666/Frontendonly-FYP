@@ -170,7 +170,7 @@ const FreelancerHome = () => {
     const fetchChatMessages = async (teamId) => {
       try {
         const chatResponse = await fetch(
-          "http://localhost:3000/api/v1/Chat/getChatMessages",
+          "http://localhost:3000/api/v1/Chat/getChatMessagesWeb",
           {
             method: "POST",
             headers: {
