@@ -316,14 +316,19 @@ const FreelancerHome = () => {
       <CompanyLayout>
         <div className="main-content p-5">
           <div
+            className="mb-5"
             style={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
             }}
           >
-            <h1 className="createProjecttext mb-5">My Team</h1>
-            <Link to={"/TeamProjects"} className="applyAsTeamBtn mb-5" style={{border:"1px solid #2E085A", borderRadius:"8px", padding:"10px", marginRight:"30px", cursor:"pointer"}} >Apply as Team</Link>
+            <h1 className="createProjecttext">My Team</h1>
+            <div>
+
+              <Link to={"/OngoingTeamProjects"} className="applyAsTeamBtn " style={{border:"1px solid #2E085A", borderRadius:"8px", padding:"10px", marginRight:"10px", cursor:"pointer"}} >Ongoing Projects</Link>
+              <Link to={"/AvailableTeamProjects"} className="applyAsTeamBtn " style={{border:"1px solid #2E085A", borderRadius:"8px", padding:"10px", marginRight:"30px", cursor:"pointer"}} >Apply as Team</Link>
+            </div>
 
 
           </div>

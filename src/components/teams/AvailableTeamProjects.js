@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { IoSearchOutline } from "react-icons/io5";
-import "../css/allProject.css";
-import CompanyLayout from "./CompanyLayout";
+import "../../css/allProject.css";
+import CompanyLayout from "../CompanyLayout";
 
 const TeamProjects = () => {
   const [projects, setProjects] = useState([]);
@@ -105,7 +105,7 @@ const TeamProjects = () => {
     <>
       <CompanyLayout>
         <div className="main-content p-5">
-          <h1 className="createProjecttext mt-2 mb-5">Team Projects</h1>
+          <h1 className="createProjecttext mt-2 mb-5">Available Team Projects</h1>
           <div className="search22 mb-4" ref={searchRef}>
             <form onSubmit={handleSubmit}>
               <input
@@ -157,11 +157,9 @@ const TeamProjects = () => {
                         </span>
                       </p>
                       <Link
-                        to={`/projectDetails/${project._id}`}
+                        to={`/availableTeamProjects/projectDetails/${project._id}`}
                         className="mt-auto  detailButton22"
-                        onClick={() =>
-                          navigate(`/projectDetails/${project._id}`)
-                        }
+                        
                       >
                         Details
                       </Link>

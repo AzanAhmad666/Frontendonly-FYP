@@ -8,8 +8,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import CreateProject from './components/CreateProject';
 import UserTypeSelection from './components/UserTypeSelection';
 import AllProjects from './components/AllProjects';
-import TeamProjects from './components/TeamProjects';
-import MyProjects from './components/MyProjects';
+import TeamProjects from './components/teams/AvailableTeamProjects.js';
+import MyProjects from './components/MySoloProjects.js';
 import Login from './components/login';
 import Signup from './components/Signup.js';
 import LoginFreelacner from './components/LoginFreelancer.js';
@@ -21,6 +21,7 @@ import FreelancerHome from './components/FreelancerHome';
 import CompanyHome from './components/CompanyHome';
 import FreelancerProfile from './components/FreelancerProfile';
 import Tasks from './components/tasks/Tasks';
+import OngoingTeamProjects from './components/teams/OngoingTeamProjects.js';
 
 
 
@@ -34,14 +35,20 @@ function App() {
               <Route path="/" element={<UserTypeSelection />} />
               <Route path="/createProject" element={<CreateProject />} />
               <Route path="/allProjects" element={<AllProjects />} />
-              <Route path="/TeamProjects" element={<TeamProjects />} />
-              <Route path="/MyProjects" element={<MyProjects />} />
+
+              <Route path="/AvailableTeamProjects" element={<TeamProjects />} />
+              <Route path="/OngoingTeamProjects" element={<OngoingTeamProjects />} />
+
+              <Route path="/SoloProjects" element={<MyProjects />} />
               <Route path="/login" element={<Login />} />
               <Route path="/loginfreelancer" element={<LoginFreelacner />} />
               <Route path="/signup" element={<Signup />} />
               <Route path="/signupfreelancer" element={<SignupFreelancer />} />
+
               <Route path="/projectDetails/:id" element={<ProjectDetails />} />
+              <Route path="/AvailableTeamProjects/projectDetails/:id" element={<ProjectDetails />} />
               <Route path="/myProjects/projectDetails/:id" element={<ProjectDetails />} />
+
               <Route path="/forgetpassword" element={<ForgetPasswordForm />} />
               <Route path="/forgetpasswordCompany" element={<ForgetPasswordFormCompany />} />
               <Route path="/FreelancerHome" element={<FreelancerHome />} />
