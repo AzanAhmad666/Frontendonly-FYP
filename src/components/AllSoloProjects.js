@@ -185,7 +185,7 @@ const AllSoloProjects = () => {
                       </Link>
 
                       <Link
-                        to="/allSoloProject/details"
+                        to={`/allSoloProject/applicants/${project._id}`}
                         className="px-2 py-2  detailButton26"
                        
                       >

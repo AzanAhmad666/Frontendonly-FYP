@@ -4,3 +4,13 @@
     gap: 15px;
 
 }
+.solo-applicant-card{
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    gap: 10px;
+    
+
+}

@@ -25,8 +25,10 @@ import CompanyHome from './components/CompanyHome';
 import FreelancerProfile from './components/FreelancerProfile';
 import Tasks from './components/tasks/Tasks';
 import OngoingTeamProjects from './components/teams/OngoingTeamProjects.js';
-import ApplicantDetails from './components/ApplicantDetails'
+import ApplicantDetails from './components/company/ApplicantDetails.js'
+
 import ShowProfile from './components/ShowProfile';
+import FreelancerApplicants from './components/company/freelancerApplicants.js';
 
 
 
@@ -75,7 +77,7 @@ const App = () => {
               <Route path="/freelancerProfile" element={<FreelancerProfile />} />
               <Route path="/allTeamProject" element={<AllTeamProjects />} />
               <Route path="/allSoloProject" element={<AllSoloProjects />} />
-              <Route path="/allSoloProject/details" element={<ApplicantDetails />} />
+              <Route path="/allSoloProject/applicants/:id" element={<FreelancerApplicants />} />
               <Route path="/allSoloProject/Profile" element={<ShowProfile />} />
               <Route path="/tasks/:id" element={<Tasks />} />
             </Routes>

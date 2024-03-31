@@ -6,6 +6,10 @@ import { toast } from "react-toastify";
 import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import CompanyLayout from "../CompanyLayout";
+import ShowProfile from "../ShowProfile";
+import ApplicantDetails from "./ApplicantDetails";
+import { Link } from 'react-router-dom';
+
 
 
 const FreelancerApplicants = () => {
@@ -16,28 +20,27 @@ const FreelancerApplicants = () => {
   const navigate = useNavigate();
   const [cookies] = useCookies(["token", "freelancer", "freelancerID"]);
 
-  //If my projects then not show apply button
-  const containsProjectDetails = window.location.pathname.includes('myProjects');
 
-  //If as team apply on projects then call api of apply as team
-  const containsAvailableTeamProjects = window.location.pathname.includes('availableTeamProjects');
-  //console.log(containsAvailableTeamProjects)
-  //console.log(containsProjectDetails)
+  //If as solo apply on project then call api of assign project as solo
+  const containsAllSoloProject = window.location.pathname.includes('allSoloProject');
+  
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
         //console.log(cookies.token)
         //console.log(cookies.freelancerID)
+        //console.log(id)
         const response = await fetch(
           `http://localhost:3000/api/v1/Project/${id}/applicants`,
           {
-            method: "POST",
+            method: "GET",
             headers: new Headers({
               Cookie: `token=${cookies.token}`, // Replace with your auth token
               "Content-Type": "application/json",
             }),
             redirect: "follow",
+            credentials: "include",
           }
         );
 
@@ -58,11 +61,11 @@ const FreelancerApplicants = () => {
 
     fetchProjectDetails();
   }, [id]); // Include id in the dependency array to re-fetch details when id changes
-  const handleApplyClick = async (e) => {
+  const handleAssignApplicantClick = async (e) => {
     e.preventDefault();
     try {
 
-      const apiURL = containsAvailableTeamProjects ? `http://localhost:3000/api/v1/project/applyToProjectasTeam/${id}` : `http://localhost:3000/api/v1/project/applyToProject/${id}`;
+      const apiURL = containsAllSoloProject ? `http://localhost:3000/api/v1/project/applyToProjectasTeam/${id}` : `http://localhost:3000/api/v1/project/applyToProject/${id}`;
       console.log(apiURL)
       const response = await fetch(apiURL,
         {
@@ -214,21 +217,57 @@ const FreelancerApplicants = () => {
                       </div>
                     </div>
                   </div>
-                  {/* Apply button */}
-                  {!containsProjectDetails && (
-                    
-                  <div className="text-center mt-5">
-                    <button
-                      className="submitButton py-3 px-5 "
-                      style={{ borderRadius: "4px" }}
-                      onClick={handleApplyClick}
-                    >
-                      Apply
-                    </button>
-                  </div>
-                  )}
+                  
+                  
 
                 </form>
+                <h2 className="mt-5">Applicants Details</h2>   
+                <h4 className="mt-3">Total Applicants: {applicantsCount}</h4>         
+                {/* Solo applicant list */}
+                {containsAllSoloProject && (
+                    <div className=" solo-applicant-card">
+                        {applicants.map((applicant, index) => (
+                            
+                            <div key={index} className='d-flex justify-center my-5'>
+                            <div className="card-container ">
+                            {applicant.pfp ? (
+                                    <img src={applicant?.pfp} alt="Profile" style={{ width: "100px", height: "100px", borderRadius: "50%" }} />
+                                ):(
+                                    
+                                    <img
+                                    className="round"
+                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvzCHk4vxVX-5J0QrW4fmsT4AjslKpeLnx3A&usqp=CAU'
+                                    alt="user"
+                                    style={{ width: "100px", height: "100px", borderRadius: "50%" }}
+                                />
+                                )}
+                                
+                                <h3 className='mt-2 text-white'>{applicant.firstname}</h3>
+                                <p>
+                                    {applicant.email}
+                                </p>
+                                <div className="">
+                                    <Link to="/allSoloProject/Profile " className="applicant mx-2  " >Profile</Link>
+                                    <button
+                                    onClick={() => handleAssignApplicantClick(applicant._id)} 
+                                    style={{ backgroundColor: "#211944", color: "white", borderRadius: "5px", padding: "7px 20px", border: "1px solid white" }}>
+                                    Assign</button>
+                                </div>
+                                <div className="skills">
+                                    <h6>Skills</h6>
+                                    <ul>
+                                        {applicant.skills.map((skill, index) => (
+                                            <li key={index}>{skill}</li>
+                                        ))}
+                                        
+                                    </ul>
+                                </div>
+                            </div>
+                            </div>
+                        ))}
+                    </div>
+                )}
+
               </>
             ) : (
               <p>Loading project details...</p>
