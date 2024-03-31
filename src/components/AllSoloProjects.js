@@ -5,14 +5,12 @@ import "../css/allSoloProjects.css";
 import { useCookies } from "react-cookie";
 
 import CompanyLayout from "./CompanyLayout";
-import { useCookies } from "react-cookie";
 
 
 const AllSoloProjects = () => {
   const [projects, setProjects] = useState([]);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
-  const [cookies] = useCookies(["token"]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showAllProjects, setShowAllProjects] = useState(true);
   const [cookies, setCookie] = useCookies(["token", "companyID", "company"]);

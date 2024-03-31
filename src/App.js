@@ -26,7 +26,7 @@ import FreelancerProfile from './components/FreelancerProfile';
 import Tasks from './components/tasks/Tasks';
 import OngoingTeamProjects from './components/teams/OngoingTeamProjects.js';
 import ApplicantDetails from './components/ApplicantDetails'
-
+import ShowProfile from './components/ShowProfile';
 
 
 
@@ -47,7 +47,6 @@ const App = () => {
 
               {/*Company Routes*/}
               <Route path="/createProject" element={isAuthenticated() ? <CreateProject /> : <Navigate to="/" />} />
-              <Route path="/freelancerApplicants/:id" element={<FreelancerApplicants />} />
               <Route path="/allTeamProject" element={<AllTeamProjects />} />
               <Route path="/allSoloProject" element={<AllSoloProjects />} />
 
