@@ -32,6 +32,7 @@ const CompanyHome = () => {
           <div
             className="div-22"
             style={{ height: "200px", width: "200px" }}
+            onClick={()=>navigate('/allTeamProject')}
           >
             <TiGroupOutline size={45} color="#6319b8" />
 
@@ -43,7 +44,7 @@ const CompanyHome = () => {
           <div
             className="div-22 "
             style={{ height: "200px", width: "200px" }}
-            onClick={()=>navigate('/createProject')}
+            onClick={()=>navigate('/allSoloProject')}
             
           >
             <FaLaptopCode size={44} color="#6319b8" />

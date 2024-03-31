@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { IoSearchOutline } from "react-icons/io5";
 import "../css/allProject.css";
 import CompanyLayout from "./CompanyLayout";
+import { useCookies } from "react-cookie";
 
 const AllTeamProjects = () => {
   const [projects, setProjects] = useState([]);
@@ -10,6 +11,7 @@ const AllTeamProjects = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [showAllProjects, setShowAllProjects] = useState(true);
+  const [cookies, setCookie] = useCookies(["token", "companyID", "company"]);
   const searchRef = useRef(null);
 
   const handleChange = (event) => {
@@ -68,29 +70,41 @@ const AllTeamProjects = () => {
     // Fetch projects and update state
     const fetchProjects = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:3000/api/v1/project/getProjects",
-          {
-            method: "GET",
-            headers: new Headers({
-              Cookie:
-                "token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NTczNzMyZDYzNjUzNGUzNzgyNTBjMjUiLCJpYXQiOjE3MDIwNjQ5NjZ9.In6HZLkcWb75kuVErmvwQ41XiUXiPuMKaqnsFI14ymI",
-              "Content-Type": "application/json",
-            }),
-            redirect: "follow",
-          }
+        const myHeaders = new Headers();
+        myHeaders.append(
+          "Cookie",
+          `token=${cookies.token}`
         );
 
-        if (!response.ok) {
-          throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+        const raw = "";
 
-        const result = await response.json();
-        console.log("Fetched projects:", result); // Log the fetched projects
+        const requestOptions = {
+          method: "GET",
+          headers: myHeaders,
+          body: raw,
+          redirect: "follow",
+        };
 
-        setProjects(result.projects || []); // Use result.projects if it exists, otherwise use an empty array
+        fetch(
+          "http://localhost:3000/api/v1/Project/getmyTeamprojects",
+          requestOptions
+        )
+          .then((response) => response.json())
+          .then((result) => {
+            console.log(result)
+            if(result.success){
+              console.log("Fetched projects:", result); // Log the fetched projects
+
+        setProjects(result.data || []); // Use result.projects if it exists, otherwise use an empty array
         setLoading(false);
-      } catch (error) {
+            }
+          })
+
+          
+          .catch((error) => console.error(error));
+        
+      } 
+      catch (error) {
         console.error("Error fetching projects:", error);
         setLoading(false);
       }
@@ -101,6 +115,7 @@ const AllTeamProjects = () => {
     }
   }, [showAllProjects]); // Empty dependency array means this effect will run once when the component mounts
 
+  
   return (
     <>
       <CompanyLayout>
