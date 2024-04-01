@@ -209,7 +209,7 @@ useEffect(() => {
 
           
           {showprogress && ( // Render progress bar only when progress is not null
-          <ProgressBar variant="success" now={progress} label={`${progress}%`} />
+          <ProgressBar style={{ height: 15, borderRadius:"8px" }} variant="success" now={progress} label={`${progress}%`} />
           )}
           </div>
           

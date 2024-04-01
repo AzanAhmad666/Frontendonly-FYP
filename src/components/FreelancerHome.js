@@ -326,8 +326,8 @@ const FreelancerHome = () => {
             <h1 className="createProjecttext">My Team</h1>
             <div>
 
-              <Link to={"/OngoingTeamProjects"} className="applyAsTeamBtn " style={{border:"1px solid #2E085A", borderRadius:"8px", padding:"10px", marginRight:"10px", cursor:"pointer"}} >Ongoing Projects</Link>
-              <Link to={"/AvailableTeamProjects"} className="applyAsTeamBtn " style={{border:"1px solid #2E085A", borderRadius:"8px", padding:"10px", marginRight:"30px", cursor:"pointer"}} >Apply as Team</Link>
+              <Link to={"/OngoingTeamProjects"} className=" " style={{border:"1px solid #2E085A", borderRadius:"8px", padding:"10px", marginRight:"10px", cursor:"pointer", color:"white", backgroundColor:"#2E085A"}} >Ongoing Projects</Link>
+              <Link to={"/AvailableTeamProjects"} className=" " style={{border:"1px solid #2E085A", borderRadius:"8px", padding:"10px", marginRight:"30px", cursor:"pointer", color:"white", backgroundColor:"#2E085A"}} >Apply as Team</Link>
             </div>
 
 

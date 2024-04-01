@@ -92,7 +92,7 @@ const OngoingTeamProjects = () => {
                       <Link
                         to={`/myProjects/projectDetails/${project._id}`}
                         className="mt-auto p-2 detailButton22"
-                        style={{marginRight:5}}
+                        style={{marginRight:5, color:"white"}}
                         onClick={() =>
                           navigate(`/myProjects/projectDetails/${project._id}`)
                         }
@@ -104,7 +104,7 @@ const OngoingTeamProjects = () => {
                       <Link
                         to={`/tasks/${project._id}`}
                         className="mt-auto p-2 detailButton22"
-                        
+                        style={{marginRight:5, color:"white"}}
                       >
                         Assign Tasks
                       </Link>

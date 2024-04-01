@@ -44,7 +44,7 @@ const LoginFreelancer = () => {
                 console.log(result.freelancer._id)
                 //console.log("cookies token: ", cookies.token)
                 toast.success("Login Successfull")
-                navigate('/allProjects')
+                navigate('/FreelancerHome')
             }
             else{
                 toast.error(result.message)
