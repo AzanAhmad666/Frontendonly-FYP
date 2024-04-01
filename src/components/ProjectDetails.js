@@ -95,6 +95,13 @@ const ProjectDetails = () => {
     }
   
   };
+  const formatDeadline = (deadline) => {
+    return new Date(deadline).toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    });
+  };
   return (
     <>
       <CompanyLayout>
@@ -207,7 +214,26 @@ const ProjectDetails = () => {
                             value={`${projectDetails.budget}`}
                             readOnly
                           />
-                        </div> </div>
+                          </div> 
+                        </div>
+                      </div>
+                      <div className="col-lg-6 col-md-12 col-sm-12">
+                        <div className="form-group">
+                          <p className="createProjecttext mt-3">
+                            <IoIosInformationCircle
+                              className="mx-2 mb-1"
+                              style={{ fontSize: "large", color: "#6319B8" }}
+                            />
+                            Deadline:
+                          </p>
+                          <div className="inputTitle  py-3   pr-5">
+                          <input
+                              className="px-2 bg-transparent border-0"
+                            value={formatDeadline(projectDetails.deadline)}
+                            readOnly
+                          />
+                          </div> 
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -129,7 +129,7 @@ const AllProjects = () => {
                 <div key={project._id} className="col-md-6 mb-4">
                   <div
                     className="card card-background"
-                    style={{ height: "275px" }}
+                    style={{ height: "320px" }}
                   >
                     <div className="card-header cardHeader">
                       <span className="projectText ">Project Type:</span>{" "}

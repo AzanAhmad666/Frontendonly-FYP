@@ -3,8 +3,10 @@ import { useState } from 'react';
 import { RiDeleteBin6Line } from "react-icons/ri";
 import { IoIosInformationCircle } from "react-icons/io";
 import '../css/createProject.css';
-import Sidebar from './Sidebar';
 import CompanyLayout from './CompanyLayout';
+import DatePicker from 'react-datepicker'; // Import react-datepicker
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -18,6 +20,8 @@ const CreateProject = () => {
   const [addedMembers, setAddedMembers] = useState([]);
   const [budget, setBudget] = useState();
   const [isTeamProject, setIsTeamProject] = useState(true);
+  const [deadline, setDeadline] = useState(null);
+  const navigate = useNavigate();
 
   
 
@@ -65,7 +69,8 @@ var raw = JSON.stringify({
   "budget": budget,
   "type": projectType,
   "requiresTeam":isTeamProject,
-  "requiredMembers":addedMembers
+  "requiredMembers":addedMembers,
+  "deadline":deadline
 });
 
 
@@ -79,8 +84,16 @@ var requestOptions = {
 };
 
 fetch("http://localhost:3000/api/v1/project/post", requestOptions)
-  .then(response => response.text())
-  .then(result => console.log(result))
+  .then(response => response.json())
+  .then(result => {
+    console.log(result)
+    if (result.success){
+      toast.success(result.message);
+      navigate("/CompanyHome");
+
+      
+    }
+  })
   .catch(error => console.log('error', error));
     } catch (error) {
       console.log(error)
@@ -96,6 +109,8 @@ fetch("http://localhost:3000/api/v1/project/post", requestOptions)
     description,
     membersRequired,
     isTeamProject,
+    budget,
+    deadline,
     addedMembers
  });
 
@@ -130,6 +145,14 @@ fetch("http://localhost:3000/api/v1/project/post", requestOptions)
             <input className="inputTitle11"
             value={budget}
             onChange={(e) => setBudget(e.target.value)}
+            />
+            <p className="createProjecttext11 mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Deadline:</p>
+            <DatePicker
+              className='inputTitle11 w-100'
+              
+              selected={deadline}
+              onChange={(date) => setDeadline(date)}
+              dateFormat="yyyy-MM-dd"
             />
 
     <p className="createProjecttext11 mt-3"><IoIosInformationCircle className='mx-2 mb-1' style={{fontSize: 'large', color:'#6319B8'}}/>Team Project:</p>
