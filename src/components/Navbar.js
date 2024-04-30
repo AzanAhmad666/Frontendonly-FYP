@@ -123,7 +123,7 @@ const Navbar = () =>{
 
                 <Link to='/allProjects' style={{fontSize:18, paddingTop:3, textDecoration:'none', color:'white'}}>All Projects</Link>
             </div>
-            <div 
+            {/* <div 
             className={`tabs ${activeTab === 'Analytics' ? 'active' : ''}`} onClick={() => handleTabClick('Analytics')}
 
             >
@@ -133,7 +133,7 @@ const Navbar = () =>{
             <path d="M6.85812 8.53699H1.07158C0.47977 8.53699 0 9.01676 0 9.60857V23.9142C0 24.506 0.47977 24.9858 1.07158 24.9858H6.85812C7.44993 24.9858 7.9297 24.506 7.9297 23.9142V9.60857C7.9297 9.01676 7.44993 8.53699 6.85812 8.53699Z" fill="white"/>
             </svg>
             <Link to='/Analytics' style={{fontSize:18, paddingTop:3, textDecoration:'none', color:'white'}}>Analytics</Link>
-            </div>
+            </div> */}
 
             <div 
             className={`tabs ${activeTab === 'Settings' ? 'active' : ''}`} onClick={() => handleTabClick('Settings')}
