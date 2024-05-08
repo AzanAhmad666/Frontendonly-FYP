@@ -11,7 +11,7 @@ function Community() {
   const [cookies] = useCookies(["freelancer", "company"]);
   const [user, setuser] = useState();
   const [posts, setPosts] = useState([]);
-  const [seeComments, setSeeComments] = useState(false);
+  const [seeComments, setSeeComments] = useState(new Set());
   const [postContent, setPostContent] = useState("");
   const [postMedia, setPostMedia] = useState([]);
   const [selectedMedia, setSelectedMedia] = useState([]);
@@ -52,8 +52,9 @@ function Community() {
       );
       const data = await response.json();
       if (data.success) {
-        setPosts(data.posts);
-        console.log(data.posts);
+        const reversedPosts=data.posts.reverse();
+        setPosts(reversedPosts);
+        console.log(reversedPosts);
       } else {
         console.error("Failed to fetch posts:", data.message);
       }
@@ -130,6 +131,17 @@ function Community() {
     e.target.value = '';
   };
   
+  const toggleCommentsVisibility = (postId) => {
+    setSeeComments((currentComments) => {
+      const newComments = new Set(currentComments);
+      if (newComments.has(postId)) {
+        newComments.delete(postId);
+      } else {
+        newComments.add(postId);
+      }
+      return newComments;
+    });
+  };
 
   return (
     <>
@@ -138,6 +150,7 @@ function Community() {
           className="px-5 "
           style={{ backgroundColor: "#E8E9EB", minHeight: "100vh" }}
         >
+          <div className="text-center  py-4 fw-bold" style={{fontSize:"35px", color:'#6319b8'}} >Community Form</div>
           <div className="container-fluid py-3 ">
             <div className="row shadow-sm ">
               <div className="col-md-12 border rounded bg-white p-3">
@@ -216,7 +229,7 @@ function Community() {
         key={index}
         src={media.url}
         alt={`Selected ${index}`}
-        style={{ width: "150px", height: "auto" }}  // Smaller width and auto height to maintain aspect ratio
+        style={{ width: "150px", height: "auto",borderRadius:'0px' }}  // Smaller width and auto height to maintain aspect ratio
       />
     ) : (
       <video
@@ -251,6 +264,7 @@ function Community() {
                     className="rounded-circle me-2"
                     width="48"
                     height="48"
+                    style={{borderRadius:'0px'}}
                   />
                   <div>
                     <span className="fw-bold">
@@ -264,6 +278,7 @@ function Community() {
                     <div
                       key={index}
                       style={{
+                        borderRadius:'0',
                         width: "30%",
                         marginBottom: "10px",
                         marginRight: "10px",
@@ -273,6 +288,7 @@ function Community() {
                         src={image}
                         alt={`Post image ${index + 1}`}
                         className="img-fluid"
+                        style={{borderRadius:'0px'}}
                       />
                     </div>
                   ))}
@@ -290,22 +306,20 @@ function Community() {
                     {post.likes.length} Likes:
                     <span
                       style={{ marginLeft: "8px" }}
-                      onClick={() =>
-                        setSeeComments((seeComments) => !seeComments)
-                      }
+                      onClick={() => toggleCommentsVisibility(post._id)}
                     >
+                      
                       <MdOutlineComment
                         className="mx-1"
                         style={{ fontSize: "20px", cursor: "pointer" }}
                       />
                       {post.comments.length} Comments:
+                      
                     </span>
                   </div>
                 </div>
                 {/* Render comments */}
-                <div
-                  className={`mt-2 px-3 ${seeComments ? "d-block" : "d-none"}`}
-                >
+                <div className={`mt-2 px-3 ${seeComments.has(post._id) ? "d-block" : "d-none"}`}>
                   <div className="mb-3">
                     <div className="mt-3 ">
                       <div className="flex justify-content-between">
@@ -316,6 +330,7 @@ function Community() {
                             className="rounded-circle me-2"
                             width="48"
                             height="48"
+                            style={{borderRadius:'0px'}}
                           />
                           <input
                             className="p-2  shadow-none form-control rounded-4 "
@@ -344,6 +359,7 @@ function Community() {
                                   className="rounded-circle me-2"
                                   width="32"
                                   height="32"
+                                  style={{borderRadius:'0px'}}
                                 />
                                 <div>
                                   <p className="fw-bold mb-0">
