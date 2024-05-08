@@ -52,6 +52,7 @@ const TaskCard = ({ task }) => {
   const [fileName, setFileName] = useState('');
   const [fileURL, setfileURL] = useState(null);
   const [taskID, settaskID] = useState()
+  const assignees=task.assignee
 
   const options = [
     {
@@ -261,16 +262,21 @@ fetch("http://localhost:3000/api/v1/Freelancer/updateTask", requestOptions)
           <Typography variant="body2">{task.status}</Typography>
           )}
         </div>
-        <div className={classes.assignee}>
-        {task?.assignee?.pfp ? (
-            <img src={task.assignee.pfp} alt="Profile" className={classes.pfp} />
-        ):(
-                    
-            <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvzCHk4vxVX-5J0QrW4fmsT4AjslKpeLnx3A&usqp=CAU' className={classes.pfp}/>
+        {assignees.length === 1 ? (
+          // Display single assignee details
+          <div className={classes.assignee}>
+            <img src={assignees[0].pfp || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvzCHk4vxVX-5J0QrW4fmsT4AjslKpeLnx3A&usqp=CAU'} alt="Profile" className={classes.pfp} />
+            <Typography variant="subtitle1">{assignees[0].firstname}</Typography>
+          </div>
+        ) : (
+          // Display multiple assignee details
+          assignees.map((assignee) => (
+            <div key={assignee._id} className={classes.assignee}>
+              <img src={assignee.pfp || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvzCHk4vxVX-5J0QrW4fmsT4AjslKpeLnx3A&usqp=CAU'} alt="Profile" className={classes.pfp} />
+              <Typography variant="subtitle1">{assignee.firstname}</Typography>
+            </div>
+          ))
         )}
-          
-          <Typography variant="subtitle1">{task.assignee.firstname}</Typography>
-        </div>
         <Typography className='mb-2' variant="body2">Deadline: {formatDeadline(task.deadline)}</Typography>
         {task.submittedWork && (
               <div className='mb-3' >
@@ -285,7 +291,7 @@ fetch("http://localhost:3000/api/v1/Freelancer/updateTask", requestOptions)
             )}
             {/*Only logged in freelancer can submit*/}
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
-        {cookies.freelancerID === task.assignee._id &&  (
+        {task.assignee.some(assignee => assignee._id === cookies.freelancerID) && (
             <div>
             <input
               type="file"

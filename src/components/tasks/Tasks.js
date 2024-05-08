@@ -13,7 +13,7 @@ import { useParams } from "react-router-dom";
 
 import { GrAdd } from "react-icons/gr";
 
-import { Typography, Button,Input, Modal, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
+import { Chip, Typography, Button,Input, Modal, Select, MenuItem, FormControl, InputLabel } from '@material-ui/core';
 import DatePicker from 'react-datepicker'; // Import react-datepicker
 
 import 'react-datepicker/dist/react-datepicker.css'; // Import datepicker styles
@@ -26,13 +26,14 @@ export default function Tasks() {
 
   const [open, setOpen] = useState(false);
   const [refresh, setrefresh] = useState(true);
-  const [selectedMemberId, setSelectedMemberId] = useState('');
+  const [selectedMemberId, setSelectedMemberId] = useState([]);
   const [description, setDescription] = useState('');
   const [deadline, setDeadline] = useState(null);
   const [members, setmembers] = useState([])
   const [progress, setprogress] = useState();
   const [showprogress, setshowprogress] = useState(false)
   const [completedTasks, setcompletedTasks] = useState([]);
+  const [selectOpen, setSelectOpen] = useState(false);
 useEffect(() => {
   
 
@@ -128,7 +129,7 @@ useEffect(() => {
           toast.success(result.message)
           setrefresh(!refresh)
           // Reset form fields
-        setSelectedMemberId('')
+        setSelectedMemberId([])
         setDescription('');
         setDeadline(null);
     
@@ -221,16 +222,32 @@ useEffect(() => {
         <div style={{display:'flex',width:'400px',borderRadius:'8px', flexDirection:'column', position: 'absolute', top: '50%', left: '60%', transform: 'translate(-50%, -50%)', backgroundColor: '#fff', padding: 20 }}>
           <Typography variant="h6"className='mb-5'>Create Task</Typography>
           <FormControl className='mb-3' style={{ marginBottom: 10 }}>
-              <InputLabel>Select Member</InputLabel>
-              <Select
-                value={selectedMemberId}
-                onChange={(e) => setSelectedMemberId(e.target.value)}
-              >
-                {members.map(member => (
-                  <MenuItem key={member._id} value={member._id}>{member.firstname}</MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+  <InputLabel>Select Members</InputLabel>
+  <Select
+    multiple
+    value={selectedMemberId}
+    onChange={(e) => {
+      setSelectedMemberId(e.target.value);
+      setSelectOpen(false); // Close the dropdown after selection
+    }}
+    open={selectOpen} // Controlled open state
+    onOpen={() => setSelectOpen(true)} // Handle dropdown open
+    onClose={() => setSelectOpen(false)} // Handle dropdown close
+    renderValue={(selected) => (
+      <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+        {selected.map(value => (
+          <Chip key={value} label={members.find(member => member._id === value).firstname} style={{ margin: 2 }} />
+        ))}
+      </div>
+    )}
+  >
+    {members.map(member => (
+      <MenuItem key={member._id} value={member._id}>
+        {member.firstname}
+      </MenuItem>
+    ))}
+  </Select>
+</FormControl>
           <Input className='mb-3' placeholder="Description" value={description} onChange={(e) => setDescription(e.target.value)} style={{ marginBottom: 10 }} />
           <DatePicker
               className='mb-5 w-100'

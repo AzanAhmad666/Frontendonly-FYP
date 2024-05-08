@@ -8,7 +8,8 @@ import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import 'mdb-react-ui-kit/dist/css/mdb.min.css';
 import "@fortawesome/fontawesome-free/css/all.min.css";
 
-
+import { loadStripe } from "@stripe/stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useCookies } from "react-cookie";
@@ -31,11 +32,15 @@ import CompanyHome from './components/CompanyHome';
 import FreelancerProfile from './components/FreelancerProfile';
 import Tasks from './components/tasks/Tasks';
 import OngoingTeamProjects from './components/teams/OngoingTeamProjects.js';
+import Community from './components/Community.js';
+
 
 import ShowProfile from './components/ShowProfile';
 import FreelancerApplicants from './components/company/freelancerApplicants.js';
 import CheckProgress from './components/company/CheckProgress.js';
+import CheckoutForm from "./components/CheckoutForm";
 
+const stripePromise = loadStripe("pk_test_51PDRNiBCBOy9JMQBpk5M173id0aNyl6bjn261inucKNWjzzXzAA3UtcbB9MOlFfRzV8zNkyYq5wjdW1dmyNUufj100CKIoZGMs");
 
 
 
@@ -50,6 +55,7 @@ const App = () => {
   return (
     <div className="App">
       <ToastContainer/>
+      <Elements stripe={stripePromise}>
       <Routes>
               <Route path="/" element={<UserTypeSelection />} />
 
@@ -90,7 +96,11 @@ const App = () => {
               <Route path="/allTeamProject/applicants/:id" element={<FreelancerApplicants />} />
               <Route path="/allSoloProject/Profile" element={<ShowProfile />} />
               <Route path="/tasks/:id" element={<Tasks />} />
+              <Route path="/checkout" element={<CheckoutForm />} />
+              <Route path="/community" element={<Community />} />
+
             </Routes>
+            </Elements>
     </div>
   );
 }

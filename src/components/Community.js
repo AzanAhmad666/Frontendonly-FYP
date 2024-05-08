@@ -1,0 +1,373 @@
+import { CiImageOn } from "react-icons/ci";
+import { AiOutlineLike } from "react-icons/ai";
+import { MdOutlineComment } from "react-icons/md";
+import { FaRegShareFromSquare } from "react-icons/fa6";
+import { CiVideoOn } from "react-icons/ci";
+import { useCookies } from "react-cookie";
+
+import { useEffect, useState } from "react";
+import CompanyLayout from "./CompanyLayout";
+function Community() {
+  const [cookies] = useCookies(["freelancer", "company"]);
+  const [user, setuser] = useState();
+  const [posts, setPosts] = useState([]);
+  const [seeComments, setSeeComments] = useState(false);
+  const [postContent, setPostContent] = useState("");
+  const [postMedia, setPostMedia] = useState([]);
+  const [selectedMedia, setSelectedMedia] = useState([]);
+
+  useEffect(() => {
+    if (cookies.company || cookies.freelancer) {
+      const apiUrl = cookies.freelancer
+        ? "http://localhost:3000/api/v1/Freelancer/details"
+        : "http://localhost:3000/api/v1/Company/details";
+      var requestOptions = {
+        method: "GET",
+        credentials: "include",
+        redirect: "follow",
+      };
+
+      fetch(apiUrl, requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.success) {
+            if (result.freelancer) {
+              setuser(result.freelancer);
+            } else {
+              setuser(result.company);
+            }
+          }
+          console.log(result);
+        })
+        .catch((error) => console.log("error", error));
+    }
+
+    fetchPosts();
+  }, [cookies.company, cookies.freelancer]);
+
+  const fetchPosts = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/v1/community/getPosts"
+      );
+      const data = await response.json();
+      if (data.success) {
+        setPosts(data.posts);
+        console.log(data.posts);
+      } else {
+        console.error("Failed to fetch posts:", data.message);
+      }
+    } catch (error) {
+      console.error("Error fetching posts:", error);
+    }
+  };
+
+  const handlePostCreation = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3000/api/v1/community/createPost",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            content: postContent,
+            media: postMedia,
+          }),
+          credentials: "include",
+        }
+      );
+      const data = await response.json();
+      if (data.success) {
+        // Refresh posts after successful post creation
+        fetchPosts();
+        // Clear post content and media
+        setPostContent("");
+        setPostMedia([]);
+        setSelectedMedia([]);
+      } else {
+        console.error("Failed to create post:", data.message);
+      }
+    } catch (error) {
+      console.error("Error creating post:", error);
+    }
+  };
+
+  const handleFileChange = async (e) => {
+    const files = e.target.files;
+    if (!files.length) return;
+  
+    // Sequentially upload files
+    for (const file of files) {
+      const formData = new FormData();
+      formData.append('filename', file);
+  
+      // Make an API call to upload each file
+      try {
+        const response = await fetch('http://localhost:3000/api/v1/uploadFile', {
+          method: 'POST',
+          body: formData,
+          credentials: 'include', // if your API requires credentials
+        });
+  
+        const result = await response.json();
+        if (result.success) {
+          console.log("File uploaded:", result.url);
+          // Update the postMedia state with the new image URL
+          setPostMedia(oldMedia => [...oldMedia, result.url]);
+          setSelectedMedia(oldMedia => [
+            ...oldMedia, 
+            { url: result.url, type: file.type.startsWith('image') ? 'image' : 'video' }
+          ]);
+        } else {
+          console.error("Failed to upload file:", result.message);
+        }
+      } catch (error) {
+        console.error("Error uploading file:", error);
+      }
+    }
+    e.target.value = '';
+  };
+  
+
+  return (
+    <>
+      <CompanyLayout>
+        <div
+          className="px-5 "
+          style={{ backgroundColor: "#E8E9EB", minHeight: "100vh" }}
+        >
+          <div className="container-fluid py-3 ">
+            <div className="row shadow-sm ">
+              <div className="col-md-12 border rounded bg-white p-3">
+                <div className="d-flex align-items-center  mb-2 mb-3">
+                  <img
+                    src={user?.pfp}
+                    alt="Profile picture"
+                    className="rounded-circle me-2"
+                    width="48"
+                    height="48"
+                  />
+                  <input
+                    className="px-2 py-3  shadow-none form-control rounded "
+                    type="text"
+                    placeholder="Write a post..."
+                    style={{ border: "1px solid grey" }}
+                    value={postContent}
+                    onChange={(e) => setPostContent(e.target.value)}
+                  />
+                </div>
+                <div
+                  className=" "
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    cursor: "pointer",
+                  }}
+                  onClick={() => document.getElementById("media-input").click()}
+                >
+                  <div>
+                    <p
+                      type="button"
+                      className="border-0 btn-transparent me-2 fw-semibold"
+                    >
+                      <CiImageOn
+                        className="mx-1"
+                        style={{ fontSize: "20px" }}
+                      />
+                      Photo
+                    </p>
+                  </div>
+                  <div>
+                    <p
+                      type="button"
+                      className="border-0 btn-transparent me-2 flex gap-1 fw-semibold"
+                    >
+                      <CiVideoOn
+                        className="mx-1"
+                        style={{ fontSize: "20px" }}
+                      />
+                      Video
+                    </p>
+                  </div>
+                  <input
+  id="media-input"
+  type='file'
+  style={{ display: "none" }}
+  accept="image/*,video/*"
+  multiple
+  onChange={handleFileChange}
+/>
+                </div>
+                <div
+  style={{
+    display: "flex",
+    flexDirection: "row",  // Change direction to row to align items side by side
+    flexWrap: "wrap",      // Allows items to wrap to the next line if the space is filled
+    alignItems: "center",
+    justifyContent: "center",  // Centers the items on the line
+    gap: "10px",  // Adds space between the items
+  }}
+>
+  {selectedMedia.map((media, index) => {
+    return media.type === "image" ? (
+      <img
+        key={index}
+        src={media.url}
+        alt={`Selected ${index}`}
+        style={{ width: "150px", height: "auto" }}  // Smaller width and auto height to maintain aspect ratio
+      />
+    ) : (
+      <video
+        key={index}
+        controls
+        src={media.url}
+        style={{ width: "150px", height: "auto" }}  // Same styling for videos
+      />
+    );
+  })}
+</div>
+                <div className="" style={{ marginLeft: "90%" }}>
+                  <button
+                    type="button"
+                    className="btna text-white rounded py-2 px-4 "
+                    onClick={handlePostCreation}
+                  >
+                    Post
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          {posts.map((post) => (
+            <div key={post._id} className="card mb-3">
+              <div className="card-body">
+                <div className="d-flex align-items-center mb-2">
+                  <img
+                    src={post.author?.pfp}
+                    alt="Profile picture"
+                    className="rounded-circle me-2"
+                    width="48"
+                    height="48"
+                  />
+                  <div>
+                    <span className="fw-bold">
+                      {post.author?.username || post.author?.companyname}
+                    </span>
+                  </div>
+                </div>
+                <p className="card-text">{post.content}</p>
+                <div style={{ display: "flex", justifyContent: "center" }}>
+                  {post.media.map((image, index) => (
+                    <div
+                      key={index}
+                      style={{
+                        width: "30%",
+                        marginBottom: "10px",
+                        marginRight: "10px",
+                      }}
+                    >
+                      <img
+                        src={image}
+                        alt={`Post image ${index + 1}`}
+                        className="img-fluid"
+                      />
+                    </div>
+                  ))}
+                </div>
+                <div className="d-flex justify-content-between align-items-center">
+                  <div className="text-muted" style={{ cursor: "pointer" }}>
+                    <AiOutlineLike
+                      className="mx-1"
+                      style={{
+                        fontSize: "21px",
+                        marginTop: "-3px",
+                        cursor: "pointer",
+                      }}
+                    />
+                    {post.likes.length} Likes:
+                    <span
+                      style={{ marginLeft: "8px" }}
+                      onClick={() =>
+                        setSeeComments((seeComments) => !seeComments)
+                      }
+                    >
+                      <MdOutlineComment
+                        className="mx-1"
+                        style={{ fontSize: "20px", cursor: "pointer" }}
+                      />
+                      {post.comments.length} Comments:
+                    </span>
+                  </div>
+                </div>
+                {/* Render comments */}
+                <div
+                  className={`mt-2 px-3 ${seeComments ? "d-block" : "d-none"}`}
+                >
+                  <div className="mb-3">
+                    <div className="mt-3 ">
+                      <div className="flex justify-content-between">
+                        <div className="d-flex align-items-center  mb-2 mb-3">
+                          <img
+                            src={user?.pfp}
+                            alt="Profile picture"
+                            className="rounded-circle me-2"
+                            width="48"
+                            height="48"
+                          />
+                          <input
+                            className="p-2  shadow-none form-control rounded-4 "
+                            type="text"
+                            placeholder="Write a comment..."
+                          />
+                        </div>
+                        <div className="d-flex align-items-center mb-2">
+                          <div className="mt-2">
+                            <div className="mb-2">
+                              <span
+                                className="fw-bold"
+                                style={{ fontSize: "20px" }}
+                              >
+                                Comments:
+                              </span>
+                            </div>
+                            {post.comments.map((comment) => (
+                              <div
+                                key={comment._id}
+                                className="mb-2 d-flex align-items-center"
+                              >
+                                <img
+                                  src={comment.commenter?.pfp}
+                                  alt="Profile picture"
+                                  className="rounded-circle me-2"
+                                  width="32"
+                                  height="32"
+                                />
+                                <div>
+                                  <p className="fw-bold mb-0">
+                                    {comment.commenter?.username ||
+                                      comment.commenter?.companyname}
+                                  </p>
+                                  <p className="text-muted mb-0">
+                                    {comment.content}
+                                  </p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </CompanyLayout>
+    </>
+  );
+}
+export default Community;

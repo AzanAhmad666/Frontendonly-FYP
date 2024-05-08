@@ -1,0 +1,179 @@
+  /* background: #ECECEC;
+    font-family: sans-serif, open-sans, arial;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0; */
+
+.stripebody {
+    background: #ECECEC;
+    font-family: sans-serif, open-sans, arial;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+#stripeContainer {
+    background: transparent;
+    border-radius: 10px;
+    width: 600px;
+    height: 500px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, .2);
+    display: flex;
+    flex-direction: row;
+    margin: 4% 0% 5% 30%;
+}
+
+#info {
+    width: 50%;
+    height: 100%;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px 0px 0px 0px;
+    display: flex;
+    flex-direction: column;
+}
+
+#info label {
+    color: #8A8A8C;
+    font-size: 13px;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+
+#info label + input,
+#info label + select {
+    width: 100%;
+    height: 50px;
+    outline: none;
+    border: 1px solid rgba(0, 0, 0, .1);
+    margin-bottom: 30px;
+    padding: 10px 20px;
+    font-size: 17px;
+    font-weight: 300;
+}
+
+#info input[name='cardDate'] {
+    width: 180px;
+    display: inline-block;
+    text-align: center;
+}
+
+#info input[name='cvv'] {
+    width: 70px;
+    display: inline-block;
+    text-align: center;
+    /* padding: 10px;
+    margin-left: 10px; */
+}
+
+#info label[for='cardDate'] {
+    display: inline-block;
+    width: 130px;
+}
+
+#info label[for='cvv'] {
+    display: inline-block;
+    width: 60px;
+    margin-left: 10px;
+    margin-top: -24px;
+}
+
+
+.payment{
+    padding: 15px 10px 10px 10px !important;
+    text-align: center;
+   
+}
+#info #makePayment {
+    width: 100%;
+   
+    background: #363636;
+    border: none;
+    text-transform: uppercase;
+    font-size: 15px;
+    color: #FFF;
+    font-weight: 300;
+    cursor: pointer;
+    border-radius: 0px 0px 0px 0px;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, .2);
+    transition: 0.2s;
+}
+
+
+#info #makePayment:hover {
+    transform: translateY(-5px);
+}
+
+#description {
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(to bottom, #6319B8, #1c1227);
+    text-align: center;
+    border-radius: 0px 10px 10px 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.btna{
+     background: linear-gradient(to bottom, #6319B8, #1c1227);
+}
+#description img {
+    max-width: 80%;
+    margin: auto;
+    margin-top: 40px;
+    transition: 0.5s ease;
+}
+
+#description img:hover {
+    transform: scale(2);
+}
+
+#description #editOrder {
+    width: 60%;
+    margin: auto;
+    background: none;
+    border: 1px solid #FFF;
+    color: #FFF;
+    font-size: 14px;
+    font-weight: 300;
+    height: 45px;
+    margin-top: 20px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+#description #editOrder:hover {
+    transform: scale(1.15);
+}
+
+#description h1,
+#description h2,
+#description h3 {
+    margin: 0;
+    color: #FFF;
+}
+
+#description h1 {
+    font-size: 40px;
+    font-weight: 500;
+}
+
+#description h2 {
+    margin-top: 20px;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: uppercase;
+    margin-top: 60px;
+}
+
+#description h3 {
+    margin-top: 5px;
+    color: #FFF;
+    font-size: 13px;
+    font-weight: 300;
+    text-transform: uppercase;
+}
