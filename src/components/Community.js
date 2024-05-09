@@ -25,24 +25,28 @@ function Community() {
         const apiUrl = cookies.freelancer
           ? "http://localhost:3000/api/v1/Freelancer/details"
           : "http://localhost:3000/api/v1/Company/details";
-    
+
         try {
           // Fetch user details
-          const userResponse = await fetch(apiUrl, { method: "GET", credentials: "include", redirect: "follow" });
+          const userResponse = await fetch(apiUrl, {
+            method: "GET",
+            credentials: "include",
+            redirect: "follow",
+          });
           const userResult = await userResponse.json();
           if (userResult.success) {
             const currentUser = userResult.freelancer || userResult.company;
             //console.log(currentUser)
             setuser(currentUser);
-            fetchPosts(currentUser)
-    
+            fetchPosts(currentUser);
+
             // Fetch posts after user is set
             // const postResponse = await fetch("http://localhost:3000/api/v1/community/getPosts");
             // const postData = await postResponse.json();
             // if (postData.success) {
             //   const reversedPosts = postData.posts.reverse();
             //   setPosts(reversedPosts);
-    
+
             //   // Initialize likes state based on current user's likes
             //   const newLikes = {};
             //   reversedPosts.forEach(post => {
@@ -56,34 +60,31 @@ function Community() {
         }
       }
     };
-    
-    
+
     fetchUserAndPosts();
   }, [cookies.company, cookies.freelancer]);
-  
+
   const fetchPosts = async (currentUser) => {
     try {
-      const response = await fetch("http://localhost:3000/api/v1/community/getPosts");
+      const response = await fetch(
+        "http://localhost:3000/api/v1/community/getPosts"
+      );
       const data = await response.json();
       if (data.success) {
         const reversedPosts = data.posts.reverse();
-        console.log("Hello")
-       // console.log(reversedPosts)
+        console.log("Hello");
+        // console.log(reversedPosts)
         setPosts(reversedPosts);
-  
-        const newLikes = {};
-        reversedPosts.forEach(post => {
-          console.log("post")
-          console.log(post)
-          newLikes[post._id] = post.likes.some(like =>
-            {
-              
-              return String(like.user._id) === String(currentUser._id)
 
-            } 
-            );
+        const newLikes = {};
+        reversedPosts.forEach((post) => {
+          console.log("post");
+          console.log(post);
+          newLikes[post._id] = post.likes.some((like) => {
+            return String(like.user._id) === String(currentUser._id);
+          });
         });
-        console.log(newLikes)
+        console.log(newLikes);
         setLikes(newLikes);
       } else {
         console.error("Failed to fetch posts:", data.message);
@@ -92,8 +93,6 @@ function Community() {
       console.error("Error fetching posts:", error);
     }
   };
-  
-
 
   const handlePostCreation = async () => {
     try {
@@ -270,49 +269,58 @@ function Community() {
   const likePost = async (postId) => {
     const url = `http://localhost:3000/api/v1/community/${postId}/likePost`;
     const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include"
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
     };
 
     try {
-        const response = await fetch(url, requestOptions);
-        const data = await response.json();
-        if (data.success) {
-            // Update local state to reflect the new like
-            setLikes({ ...likes, [postId]: true });
-            fetchPosts(user); // Optionally refresh posts or update locally
-        } else {
-            console.error(data.message);
-        }
+      const response = await fetch(url, requestOptions);
+      const data = await response.json();
+      if (data.success) {
+        // Update local state to reflect the new like
+        setLikes({ ...likes, [postId]: true });
+        fetchPosts(user); // Optionally refresh posts or update locally
+      } else {
+        console.error(data.message);
+      }
     } catch (error) {
-        console.error('Error liking post:', error);
+      console.error("Error liking post:", error);
     }
-};
+  };
 
-const unlikePost = async (postId) => {
+  const unlikePost = async (postId) => {
     const url = `http://localhost:3000/api/v1/community/${postId}/unlikePost`;
     const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: "include"
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
     };
 
     try {
-        const response = await fetch(url, requestOptions);
-        const data = await response.json();
-        if (data.success) {
-            // Update local state to reflect the unlike
-            setLikes({ ...likes, [postId]: false });
-            fetchPosts(user); // Optionally refresh posts or update locally
-        } else {
-            console.error(data.message);
-        }
+      const response = await fetch(url, requestOptions);
+      const data = await response.json();
+      if (data.success) {
+        // Update local state to reflect the unlike
+        setLikes({ ...likes, [postId]: false });
+        fetchPosts(user); // Optionally refresh posts or update locally
+      } else {
+        console.error(data.message);
+      }
     } catch (error) {
-        console.error('Error unliking post:', error);
+      console.error("Error unliking post:", error);
     }
-};
-
+  };
+  useEffect(() => {
+    if (window.bootstrap) {
+      posts.forEach((post) => {
+        var myCarousel = document.querySelector(`#carouselControls-${post._id}`);
+        if (myCarousel) {
+          new window.bootstrap.Carousel(myCarousel);
+        }
+      });
+    }
+  }, [posts]);
 
   return (
     <>
@@ -463,48 +471,121 @@ const unlikePost = async (postId) => {
                   </div>
                 </div>
                 <p className="card-text">{post.content}</p>
-                <div style={{ display: "flex", justifyContent: "center" }}>
-                  {post.media.map((image, index) => (
-                    <div
-                      key={index}
-                      style={{
-                        borderRadius: "0",
-                        width: "30%",
-                        marginBottom: "10px",
-                        marginRight: "10px",
-                      }}
-                    >
-                      <img
-                        src={image}
-                        alt={`Post image ${index + 1}`}
-                        className="img-fluid"
-                        style={{ borderRadius: "0px" }}
-                      />
-                    </div>
-                  ))}
-                </div>
-                <div className="d-flex justify-content-between align-items-center">
-                  <div className="text-muted" style={{ display: 'flex', alignItems: 'center', cursor: "pointer" }}>
-                    <div
-                    className="like-container"
-                    onClick={() => likes[post._id] ? unlikePost(post._id) : likePost(post._id)}
+          {post.media && post.media.length > 0 && (
+                <div
+                  id={`carouselControls-${post._id}`}
+                  className="carousel slide "
+                  data-bs-ride="carousel"
+                 
+                >
+                  <div className="carousel-inner"
+                 
+                  >
+                    {post.media.map((image, index) => (
+                      <div
+                        key={index}
+                        className={`carousel-item  ${
+                          index === 0 ? "active" : " "
+                        
+                        }`}
+                        style={{
+                         
+                          borderRadius: "0",
+                          marginBottom: "10px",
+                          marginRight: "10px",
+                          maxHeight:'420px',
+                          maxWidth:'420px',
+                          marginLeft:'25%',
+                        
+                        
+
+                        }}
+                      >
+                        <img
+                          src={image}
+                          alt={`Post image ${index + 1}`}
+                          className=" w-100"
+                          style={{ borderRadius: "0px", display:'inline',
+                        widh:'100%',
+                      height:'100%'}}
+                        />
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    className="carousel-control-prev"
+                    type="button"
+                    data-bs-target={`#carouselControls-${post._id}`}
+                    data-bs-slide="prev"
                     style={{
-                      cursor: "pointer",
-                      fontWeight: likes[post._id] ? "bold" : "normal",
-                      display: 'flex',
-        alignItems: 'center'
+                      backgroundColor:'#BDC4CB',
+                      width:'fit-content',
+                      height:'fit-content',
+                      borderRadius:'50%',
+                      padding:'3px 8px 11px 8px',
+                      marginTop:'7%'
+                    }}
+                >
+                    <span
+                      className="carousel-control-prev-icon"
+                      aria-hidden="true"
+                    />
+                    <span className="visually-hidden">Previous</span>
+                  </button>
+                  <button
+                    className="carousel-control-next"
+                    type="button"
+                    data-bs-target={`#carouselControls-${post._id}`}
+                    data-bs-slide="next"
+                    style={{
+                      backgroundColor:'#BDC4CB',
+                      width:'fit-content',
+                      height:'fit-content',
+                      borderRadius:'50%',
+                      padding:'3px 8px 11px 8px',
+                      marginTop:'7%'
                     }}
                   >
-                    
-                    <AiOutlineLike
-                      className="mx-1"
-                      style={{
-                        fontSize: "21px",
-                        marginTop: "-3px",
-                        
-                      }}
+                    <span
+                      className="carousel-control-next-icon"
+                      aria-hidden="true"
                     />
-                    {post.likes.length} {post.likes.length < 2 ? "Like" : "Likes"}
+                    <span className="visually-hidden">Next</span>
+                  </button>
+                </div>
+)}
+                <div className="d-flex justify-content-between align-items-center">
+                  <div
+                    className="text-muted"
+                    style={{
+                      display: "flex",
+                      alignItems: "center",
+                      cursor: "pointer",
+                    }}
+                  >
+                    <div
+                      className="like-container"
+                      onClick={() =>
+                        likes[post._id]
+                          ? unlikePost(post._id)
+                          : likePost(post._id)
+                      }
+                      style={{
+                        cursor: "pointer",
+                        fontWeight: likes[post._id] ? "bold" : "normal",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                    >
+                      <AiOutlineLike
+                        className="mx-1"
+                        style={{
+                          fontSize: "21px",
+                          marginTop: "-3px",
+                        }}
+                      />
+                      {post.likes.length}{" "}
+                      {post.likes.length < 2 ? "Like" : "Likes"}
                     </div>
                     <span
                       style={{ marginLeft: "8px" }}

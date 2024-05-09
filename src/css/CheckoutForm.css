@@ -36,6 +36,25 @@
     flex-direction: column;
 }
 
+.carousel-item {
+    transition: transform 0.5s ease;
+    position: absolute;
+    width: 100%;
+    backface-visibility: hidden;
+  }
+  
+  .carousel-item.active {
+    position: relative;
+    z-index: 2;
+  }
+  
+  .carousel-inner {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+  }
+
+
 #info label {
     color: #8A8A8C;
     font-size: 13px;
