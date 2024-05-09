@@ -17,6 +17,7 @@ function Community() {
   const [postMedia, setPostMedia] = useState([]);
   const [selectedMedia, setSelectedMedia] = useState([]);
   const [comments, setComments] = useState({});
+  const [likes, setLikes] = useState({});
 
   useEffect(() => {
     if (cookies.company || cookies.freelancer) {
@@ -202,36 +203,87 @@ function Community() {
     return Math.floor(seconds) + " second" + (seconds > 1 ? "s" : "") + " ago";
   }
 
+  function capitalizeFirstLetter(string) {
+    if (!string) return ""; // Return an empty string if the input is undefined or null
+    return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
+  }
+
   const submitComment = async (postId) => {
     if (!comments[postId]) return; // Don't submit if the comment is empty
-  
+
     const url = `http://localhost:3000/api/v1/community/${postId}/addComment`;
     const requestOptions = {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
-      credentials: 'include', // Assuming you need to handle sessions
+      credentials: "include", // Assuming you need to handle sessions
       body: JSON.stringify({ content: comments[postId] }),
     };
-  
+
     try {
       const response = await fetch(url, requestOptions);
       const data = await response.json();
       if (data.success) {
         // Clear the input after successful submission
-        setComments({ ...comments, [postId]: '' });
+        setComments({ ...comments, [postId]: "" });
         // Optionally refresh posts or append new comment locally
-        console.log('Comment added:', data.post);
+        console.log("Comment added:", data.post);
         fetchPosts(); // if you want to re-fetch all posts
       } else {
-        console.error('Failed to add comment:', data.message);
+        console.error("Failed to add comment:", data.message);
       }
     } catch (error) {
-      console.error('Error submitting comment:', error);
+      console.error("Error submitting comment:", error);
     }
   };
-  
+
+  const likePost = async (postId) => {
+    const url = `http://localhost:3000/api/v1/community/${postId}/likePost`;
+    const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include"
+    };
+
+    try {
+        const response = await fetch(url, requestOptions);
+        const data = await response.json();
+        if (data.success) {
+            // Update local state to reflect the new like
+            setLikes({ ...likes, [postId]: true });
+            fetchPosts(); // Optionally refresh posts or update locally
+        } else {
+            console.error(data.message);
+        }
+    } catch (error) {
+        console.error('Error liking post:', error);
+    }
+};
+
+const unlikePost = async (postId) => {
+    const url = `http://localhost:3000/api/v1/community/${postId}/unlikePost`;
+    const requestOptions = {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        credentials: "include"
+    };
+
+    try {
+        const response = await fetch(url, requestOptions);
+        const data = await response.json();
+        if (data.success) {
+            // Update local state to reflect the unlike
+            setLikes({ ...likes, [postId]: false });
+            fetchPosts(); // Optionally refresh posts or update locally
+        } else {
+            console.error(data.message);
+        }
+    } catch (error) {
+        console.error('Error unliking post:', error);
+    }
+};
+
 
   return (
     <>
@@ -367,7 +419,13 @@ function Community() {
                   />
                   <div>
                     <span className="fw-bold">
-                      {post.author?.firstname || post.author?.companyname}
+                      {post.authorType === "Freelancer"
+                        ? `${capitalizeFirstLetter(
+                            post.author.firstname || ""
+                          )} ${capitalizeFirstLetter(
+                            post.author.lastname || ""
+                          )}`
+                        : post.author.companyname}
                     </span>
                     <div className="text-muted" style={{ fontSize: "12px" }}>
                       {timeSince(post.timestamp)}
@@ -397,16 +455,28 @@ function Community() {
                   ))}
                 </div>
                 <div className="d-flex justify-content-between align-items-center">
-                  <div className="text-muted" style={{ cursor: "pointer" }}>
+                  <div className="text-muted" style={{ display: 'flex', alignItems: 'center', cursor: "pointer" }}>
+                    <div
+                    className="like-container"
+                    onClick={() => likes[post._id] ? unlikePost(post._id) : likePost(post._id)}
+                    style={{
+                      cursor: "pointer",
+                      fontWeight: likes[post._id] ? "bold" : "normal",
+                      display: 'flex',
+        alignItems: 'center'
+                    }}
+                  >
+                    
                     <AiOutlineLike
                       className="mx-1"
                       style={{
                         fontSize: "21px",
                         marginTop: "-3px",
-                        cursor: "pointer",
+                        
                       }}
                     />
-                    {post.likes.length} Likes:
+                    {post.likes.length} {post.likes.length < 2 ? "Like" : "Likes"}
+                    </div>
                     <span
                       style={{ marginLeft: "8px" }}
                       onClick={() => toggleCommentsVisibility(post._id)}
@@ -441,28 +511,35 @@ function Community() {
                             className="p-2  shadow-none form-control rounded-4 "
                             type="text"
                             placeholder="Write a comment..."
-                            value={comments[post._id] || ''}
-                            onChange={(e) => setComments({ ...comments, [post._id]: e.target.value })}
+                            value={comments[post._id] || ""}
+                            onChange={(e) =>
+                              setComments({
+                                ...comments,
+                                [post._id]: e.target.value,
+                              })
+                            }
                             style={{
                               flex: 1, // Takes the remaining space
                               border: "1px solid #ccc",
                               borderRadius: "20px",
-                              padding: '10px 15px', // Comfortable padding
-                              marginRight: '8px' // Margin to separate from the button
+                              padding: "10px 15px", // Comfortable padding
+                              marginRight: "8px", // Margin to separate from the button
                             }}
                           />
                           <button
                             type="button"
-                            className="btncomment" 
+                            className="btncomment"
                             style={{
-                              padding: '0 15px', // Smaller padding for the button
-                              border: 'none',
-                              background: 'none',
-                              cursor:'pointer'
+                              padding: "0 15px", // Smaller padding for the button
+                              border: "none",
+                              background: "none",
+                              cursor: "pointer",
                             }}
                             onClick={() => submitComment(post._id)}
                           >
-                            <IoSend style={{ color: "gray", fontSize: "20px" }} />
+                            <IoSend
+                              style={{ color: "gray", fontSize: "20px" }}
+                            />
                           </button>
                         </div>
                         <div className="d-flex align-items-center mb-2">
@@ -490,8 +567,13 @@ function Community() {
                                 />
                                 <div>
                                   <p className="fw-bold mb-0">
-                                    {comment.commenter?.username ||
-                                      comment.commenter?.companyname}
+                                    {comment.commenterType === "Freelancer"
+                                      ? `${capitalizeFirstLetter(
+                                          comment.commenter.firstname || ""
+                                        )} ${capitalizeFirstLetter(
+                                          comment.commenter.lastname || ""
+                                        )}`
+                                      : comment.commenter.companyname}
                                   </p>
                                   <p className="text-muted mb-0">
                                     {comment.content}
