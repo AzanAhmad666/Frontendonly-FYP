@@ -20,44 +20,71 @@ function Community() {
   const [likes, setLikes] = useState({});
 
   useEffect(() => {
-    if (cookies.company || cookies.freelancer) {
-      const apiUrl = cookies.freelancer
-        ? "http://localhost:3000/api/v1/Freelancer/details"
-        : "http://localhost:3000/api/v1/Company/details";
-      var requestOptions = {
-        method: "GET",
-        credentials: "include",
-        redirect: "follow",
-      };
-
-      fetch(apiUrl, requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          if (result.success) {
-            if (result.freelancer) {
-              setuser(result.freelancer);
-            } else {
-              setuser(result.company);
-            }
+    const fetchUserAndPosts = async () => {
+      if (cookies.company || cookies.freelancer) {
+        const apiUrl = cookies.freelancer
+          ? "http://localhost:3000/api/v1/Freelancer/details"
+          : "http://localhost:3000/api/v1/Company/details";
+    
+        try {
+          // Fetch user details
+          const userResponse = await fetch(apiUrl, { method: "GET", credentials: "include", redirect: "follow" });
+          const userResult = await userResponse.json();
+          if (userResult.success) {
+            const currentUser = userResult.freelancer || userResult.company;
+            //console.log(currentUser)
+            setuser(currentUser);
+            fetchPosts(currentUser)
+    
+            // Fetch posts after user is set
+            // const postResponse = await fetch("http://localhost:3000/api/v1/community/getPosts");
+            // const postData = await postResponse.json();
+            // if (postData.success) {
+            //   const reversedPosts = postData.posts.reverse();
+            //   setPosts(reversedPosts);
+    
+            //   // Initialize likes state based on current user's likes
+            //   const newLikes = {};
+            //   reversedPosts.forEach(post => {
+            //     newLikes[post._id] = post.likes.some(like => String(like.user) === String(currentUser._id));
+            //   });
+            //   setLikes(newLikes);
+            //}
           }
-          console.log(result);
-        })
-        .catch((error) => console.log("error", error));
-    }
-
-    fetchPosts();
+        } catch (error) {
+          console.error("Error fetching user or posts:", error);
+        }
+      }
+    };
+    
+    
+    fetchUserAndPosts();
   }, [cookies.company, cookies.freelancer]);
-
-  const fetchPosts = async () => {
+  
+  const fetchPosts = async (currentUser) => {
     try {
-      const response = await fetch(
-        "http://localhost:3000/api/v1/community/getPosts"
-      );
+      const response = await fetch("http://localhost:3000/api/v1/community/getPosts");
       const data = await response.json();
       if (data.success) {
         const reversedPosts = data.posts.reverse();
+        console.log("Hello")
+       // console.log(reversedPosts)
         setPosts(reversedPosts);
-        console.log(reversedPosts);
+  
+        const newLikes = {};
+        reversedPosts.forEach(post => {
+          console.log("post")
+          console.log(post)
+          newLikes[post._id] = post.likes.some(like =>
+            {
+              
+              return String(like.user._id) === String(currentUser._id)
+
+            } 
+            );
+        });
+        console.log(newLikes)
+        setLikes(newLikes);
       } else {
         console.error("Failed to fetch posts:", data.message);
       }
@@ -65,6 +92,8 @@ function Community() {
       console.error("Error fetching posts:", error);
     }
   };
+  
+
 
   const handlePostCreation = async () => {
     try {
@@ -252,7 +281,7 @@ function Community() {
         if (data.success) {
             // Update local state to reflect the new like
             setLikes({ ...likes, [postId]: true });
-            fetchPosts(); // Optionally refresh posts or update locally
+            fetchPosts(user); // Optionally refresh posts or update locally
         } else {
             console.error(data.message);
         }
@@ -275,7 +304,7 @@ const unlikePost = async (postId) => {
         if (data.success) {
             // Update local state to reflect the unlike
             setLikes({ ...likes, [postId]: false });
-            fetchPosts(); // Optionally refresh posts or update locally
+            fetchPosts(user); // Optionally refresh posts or update locally
         } else {
             console.error(data.message);
         }
