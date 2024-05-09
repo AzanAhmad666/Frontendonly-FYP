@@ -195,81 +195,79 @@ const TaskCard = ({ task }) => {
   };
 
   useEffect(() => {
-    
-    if (fileURL && taskID){
+    if (fileURL && taskID) {
       const myHeaders = new Headers();
-myHeaders.append("Content-Type", "application/json");
-myHeaders.append("Cookie", `token=${cookies.token}`);
-
-const raw = JSON.stringify({
-  "taskId": taskID,
-  "workDone": fileURL
-});
-
-const requestOptions = {
-  method: "PUT",
-  headers: myHeaders,
-  body: raw,
-  redirect: "follow",
-  credentials: "include"
-};
-
-fetch("http://localhost:3000/api/v1/Freelancer/updateTask", requestOptions)
-  .then((response) => response.json())
-  .then((result) => {
-    console.log(result)
-    if (result.success){
-      toast.success(result.message)
-      //reset fields
-    setFile(null);
-    setFileName('')
-    setfileURL(null)
-    settaskID(null)
-    window.location.reload()
-
-
+      myHeaders.append("Content-Type", "application/json");
+      myHeaders.append("Cookie", `token=${cookies.token}`);
+  
+      const raw = JSON.stringify({
+        taskId: taskID,
+        submittedWork: [{ // Make sure it's an array
+          freelancerId: cookies.freelancerID,
+          workUrl: fileURL
+        }]
+      });
+  
+      const requestOptions = {
+        method: "PUT",
+        headers: myHeaders,
+        body: raw,
+        redirect: "follow",
+        credentials: "include"
+      };
+  
+      fetch("http://localhost:3000/api/v1/Freelancer/updateTask", requestOptions)
+        .then(response => {
+          if (!response.ok) throw new Error('Failed to update task');
+          return response.json();
+        })
+        .then(result => {
+          if (result.success) {
+            toast.success(result.message);
+            setFile(null);
+            setFileName('');
+            setfileURL(null);
+            settaskID(null);
+            window.location.reload();
+          } else {
+            toast.error(result.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error when submitting task:', error);
+          toast.error('Error when submitting task');
+        });
     }
-    else {
-      toast.error(result.message)
-
-    }
-  })
-  .catch((error) => console.error(error));
-
-      
-      
-    }
-  }, [fileURL,taskID]);
+  }, [fileURL, taskID]);
+  
+  
 
   return (
-    <Card className={task.status==='completed' ? classes.completed :classes.root}>
+    <Card className={task.status==='completed' ? classes.completed : classes.root}>
       <CardContent>
         <div className={classes.header}>
           <Typography variant="h6">{task.description}</Typography>
-          {task.owner===cookies.freelancerID ? (
+          {task.owner === cookies.freelancerID ? (
             <FormControl className='mb-3' style={{ marginBottom: 10 }}>
-            <Select
-              value={selectedStatus}
-              onChange={(e) => setselectedStatus(e.target.value)}
-            >
-              {options.map(option => (
-                <MenuItem key={option.id} value={option.value}>{option.value}</MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          ):(
-
-          <Typography variant="body2">{task.status}</Typography>
+              <Select
+                value={selectedStatus}
+                onChange={(e) => setselectedStatus(e.target.value)}
+              >
+                {options.map(option => (
+                  <MenuItem key={option.id} value={option.value}>{option.value}</MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          ) : (
+            <Typography variant="body2">{task.status}</Typography>
           )}
         </div>
         {assignees.length === 1 ? (
-          // Display single assignee details
           <div className={classes.assignee}>
             <img src={assignees[0].pfp || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvzCHk4vxVX-5J0QrW4fmsT4AjslKpeLnx3A&usqp=CAU'} alt="Profile" className={classes.pfp} />
             <Typography variant="subtitle1">{assignees[0].firstname}</Typography>
           </div>
         ) : (
-          // Display multiple assignee details
           assignees.map((assignee) => (
             <div key={assignee._id} className={classes.assignee}>
               <img src={assignee.pfp || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvzCHk4vxVX-5J0QrW4fmsT4AjslKpeLnx3A&usqp=CAU'} alt="Profile" className={classes.pfp} />
@@ -278,55 +276,50 @@ fetch("http://localhost:3000/api/v1/Freelancer/updateTask", requestOptions)
           ))
         )}
         <Typography className='mb-2' variant="body2">Deadline: {formatDeadline(task.deadline)}</Typography>
-        {task.submittedWork && (
-              <div className='mb-3' >
-                <a href={task.submittedWork} 
-                target='_blank'
-                rel='noopener noreferrer'
-                download
-                >
-                  Download My Work
+        {task.submittedWork && task.submittedWork.length > 0 && (
+          <div className='mb-3'>
+          {task.submittedWork.map((submission, index) => {
+            const submitter = assignees.find(assignee => assignee._id === submission.freelancerId);
+            const submitterName = submitter ? submitter.firstname : "Unknown Freelancer";  // Ensure you have 'firstname' or use a different field as necessary
+            return (
+              <div key={index}>
+                <a href={submission.workUrl} 
+                   target='_blank' 
+                   rel='noopener noreferrer' 
+                   download={`${submitterName}'s Work`}>
+                  Download {submitterName}'s Work
                 </a>
               </div>
-            )}
-            {/*Only logged in freelancer can submit*/}
-            <div style={{display: 'flex', justifyContent: 'space-between'}}>
-        {task.assignee.some(assignee => assignee._id === cookies.freelancerID) && (
+            );
+          })}
+        </div>
+        )}
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          {task.assignee.some(assignee => assignee._id === cookies.freelancerID) && (
             <div>
-            <input
-              type="file"
-              className={classes.fileInput}
-              id={`fileInput-${task._id}`}
-              onChange={handleFileChange}
-            />
-
-            <label htmlFor={`fileInput-${task._id}`}>
-              <Button variant="outlined" component="span">
-                Choose File
+              <input
+                type="file"
+                className={classes.fileInput}
+                id={`fileInput-${task._id}`}
+                onChange={handleFileChange}
+              />
+              <label htmlFor={`fileInput-${task._id}`}>
+                <Button variant="outlined" component="span">
+                  Choose File
+                </Button>
+              </label>
+              <Button style={{marginLeft: '6px'}} variant="contained" color="primary" onClick={() => handleSubmit(task._id)}>
+                Submit
               </Button>
-            </label>
-
-           
-            <Button style={{marginLeft: '6px'}} variant="contained" color="primary" onClick={()=>handleSubmit(task._id)}>
-              Submit
-            </Button>
             </div>
-
-            )}
-            <div></div>
-            
-            {(task.status !== selectedStatus) && cookies.freelancerID === task.owner && (
-              <Button style={{marginLeft: '6px'}} variant="contained" color="primary" onClick={()=>handleSaveChanges(task._id)}>
-              Save Changes
-            </Button>
-            )}
-            
-          </div>
-
-          
+          )}
+        </div>
+        {(task.status !== selectedStatus) && cookies.freelancerID === task.owner && (
+          <Button style={{float: 'right'}} variant="contained" color="primary" onClick={() => handleSaveChanges(task._id)}>
+            Save Changes
+          </Button>
+        )}
         {fileName && <Typography style={{marginTop: '10px'}} className={classes.fileName}>{fileName}</Typography>}
-        {/* Add other task details as needed */}
-
       </CardContent>
     </Card>
   );
