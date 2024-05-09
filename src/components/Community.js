@@ -479,7 +479,11 @@ function Community() {
                  
                 >
                   <div className="carousel-inner"
-                 
+                style={{
+                  maxWidth:'24rem',
+                  maxHeight:'24rem',
+                  marginLeft:'25%',
+                }}
                   >
                     {post.media.map((image, index) => (
                       <div
@@ -491,11 +495,11 @@ function Community() {
                         style={{
                          
                           borderRadius: "0",
-                          marginBottom: "10px",
-                          marginRight: "10px",
-                          maxHeight:'420px',
-                          maxWidth:'420px',
-                          marginLeft:'25%',
+                      
+                          minwheight:'100%',
+                          minWidth:'100%',
+                       
+                     
                         
                         
 
@@ -506,13 +510,18 @@ function Community() {
                           alt={`Post image ${index + 1}`}
                           className=" w-100"
                           style={{ borderRadius: "0px", display:'inline',
+                       
                         widh:'100%',
                       height:'100%'}}
                         />
                       </div>
                     ))}
                   </div>
-                  <button
+
+                  {post.media.length >1 &&
+                  (
+                    <>
+                      <button
                     className="carousel-control-prev"
                     type="button"
                     data-bs-target={`#carouselControls-${post._id}`}
@@ -552,6 +561,9 @@ function Community() {
                     />
                     <span className="visually-hidden">Next</span>
                   </button>
+                    </>
+                  )}
+                
                 </div>
 )}
                 <div className="d-flex justify-content-between align-items-center">
