@@ -34,6 +34,9 @@ export default function Tasks() {
   const [showprogress, setshowprogress] = useState(false)
   const [completedTasks, setcompletedTasks] = useState([]);
   const [selectOpen, setSelectOpen] = useState(false);
+
+  const containsCompany= window.location.pathname.includes("company");
+
 useEffect(() => {
   
 
@@ -72,8 +75,10 @@ useEffect(() => {
   const initialize = async () => {
     await fetchTeamDetails();
   };
+  if(!containsCompany){
 
   initialize();
+  }
 }, []);
 
   const handleOpen = () => {
@@ -156,8 +161,9 @@ useEffect(() => {
       redirect: "follow",
       credentials:'include'
     };
+    const apiURL = containsCompany ? `http://localhost:3000/api/v1/Company/${id}/getTasks` : `http://localhost:3000/api/v1/Freelancer/${id}/getTasks`
     
-    fetch(`http://localhost:3000/api/v1/Freelancer/${id}/getTasks`, requestOptions)
+    fetch(apiURL, requestOptions)
       .then((response) => response.json())
       .then((result) => {
         console.log(result)
@@ -194,11 +200,13 @@ useEffect(() => {
               }}
             >
               <h1 className="createProjecttext">Tasks</h1>
+              {!containsCompany && (
               <div 
               onClick={handleOpen} className="applyAsTeamBtn" style={{display:"flex",alignItems:"center",gap:8,border:"1px solid #2E085A", borderRadius:"8px", padding:"10px", cursor:"pointer"}} >
               <GrAdd size={18} />
               <div>Create Task</div>
               </div>
+              )}
           </div>
           <div style={{padding:"20px"}}>
             {tasks?.length===0 ? (

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { IoIosInformationCircle } from "react-icons/io";
+import { FaStar } from "react-icons/fa6";
 import "../../css/createProject.css";
 import "../../css/applicantDetaills.css";
 
@@ -9,15 +10,13 @@ import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import CompanyLayout from "../CompanyLayout";
 import {
-    MDBCard,
-    MDBCardText,
-    MDBCardBody,
-    MDBTypography,
-    MDBIcon
-  } from 'mdb-react-ui-kit';
-import { Link } from 'react-router-dom';
-
-
+  MDBCard,
+  MDBCardText,
+  MDBCardBody,
+  MDBTypography,
+  MDBIcon,
+} from "mdb-react-ui-kit";
+import { Link } from "react-router-dom";
 
 const FreelancerApplicants = () => {
   const { id } = useParams();
@@ -25,12 +24,14 @@ const FreelancerApplicants = () => {
   const [applicants, setapplicants] = useState(null);
   const [applicantsCount, setapplicantsCount] = useState(null);
   const navigate = useNavigate();
+  const [recommendedTeam, setRecommendedTeam] = useState({});
   const [cookies] = useCookies(["token", "freelancer", "freelancerID"]);
 
-
   //If as solo apply on project then call api of assign project as solo
-  const containsAllSoloProject = window.location.pathname.includes('allSoloProject');
-  
+  const containsAllSoloProject =
+    window.location.pathname.includes("allSoloProject");
+  const containsAllTeamProject =
+    window.location.pathname.includes("allTeamProject");
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
@@ -68,26 +69,55 @@ const FreelancerApplicants = () => {
 
     fetchProjectDetails();
   }, [id]); // Include id in the dependency array to re-fetch details when id changes
+
+  useEffect(() => {
+    const fetchRecommendedTeam = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3000/api/v1/project/getRecommendedTeam/${id}`,
+          {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              Cookie: `token=${cookies.token}`,
+            },
+            credentials: "include",
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const result = await response.json();
+        console.log("Recommended team:", result.finalRecommendedTeam);
+        setRecommendedTeam(result.finalRecommendedTeam);
+      } catch (error) {
+        console.error("Error fetching recommended team:", error);
+        //toast.error("An error occurred while fetching recommended team.");
+      }
+    };
+
+    fetchRecommendedTeam();
+  }, [id, cookies.token]);
+
   const handleAssignApplicantClick = async (applicantId) => {
-    console.log(applicantId)
+    console.log(applicantId);
     // e.preventDefault();
     try {
-
-      const apiURL = `http://localhost:3000/api/v1/Company/select/${id}`
-      console.log(apiURL)
-      const response = await fetch(apiURL,
-        {
-          method: "PATCH",
-          headers: new Headers({
-            Cookie: `token=${cookies.token}`, // Include the token in the request headers
-            "Content-Type": "application/json",
-          }),
-          body: JSON.stringify({ selectedId: applicantId }),
-          redirect: "follow",
-          credentials: "include",
-        }
-      );
-      console.log(response)
+      const apiURL = `http://localhost:3000/api/v1/Company/select/${id}`;
+      console.log(apiURL);
+      const response = await fetch(apiURL, {
+        method: "PATCH",
+        headers: new Headers({
+          Cookie: `token=${cookies.token}`, // Include the token in the request headers
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({ selectedId: applicantId }),
+        redirect: "follow",
+        credentials: "include",
+      });
+      console.log(response);
 
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
@@ -98,13 +128,24 @@ const FreelancerApplicants = () => {
 
       if (result.success) {
         toast.success("Project Assigned successfully");
-        if (containsAllSoloProject){
-
-            navigate("/allSoloProject");
-        }
-        else{
-
-            navigate("/allTeamProject");
+        if (containsAllSoloProject) {
+          //navigate("/allSoloProject");
+          navigate("/checkout", {
+            state: {
+              budget: projectDetails.budget,
+              title: projectDetails.title,
+              description: projectDetails.description,
+            },
+          });
+        } else {
+          //navigate("/allTeamProject");
+          navigate("/checkout", {
+            state: {
+              budget: projectDetails.budget,
+              title: projectDetails.title,
+              description: projectDetails.description,
+            },
+          });
         }
       } else {
         toast.error(result.message);
@@ -115,8 +156,8 @@ const FreelancerApplicants = () => {
         "An error occurred while applying to the project. Please try again."
       );
     }
-  
   };
+
   return (
     <>
       <CompanyLayout>
@@ -147,7 +188,6 @@ const FreelancerApplicants = () => {
                               readOnly
                             />
                           </div>
-                       
                         </div>
                       </div>
 
@@ -161,13 +201,12 @@ const FreelancerApplicants = () => {
                             Project type:
                           </p>
                           <div className="inputTitle  py-3   pr-5">
-                          <input
+                            <input
                               className="px-2 bg-transparent border-0 w-100"
-                            value={projectDetails.type}
-                            readOnly
-                          />
-                       </div>
-
+                              value={projectDetails.type}
+                              readOnly
+                            />
+                          </div>
                         </div>
                       </d>
 
@@ -181,14 +220,14 @@ const FreelancerApplicants = () => {
                             Required Members:
                           </p>
 
-
-                          
                           <ul className="inputTitle overflow-auto  flex align-items-center py-4 commonFields">
-                            {projectDetails.requiredMembers.map(
+                            {projectDetails?.requiredMembers?.map(
                               (member, index) => (
-                               <>
-                                <li className="w-100" key={index}>{member}</li>
-                              </>
+                                <>
+                                  <li className="w-100" key={index}>
+                                    {member}
+                                  </li>
+                                </>
                               )
                             )}
                           </ul>
@@ -205,13 +244,14 @@ const FreelancerApplicants = () => {
                             Description:
                           </p>
                           <div className="inputTitle commonFields  ">
-                          <textarea
-                             className="px-2 w-100 commonFields py-2  bg-transparent border-0  "
-                             style={{minWidth:"95%"}}
-                            value={projectDetails.description}
-                            readOnly
-                          />
-                        </div> </div>
+                            <textarea
+                              className="px-2 w-100 commonFields py-2  bg-transparent border-0  "
+                              style={{ minWidth: "95%" }}
+                              value={projectDetails.description}
+                              readOnly
+                            />
+                          </div>{" "}
+                        </div>
                       </div>
 
                       <div className="col-lg-6 col-md-12 col-sm-12">
@@ -221,131 +261,391 @@ const FreelancerApplicants = () => {
                               className="mx-2 mb-1"
                               style={{ fontSize: "large", color: "#6319B8" }}
                             />
-                            Budget (in PKR):
+                            Budget (in USD):
                           </p>
                           <div className="inputTitle  py-3   pr-5">
-                          <input
+                            <input
                               className="px-2 bg-transparent border-0"
-                            value={`${projectDetails.budget}`}
-                            readOnly
-                          />
-                        </div> </div>
+                              value={`${projectDetails.budget}`}
+                              readOnly
+                            />
+                          </div>{" "}
+                        </div>
                       </div>
                     </div>
                   </div>
-                  
-                  
-
                 </form>
-                {containsAllSoloProject ? (
-                    <>
 
-                    <h2 className="mt-5">Applicants Details</h2> 
-                    <h4 className="mt-3">Total Applicants: {applicantsCount}</h4>         
-                    </>
-                ):(
-                    <>
+                {containsAllTeamProject && applicantsCount > 1 && (
+                  <>
+                    <h2
+                      className="mt-5"
+                      style={{
+                        textAlign: "center",
+                        color: "#211944",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      OutsourcePro's Smart Recommendation
+                    </h2>
+
+                    <div className=" team-applicant-card">
+                      <MDBCard
+                        className="mb-5 relative"
+                        style={{
+                          borderRadius: "15px",
+                          marginBottom: "10px",
+                          //backgroundColor: "#DA9100",
+                          backgroundColor: "#211944",
+                          color: "white",
+                        }}
+                      >
+                        <div
+                          className=""
+                          style={{
+                            position: "absolute",
+                            right: "25px",
+                            backgroundColor: "#DA9100",
+                            borderRadius: "8px",
+                            top: "25px",
+                            padding: "5px",
+                          }}
+                        >
+                          <div className="d-flex gap-1 align-items-center">
+                            <FaStar />
+                            <div
+                              style={{ marginTop: "1px", fontWeight: "bold" }}
+                            >
+                              Top Choice
+                            </div>
+                          </div>
+                        </div>
+                        <MDBCardBody className="p-4">
+                          <MDBTypography tag="h3">
+                            {recommendedTeam.name}
+                          </MDBTypography>
+
+                          <div
+                            className="skills mt-4"
+                            style={{ backgroundColor: "#211944" }}
+                          >
+                            <h6 className="mb-4">Team Members Skills</h6>
+                            <ul>
+                              {recommendedTeam?.teamSkills?.map(
+                                (skill, index) => (
+                                  <li
+                                    key={index}
+                                    style={{
+                                      border: "1px solid white",
+                                      borderRadius: "5px",
+                                      backgroundColor: "#211944",
+                                    }}
+                                  >
+                                    {skill}
+                                  </li>
+                                )
+                              )}
+                              {recommendedTeam?.teamSkills?.length === 0 && (
+                                <li
+                                  style={{
+                                    border: "1px solid white",
+                                    borderRadius: "5px",
+                                    backgroundColor: "#211944",
+                                  }}
+                                >
+                                  No skills
+                                </li>
+                              )}
+                            </ul>
+                          </div>
+
+                          <hr className="my-4" />
+                          <div
+                            style={{
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "space-between",
+                            }}
+                          >
+                            <MDBCardText
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                              }}
+                              className="text-uppercase mb-0"
+                            >
+                              <MDBIcon fas icon="users me-2" />{" "}
+                              <span
+                                className=" small"
+                                style={{ marginRight: "20px" }}
+                              >
+                                Team Members
+                              </span>
+                              <div>
+                                {recommendedTeam?.members?.map(
+                                  (member, index) => (
+                                    <div
+                                      style={{
+                                        display: "inline-block",
+                                        marginRight: "10px",
+                                      }}
+                                      key={index}
+                                    >
+                                      {member?.pfp ? (
+                                        <img
+                                          src={member?.pfp}
+                                          alt="Profile"
+                                          style={{
+                                            width: "40px",
+                                            height: "40px",
+                                            borderRadius: "50%",
+                                          }}
+                                        />
+                                      ) : (
+                                        <img
+                                          src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvzCHk4vxVX-5J0QrW4fmsT4AjslKpeLnx3A&usqp=CAU"
+                                          height={40}
+                                          width={40}
+                                        />
+                                      )}
+                                    </div>
+                                  )
+                                )}
+                              </div>
+                            </MDBCardText>
+
+                            <div
+                              onClick={() =>
+                                handleAssignApplicantClick(recommendedTeam._id)
+                              }
+                              //onClick={() => checkFunction()}
+
+                              className="assignProjectToTeamBtn"
+                            >
+                              <MDBIcon
+                                fas
+                                icon="gavel"
+                                style={{ marginRight: "5px" }}
+                              />{" "}
+                              Assign
+                            </div>
+                          </div>
+                        </MDBCardBody>
+                      </MDBCard>
+                    </div>
+                  </>
+                )}
+                {containsAllSoloProject ? (
+                  <>
+                    <h2 className="mt-5">Applicants Details</h2>
+                    <h4 className="mt-3">
+                      Total Applicants: {applicantsCount}
+                    </h4>
+                  </>
+                ) : (
+                  <>
                     <h2 className="mt-5">Applied Teams Details</h2>
-                    <h4 className="my-3">Total Applied Teams: {applicantsCount}</h4>         
-                    </>
+                    <h4 className="my-3">
+                      Total Applied Teams: {applicantsCount}
+                    </h4>
+                  </>
                 )}
                 {/* Solo applicant list */}
                 {containsAllSoloProject ? (
-                    <div className=" solo-applicant-card">
-                        {applicants.map((applicant, index) => (
-                            
-                            <div key={index} className='d-flex justify-center my-5'>
-                            <div className="card-container ">
-                            {applicant.pfp ? (
-                                    <img src={applicant?.pfp} alt="Profile" style={{ width: "100px", height: "100px", borderRadius: "50%" }} />
-                                ):(
-                                    
-                                    <img
-                                    className="round"
-                                    src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvzCHk4vxVX-5J0QrW4fmsT4AjslKpeLnx3A&usqp=CAU'
-                                    alt="user"
-                                    style={{ width: "100px", height: "100px", borderRadius: "50%" }}
-                                />
+                  <div className=" solo-applicant-card">
+                    {applicants.map((applicant, index) => (
+                      <div key={index} className="d-flex justify-center my-5">
+                        <div className="card-container ">
+                          {applicant.pfp ? (
+                            <img
+                              src={applicant?.pfp}
+                              alt="Profile"
+                              style={{
+                                width: "100px",
+                                height: "100px",
+                                borderRadius: "50%",
+                              }}
+                            />
+                          ) : (
+                            <img
+                              className="round"
+                              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvzCHk4vxVX-5J0QrW4fmsT4AjslKpeLnx3A&usqp=CAU"
+                              alt="user"
+                              style={{
+                                width: "100px",
+                                height: "100px",
+                                borderRadius: "50%",
+                              }}
+                            />
+                          )}
+
+                          <h3 className="mt-2 text-white">
+                            {applicant.firstname}
+                          </h3>
+                          <p>{applicant.email}</p>
+                          <div className="">
+                            <Link
+                              to="/allSoloProject/Profile "
+                              className="applicant mx-2  "
+                            >
+                              Profile
+                            </Link>
+                            <button
+                              onClick={() =>
+                                handleAssignApplicantClick(applicant._id)
+                              }
+                              style={{
+                                backgroundColor: "#211944",
+                                color: "white",
+                                borderRadius: "5px",
+                                padding: "7px 20px",
+                                border: "1px solid white",
+                              }}
+                            >
+                              Assign
+                            </button>
+                          </div>
+                          <div className="skills">
+                            <h6>Skills</h6>
+                            <ul>
+                              {applicant.skills.map((skill, index) => (
+                                <li key={index}>{skill}</li>
+                              ))}
+                              {applicant.skills.length === 0 && (
+                                <li >No skills</li>
+                              )}
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="team-applicant-card">
+                    {applicants.map((applicant, index) => (
+                      <div key={index}>
+                        <MDBCard
+                          className="mb-5"
+                          style={{
+                            borderRadius: "15px",
+                            marginBottom: "10px",
+                            backgroundColor: "#453A77",
+                            color: "white",
+                          }}
+                        >
+                          <MDBCardBody className="p-4">
+                            <MDBTypography tag="h3">
+                              {applicant.teamApplicant.name}
+                            </MDBTypography>
+
+                            <div
+                              className="skills mt-4"
+                              style={{ backgroundColor: "#453A77" }}
+                            >
+                              <h6 className="mb-4">Team Members Skills</h6>
+                              <ul>
+                                {applicant.skills.map((skill, index) => (
+                                  <li
+                                    key={index}
+                                    style={{
+                                      border: "1px solid white",
+                                      borderRadius: "5px",
+                                    }}
+                                  >
+                                    {skill}
+                                  </li>
+                                ))}
+                                {applicant.skills.length === 0 && (
+                                  <li 
+                                  style={{
+                                    border: "1px solid white",
+                                    borderRadius: "5px",
+                                  }}>No skills</li>
                                 )}
-                                
-                                <h3 className='mt-2 text-white'>{applicant.firstname}</h3>
-                                <p>
-                                    {applicant.email}
-                                </p>
-                                <div className="">
-                                    <Link to="/allSoloProject/Profile " className="applicant mx-2  " >Profile</Link>
-                                    <button
-                                    onClick={() => handleAssignApplicantClick(applicant._id)} 
-                                    style={{ backgroundColor: "#211944", color: "white", borderRadius: "5px", padding: "7px 20px", border: "1px solid white" }}>
-                                    Assign</button>
-                                </div>
-                                <div className="skills">
-                                    <h6>Skills</h6>
-                                    <ul>
-                                        {applicant.skills.map((skill, index) => (
-                                            <li key={index}>{skill}</li>
-                                        ))}
-                                        {applicant.skills.length===0 && <li>No skills</li>}
-                                        
-                                    </ul>
-                                </div>
+                              </ul>
                             </div>
-                            </div>
-                        ))}
-                    </div>
-                ):(
-                    <div className="team-applicant-card">
-                        {applicants.map((applicant, index) => (
-                            <div key={index}>
-                                <MDBCard className="mb-5" style={{ borderRadius: '15px', marginBottom: "10px",backgroundColor:'#211944', color:'white'  }}>
-                                <MDBCardBody className="p-4">
-                                    <MDBTypography tag='h3'>{applicant.teamApplicant.name}</MDBTypography>
-                                    
-                                    <div className="skills mt-4" style={{backgroundColor:"#211944"}}>
-                                        <h6 className="mb-4">Team Members Skills</h6>
-                                        <ul >
-                                            {applicant.skills.map((skill, index) => (
-                                                <li key={index} style={{border:"1px solid white", borderRadius:"5px"}}>{skill}</li>
-                                            ))}
-                                            {applicant.skills.length===0 && <li>No skills</li>}
-                                        </ul>
-                                    </div>
-                                    
-                                    <hr className="my-4" />
-                                    <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-                                    <MDBCardText style={{ display: "flex", alignItems: "center" }} className="text-uppercase mb-0">
-                                        <MDBIcon fas icon="users me-2" /> <span className=" small" style={{marginRight:"20px"}}>Team Members</span>
-                                    
-                                        <div>
-                                            {applicant.teamApplicant.members.map((member, index) => (
-                                                <div style={{ display: "inline-block", marginRight: "10px" }} key={index}>
-                                                    {member?.pfp ? (
-                                                            <img src={member?.pfp} alt="Profile" style={{ width: "40px", height: "40px", borderRadius: "50%" }} />
-                                                        ):(
-                                                            
-                                                            <img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvzCHk4vxVX-5J0QrW4fmsT4AjslKpeLnx3A&usqp=CAU' height={40} width={40}/>
-                                                        )}
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </MDBCardText>
-                                    
-                                        
-                                        <div 
-                                            onClick={() => handleAssignApplicantClick(applicant.teamApplicant._id)} 
-                                            className="assignProjectToTeamBtn">
-                                            <MDBIcon fas icon="gavel" style={{marginRight:"5px"}}/> Assign
-                                        </div>
-                                    </div>
-                                    
-                                </MDBCardBody>
-                                </MDBCard>
 
+                            <hr className="my-4" />
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              <MDBCardText
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                }}
+                                className="text-uppercase mb-0"
+                              >
+                                <MDBIcon fas icon="users me-2" />{" "}
+                                <span
+                                  className=" small"
+                                  style={{ marginRight: "20px" }}
+                                >
+                                  Team Members
+                                </span>
+                                <div>
+                                  {applicant.teamApplicant.members.map(
+                                    (member, index) => (
+                                      <div
+                                        style={{
+                                          display: "inline-block",
+                                          marginRight: "10px",
+                                        }}
+                                        key={index}
+                                      >
+                                        {member?.pfp ? (
+                                          <img
+                                            src={member?.pfp}
+                                            alt="Profile"
+                                            style={{
+                                              width: "40px",
+                                              height: "40px",
+                                              borderRadius: "50%",
+                                            }}
+                                          />
+                                        ) : (
+                                          <img
+                                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvzCHk4vxVX-5J0QrW4fmsT4AjslKpeLnx3A&usqp=CAU"
+                                            height={40}
+                                            width={40}
+                                          />
+                                        )}
+                                      </div>
+                                    )
+                                  )}
+                                </div>
+                              </MDBCardText>
+
+                              <div
+                                onClick={() =>
+                                  handleAssignApplicantClick(
+                                    applicant.teamApplicant._id
+                                  )
+                                }
+                                //onClick={() => checkFunction()}
+                                style={{
+                                  backgroundColor: "#453A77",
+                                }}
+                                className="assignProjectToTeamBtn"
+                              >
+                                <MDBIcon
+                                  fas
+                                  icon="gavel"
+                                  style={{ marginRight: "5px" }}
+                                />{" "}
+                                Assign
+                              </div>
                             </div>
-                        ))}
-                    </div>
+                          </MDBCardBody>
+                        </MDBCard>
+                      </div>
+                    ))}
+                  </div>
                 )}
-
               </>
             ) : (
               <p>Loading project details...</p>

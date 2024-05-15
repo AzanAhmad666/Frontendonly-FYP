@@ -96,6 +96,7 @@ const App = () => {
               <Route path="/allTeamProject/applicants/:id" element={<FreelancerApplicants />} />
               <Route path="/allSoloProject/Profile" element={<ShowProfile />} />
               <Route path="/tasks/:id" element={<Tasks />} />
+              <Route path="/company/checkProgress/tasks/:id" element={<Tasks />} />
               <Route path="/checkout" element={<CheckoutForm />} />
               <Route path="/community" element={<Community />} />
 

@@ -156,10 +156,13 @@ const CheckProgress = () => {
                                     </MDBCardText>
                                     
                                         
-                                        <div 
-                                            className="assignProjectToTeamBtn">
-                                            <GiProgression style={{marginRight:"5px"}}/> Check Progress
-                                        </div>
+                                    <Link
+                                          to={`/company/checkProgress/tasks/${id}`}
+                                          className="mt-auto p-2 "
+                                          style={{display:'flex', alignItems:"center",marginRight:5,backgroundColor:"white", color:"#211944", borderRadius:"5px", padding: "7px 20px", border: "1px solid white" }} 
+                                          >
+                                          <GiProgression style={{marginRight:"5px"}}/> Check Progress
+                                        </Link>
                                     </div>
                                     
                                 </MDBCardBody>

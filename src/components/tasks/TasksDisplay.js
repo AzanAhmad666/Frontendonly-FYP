@@ -54,6 +54,8 @@ const TaskCard = ({ task }) => {
   const [taskID, settaskID] = useState()
   const assignees=task.assignee
 
+  const containsCompany= window.location.pathname.includes("company");
+
   const options = [
     {
       id:1,

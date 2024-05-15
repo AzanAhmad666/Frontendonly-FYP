@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Navigate, useLocation } from 'react-router-dom';
 import {
   useStripe,
   useElements,
@@ -6,6 +7,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
+import { Link, useNavigate } from 'react-router-dom';
 import axios from "axios";
 import "../css/CheckoutForm.css";
 
@@ -14,6 +16,8 @@ const stripePromise = loadStripe(
 );
 
 function CheckoutForm() {
+  const location = useLocation();
+  const { budget, title, description } = location.state;
   const stripe = useStripe();
   const elements = useElements();
   const [clientSecret, setClientSecret] = useState("");
@@ -21,12 +25,13 @@ function CheckoutForm() {
   const [message, setMessage] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Create PaymentIntent on the server
     axios
       .post("http://localhost:3000/api/v1/payment/create-payment-intent", {
-        amount: 1000,
+        amount: budget*100,
       })
       .then((response) => {
         setClientSecret(response.data.clientSecret);
@@ -45,6 +50,7 @@ function CheckoutForm() {
     );
 
     console.log(response.data)
+    navigate('/CompanyHome')
 
     setIsLoading(false);
   };
@@ -89,9 +95,10 @@ function CheckoutForm() {
         )}
       </aside>
       <aside id="description">
-        <h1>150</h1>
-        <h2>Original wayfarer classic</h2>
-        <h3>Green classic g-15</h3>
+        <h1>$ {budget}</h1>
+        <h2>{title}</h2>
+        <br />
+        <h5>{description}</h5>
       </aside>
     </main></div>
   );

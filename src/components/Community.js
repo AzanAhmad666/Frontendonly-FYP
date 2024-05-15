@@ -322,6 +322,17 @@ function Community() {
     }
   }, [posts]);
 
+  function isVideo(url) {
+    // Extract the file name from the URL using URL parsing and regex
+    const parsedUrl = new URL(url);
+    const pathname = parsedUrl.pathname;
+    const fileName = pathname.match(/[^\/]+$/)[0];  // Get the last part of the path, which is the file name
+
+    // Define the video extensions
+    const videoExtensions = ['.mp4', '.avi', '.mov', '.wmv']; // Add more video extensions as needed
+    return videoExtensions.some(extension => fileName.endsWith(extension));
+}
+
   return (
     <>
       <CompanyLayout>
@@ -485,36 +496,17 @@ function Community() {
                   marginLeft:'25%',
                 }}
                   >
-                    {post.media.map((image, index) => (
-                      <div
-                        key={index}
-                        className={`carousel-item  ${
-                          index === 0 ? "active" : " "
-                        
-                        }`}
-                        style={{
-                         
-                          borderRadius: "0",
-                      
-                          minwheight:'100%',
-                          minWidth:'100%',
-                       
-                     
-                        
-                        
-
-                        }}
-                      >
-                        <img
-                          src={image}
-                          alt={`Post image ${index + 1}`}
-                          className=" w-100"
-                          style={{ borderRadius: "0px", display:'inline',
-                       
-                        widh:'100%',
-                      height:'100%'}}
-                        />
-                      </div>
+                    {post.media.map((mediaUrl, index) => ( // Here mediaUrl is declared
+                <div key={index} className={`carousel-item ${index === 0 ? "active" : ""}`} style={{borderRadius: "0", minHeight: '100%', minWidth: '100%'}}>
+                    {isVideo(mediaUrl) ? (
+                        <video controls className="w-100" style={{ height: '100%' }}>
+                            <source src={mediaUrl} type="video/mp4" /> {/* Assume MIME type based on file extension */}
+                            Your browser does not support the video tag.
+                        </video>
+                    ) : (
+                        <img src={mediaUrl} alt={`Post media ${index + 1}`} className="w-100" style={{borderRadius: "0px", display: 'inline'}} />
+                    )}
+                </div>
                     ))}
                   </div>
 
