@@ -135,6 +135,7 @@ const FreelancerApplicants = () => {
               budget: projectDetails.budget,
               title: projectDetails.title,
               description: projectDetails.description,
+              
             },
           });
         } else {
@@ -144,6 +145,7 @@ const FreelancerApplicants = () => {
               budget: projectDetails.budget,
               title: projectDetails.title,
               description: projectDetails.description,
+              ProjectID:id
             },
           });
         }

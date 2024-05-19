@@ -1,8 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
+import { useNavigate } from 'react-router-dom';
 import { IoIosAddCircle } from "react-icons/io";
 import { IoChatbubblesSharp } from "react-icons/io5";
+import { FcVideoCall } from "react-icons/fc";
 import moment from "moment";
 import Sidebar from "./Sidebar";
+import VideoCall from "./VideoCall"
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -13,14 +16,17 @@ import { toast } from "react-toastify";
 import CompanyLayout from "./CompanyLayout";
 import { Link } from "react-router-dom";
 
+
 const socket = io("http://localhost:3000");
 
 const FreelancerHome = () => {
+  const navigate = useNavigate();
   
 
   const [messages, setMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
   const [teamId, setTeamid] = useState("");
+  const [showVideoCall, setShowVideoCall] = useState(false);
 
   const [teamMembers, setTeamMembers] = useState([]);
   const [show, setShow] = useState(false);
@@ -38,6 +44,13 @@ const FreelancerHome = () => {
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const messagesEndRef = useRef(null);
+
+
+  const handleVideoCallClick = (id) => {
+    console.log('Team ID:', id);
+    navigate(`/videoCall/${id}`);
+    setShowVideoCall(true);
+  };
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -505,10 +518,18 @@ const FreelancerHome = () => {
 
           <div class="offcanvas-body ">
             <section className="msger">
+            <div>
               <h3 className="mx-2 my-3 py-2 fixed bg-white chatHeader">
                 Team Chat
+                <FcVideoCall style={{float:"right",cursor:"pointer"}}
+                data-bs-dismiss="offcanvas"
+                onClick={() => handleVideoCallClick(teamId)}
+                 />
               </h3>
-
+          
+              
+              </div>
+              
               <main className="msger-chat">
                 {messages.map((message, index) => {
                   // Ensure message.time is valid
