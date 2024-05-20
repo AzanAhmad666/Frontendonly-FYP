@@ -12,7 +12,7 @@ import axios from "axios";
 import "../css/CheckoutForm.css";
 
 const stripePromise = loadStripe(
-  "pk_test_51PDRNiBCBOy9JMQBpk5M173id0aNyl6bjn261inucKNWjzzXzAA3UtcbB9MOlFfRzV8zNkyYq5wjdW1dmyNUufj100CKIoZGMs"
+  "pk_test_51PIXcOP2YsjtExUJkZaApVLqXUTFQ1eCQ0N6dp4oLQw3QWJxvhu8lmc0zh9lO2pvPHfUG7xUEVXSAefjNJnUspHf00UgbitRax"
 );
 
 function CheckoutForm() {
@@ -28,6 +28,7 @@ function CheckoutForm() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    
     // Create PaymentIntent on the server
     axios
       .post("http://localhost:3000/api/v1/payment/create-payment-intent", {

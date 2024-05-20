@@ -47,6 +47,7 @@ export default function Tasks() {
   const [disputeModalOpen, setDisputeModalOpen] = useState(false);  // New state for the dispute modal
   const [disputeDescription, setDisputeDescription] = useState('');
   const [disdescription, setDisdescription] = useState('');
+  const [disputeCount, setDisputeCount] = useState();
 
 
   const containsCompany= window.location.pathname.includes("company");
@@ -126,6 +127,8 @@ useEffect(() => {
     .then(data => {
       if (data && data.description) {
         setDisputeDescription(data.description);
+        setDisputeCount(data.count)
+        
       } else {
         toast.error('No dispute found for this project');
       }
@@ -134,6 +137,7 @@ useEffect(() => {
       console.error('Error fetching dispute description:', error);
       toast.error('Error fetching dispute details');
     });
+    console.log(disputeCount)
   };
 
   const completeProject = () => {
@@ -400,10 +404,16 @@ useEffect(() => {
           </div>
         )}
           </div>
-          {!containsCompany && status === "disputed" && (
+          {!containsCompany && status === "disputed" && disputeCount<2 && (
         <div>
           <span style={{color:'#6319b8', fontWeight:'bold'}}>Dispute Description:</span>
           {disputeDescription ? <p>{disputeDescription}</p> : <p>Loading dispute details...</p>}
+        </div>
+      )}
+      {!containsCompany && status === "disputed" && disputeCount>1 && (
+        <div>
+          <span style={{color:'#6319b8', fontWeight:'bold'}}>Dispute Description:</span>
+          <p>This dispute will be handled by admin</p>
         </div>
       )}
           <div style={{padding:"20px"}}>
@@ -469,7 +479,7 @@ useEffect(() => {
           {/* Render TasksDisplay component with tasks */}
           <TasksDisplay tasks={tasks || []} />
         </div>
-        {!containsCompany &&  completedTasks.length>0 && tasks.length>0 && status!=='complete_request' && (
+        {!containsCompany &&  completedTasks.length>0 && tasks.length>0 && status!=='complete_request' && disputeCount<2 && (
         <Button onClick={completeProject} style={{marginLeft: '6px', marginBottom:'6px'}} variant="contained" color="primary">Complete</Button>
         )}
         
@@ -513,6 +523,8 @@ useEffect(() => {
          {containsCompany && status==="complete_request"&& completedTasks.length>0 && tasks.length>0 && (
         <Button className='text-center' onClick={handleFinalizeOpen} style={{marginLeft: '0', marginBottom:'6px'}} variant="contained" color="primary">Finalize Project</Button>
         )}
+
+        
         
     </CompanyLayout>
   )

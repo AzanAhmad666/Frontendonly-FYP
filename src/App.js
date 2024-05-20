@@ -39,9 +39,9 @@ import ShowProfile from './components/ShowProfile';
 import FreelancerApplicants from './components/company/freelancerApplicants.js';
 import CheckProgress from './components/company/CheckProgress.js';
 import CheckoutForm from "./components/CheckoutForm";
-import VideoCall from './components/VideoCall';
+import VideoCall from './components/VideoCall.js';
 
-const stripePromise = loadStripe("pk_test_51PDRNiBCBOy9JMQBpk5M173id0aNyl6bjn261inucKNWjzzXzAA3UtcbB9MOlFfRzV8zNkyYq5wjdW1dmyNUufj100CKIoZGMs");
+const stripePromise = loadStripe("pk_test_51PIXcOP2YsjtExUJkZaApVLqXUTFQ1eCQ0N6dp4oLQw3QWJxvhu8lmc0zh9lO2pvPHfUG7xUEVXSAefjNJnUspHf00UgbitRax");
 
 
 
