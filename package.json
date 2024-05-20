@@ -21,10 +21,12 @@
     "@zegocloud/zego-uikit-prebuilt": "^2.1.0",
     "axios": "^1.6.8",
     "bootstrap": "^5.3.3",
+    "chart.js": "^4.4.3",
     "mdb-react-ui-kit": "^7.2.0",
     "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.10.2",
+    "react-chartjs-2": "^5.2.0",
     "react-cookie": "^6.1.1",
     "react-datepicker": "^6.6.0",
     "react-dom": "^18.2.0",
@@ -59,5 +61,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "tailwindcss": "^3.4.3"
   }
 }

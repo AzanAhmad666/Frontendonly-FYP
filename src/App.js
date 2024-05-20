@@ -40,6 +40,7 @@ import FreelancerApplicants from './components/company/freelancerApplicants.js';
 import CheckProgress from './components/company/CheckProgress.js';
 import CheckoutForm from "./components/CheckoutForm";
 import VideoCall from './components/VideoCall.js';
+import Admin from './components/admin/admin.js';
 
 const stripePromise = loadStripe("pk_test_51PIXcOP2YsjtExUJkZaApVLqXUTFQ1eCQ0N6dp4oLQw3QWJxvhu8lmc0zh9lO2pvPHfUG7xUEVXSAefjNJnUspHf00UgbitRax");
 
@@ -101,6 +102,9 @@ const App = () => {
               <Route path="/checkout" element={<CheckoutForm />} />
               <Route path="/community" element={<Community />} />
               <Route path="/videoCall/:teamId" element={<VideoCall />} />
+
+              {/*Admin Route*/}
+              <Route path="/admin" element={<Admin />} />
 
             </Routes>
             </Elements>
