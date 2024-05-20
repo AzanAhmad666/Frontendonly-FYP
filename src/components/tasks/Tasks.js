@@ -48,6 +48,7 @@ export default function Tasks() {
   const [disputeDescription, setDisputeDescription] = useState('');
   const [disdescription, setDisdescription] = useState('');
   const [disputeCount, setDisputeCount] = useState();
+  const[dispute,setDispute]=useState()
 
 
   const containsCompany= window.location.pathname.includes("company");
@@ -128,6 +129,7 @@ useEffect(() => {
       if (data && data.description) {
         setDisputeDescription(data.description);
         setDisputeCount(data.count)
+        setDispute(data)
         
       } else {
         toast.error('No dispute found for this project');
@@ -479,7 +481,7 @@ useEffect(() => {
           {/* Render TasksDisplay component with tasks */}
           <TasksDisplay tasks={tasks || []} />
         </div>
-        {!containsCompany &&  completedTasks.length>0 && tasks.length>0 && status!=='complete_request' && disputeCount<2 && (
+        {!containsCompany &&  completedTasks.length>0 && tasks.length>0 && status!=='complete_request' && (
         <Button onClick={completeProject} style={{marginLeft: '6px', marginBottom:'6px'}} variant="contained" color="primary">Complete</Button>
         )}
         
@@ -524,6 +526,7 @@ useEffect(() => {
         <Button className='text-center' onClick={handleFinalizeOpen} style={{marginLeft: '0', marginBottom:'6px'}} variant="contained" color="primary">Finalize Project</Button>
         )}
 
+        
         
         
     </CompanyLayout>
