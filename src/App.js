@@ -105,6 +105,7 @@ const App = () => {
 
               {/*Admin Route*/}
               <Route path="/admin" element={<Admin />} />
+              <Route path="/admin/company/checkProgress/tasks/:id" element={<Tasks />} />
 
             </Routes>
             </Elements>

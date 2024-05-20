@@ -1,136 +1,206 @@
-import React, {useState,useEffect} from 'react'
-import { GoProjectRoadmap } from "react-icons/go";
-import { MdPeopleAlt } from "react-icons/md";
-import { GoOrganization } from "react-icons/go";
-import { BiMessageSquareError } from "react-icons/bi";
+import React, { useState, useEffect } from 'react';
+import { GoProjectRoadmap } from 'react-icons/go';
+import { MdPeopleAlt } from 'react-icons/md';
+import { GoOrganization } from 'react-icons/go';
+import { BiMessageSquareError } from 'react-icons/bi';
 import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
+import Freelancers from './freelancers';
+import Dispute from './dispute';
 
-ChartJS.register(CategoryScale, LinearScale,BarElement, PointElement, LineElement, Title, Tooltip, Legend);
+ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 export default function Admin() {
-    const [dailyData, setDailyData] = useState({
-    blogs: generateDummyData(30),
-    likes: generateDummyData(30),
-    comments: generateDummyData(30)
+  const [data, setData] = useState({
+    requires_confirmation: 0,
+    complete_request: 0,
+    null: 0,
+    disputed: 0,
+    completed: 0,
+    working: 0,
   });
-  const [monthlyData, setMonthlyData] = useState({
-    blogs: generateDummyData(12),
-    likes: generateDummyData(12),
-    comments: generateDummyData(12)
-  });
-  const [yearlyData, setYearlyData] = useState({
-    blogs: generateDummyData(5),
-    likes: generateDummyData(5),
-    comments: generateDummyData(5)
-  });
+  const [freelancers, setfreelancers] = useState();
+  const [companies, setcompanies] = useState();
+  const [disputes, setdisputes] = useState();
+  
+  useEffect(() => {
+    const fetchProjects = () =>{
+      const requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+      };
+  
+      fetch('http://localhost:3000/api/v1/admin/projects/status-count', requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.success && result.data) {
+            setData(result.data);
+          }
+        })
+        .catch((error) => console.error(error));
+    };
+    const fetchFreelancers = () =>{
+      const requestOptions = {
+        method: "GET",
+        redirect: "follow"
+      };
+      
+      fetch("http://localhost:3000/api/v1/Freelancer/AllFreelancers", requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(result)
+          if (result.success || result.freelancers || result.companies) {
+            setfreelancers(result.freelancers);
+            setcompanies(result.companies)
+          }
 
-  const [selectedDataType, setSelectedDataType] = useState('blogs');
-  const [selectedTimeframe, setSelectedTimeframe] = useState('daily');
+        }
+      )
+        .catch((error) => console.error(error));
+    }
+    const fetchDisputes = () =>{
+      const requestOptions = {
+        method: 'GET',
+        redirect: 'follow',
+      };
+  
+      fetch('http://localhost:3000/api/v1/dispute/all', requestOptions)
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.success && result.data) {
+            setdisputes(result.data);
+          }
+        })
+        .catch((error) => console.error(error));
+    };
+    
+    fetchProjects()
+    fetchFreelancers()
+    fetchDisputes()
+   
+  }, []);
 
+  const [defaultSelection, setDefaultSelection] = useState('projects');
+
+  const labelMapping = {
+    requires_confirmation: 'Requires Confirmation',
+    complete_request: 'Complete Request',
+    //null: 'Not Started',
+    disputed: 'Disputed',
+    completed: 'Completed',
+    working: 'Working',
+  };
 
   const getChartData = () => {
-      let data=dailyData[selectedDataType];
-      if (selectedTimeframe === 'daily') {
-        data = dailyData[selectedDataType];
-      } else if (selectedTimeframe === 'monthly') {
-        data = monthlyData[selectedDataType];
-      } else {
-        data = yearlyData[selectedDataType];
-      }
-      return createChartData(data, `${capitalizeFirstLetter(selectedTimeframe)} ${capitalizeFirstLetter(selectedDataType)}`);
+    // Combine the values of "null" and "working"
+    const combinedWorkingValue = (data.null || 0) + (data.working || 0);
+    
+    // Create a new data object excluding the "null" key
+    const transformedData = {
+      ...data,
+      working: combinedWorkingValue,
     };
+    delete transformedData.null;
 
-    const createChartData = (data, label) => {
-      if (!data) {
-        return { labels: [], datasets: [] };
-      }
-  
-      return {
-        labels: data.map(d => d.date),
-        datasets: [
-          {
-            label: label,
-            data: data.map(d => d.count),
-            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-            
-          },
-        ],
-      };
+    const labels = Object.keys(transformedData).map((key) => labelMapping[key] || key);
+    const values = Object.values(transformedData);
+
+    return {
+      labels,
+      datasets: [
+        {
+          label: 'Project Status',
+          data: values,
+          backgroundColor: '#6319b885',
+          borderColor: '#6319b885',
+          borderWidth: 1,
+          borderRadius: 5,
+          hoverBackgroundColor: '#6319b8',
+          hoverBorderColor: '#6319b8',
+
+          
+        },
+      ],
     };
+  };
 
   return (
-    <div className="justify-content-center mx-auto">
-        <p style={{margin:25,fontSize:30, fontWeight:'bold'}}>Hello Cute Uzair!</p>
-        
-  <div className="d-flex flex-wrap gap-4 justify-content-center">
-    <div className="d-flex p-3 w-100 gap-3 hover:cursor-pointer">
-      
-      <div className="d-flex flex-column justify-content-center p-3 rounded shadow flex-grow-1 hover:cursor-pointer" >
-        <div className='d-flex justify-content-center gap-2' >
-          <h3 className="" style={{fontWeight:'bolder'}}>Total Projects</h3>
-          <GoProjectRoadmap color='#6319b885' size={30} style={{fontWeight:'bold'}}/>
+    <div className="flex flex-col max-w-6xl items-center mx-auto">
+      <p className="w-full" style={{ margin: 25, fontSize: 30, fontWeight: 'bold' }}>
+        Hello Cute Uzair!
+      </p>
+
+      <div className="d-flex flex-wrap w-full gap-4 hover:cursor-pointer mb-8">
+        <div
+          onClick={() => setDefaultSelection('projects')}
+          className={`d-flex flex-column justify-content-center p-3 rounded shadow flex-grow-1 hover:cursor-pointer ${
+            defaultSelection === 'projects' ? 'bg-[#6319b885] text-white' : ''
+          }`}
+        >
+          <div className="d-flex justify-content-center gap-2">
+            <h3 className="" style={{ fontWeight: 'bolder' }}>
+              Total Projects
+            </h3>
+            <GoProjectRoadmap size={30} style={{ fontWeight: 'bold' }} />
+          </div>
+          <p className="h4 d-flex justify-content-center" style={{ fontWeight: 'bolder' }}>
+            {Object.values(data).reduce((a, b) => a + b, 0)}
+          </p>
         </div>
-          <p className="h4 d-flex justify-content-center"style={{fontWeight:'bolder'}}>0</p>
-        
-      </div>
-      <div className="d-flex flex-column justify-content-center p-3 rounded shadow flex-grow-1" >
-        <div className='d-flex justify-content-center gap-2' >
-          <h3 className="" style={{fontWeight:'bolder'}}>Freelancers</h3>
-          <MdPeopleAlt color='#6319b885' size={30} className='' style={{fontWeight:'bolder'}}/>
+        <div
+          onClick={() => setDefaultSelection('freelancers')}
+          className={`d-flex flex-column justify-content-center p-3 rounded shadow flex-grow-1 hover:cursor-pointer ${
+            defaultSelection === 'freelancers' ? 'bg-[#6319b885] text-white' : ''
+          }`}
+        >
+          <div className="d-flex justify-content-center gap-2">
+            <h3 className="" style={{ fontWeight: 'bolder' }}>
+              Freelancers
+            </h3>
+            <MdPeopleAlt size={30} className="" style={{ fontWeight: 'bolder' }} />
+          </div>
+          <p className="h4 d-flex justify-content-center" style={{ fontWeight: 'bolder' }}>
+            {freelancers?.length}
+          </p>
         </div>
-          <p className="h4 d-flex justify-content-center"style={{fontWeight:'bolder'}}>0</p>
-        
-      </div>
-      <div className="d-flex flex-column justify-content-center p-3 rounded shadow flex-grow-1" >
-        <div className='d-flex justify-content-center  gap-2' >
-          <h3 className="" style={{fontWeight:'bolder'}}>Companies</h3>
-          <GoOrganization color='#6319b885' size={30} className='' style={{fontWeight:'bolder'}}/>
+        <div
+          onClick={() => setDefaultSelection('companies')}
+          className={`d-flex flex-column justify-content-center p-3 rounded shadow flex-grow-1 hover:cursor-pointer ${
+            defaultSelection === 'companies' ? 'bg-[#6319b885] text-white' : ''
+          }`}
+        >
+          <div className="d-flex justify-content-center gap-2">
+            <h3 className="" style={{ fontWeight: 'bolder' }}>
+              Companies
+            </h3>
+            <GoOrganization size={30} className="" style={{ fontWeight: 'bolder' }} />
+          </div>
+          <p className="h4 d-flex justify-content-center" style={{ fontWeight: 'bolder' }}>
+            {companies?.length}
+          </p>
         </div>
-          <p className="h4 d-flex justify-content-center"style={{fontWeight:'bolder'}}>0</p>
-        
-      </div>
-      <div className="d-flex flex-column justify-content-center p-3 rounded shadow flex-grow-1" >
-        <div className='d-flex justify-content-center gap-2' >
-          <h3 className="" style={{fontWeight:'bolder'}}>Disputes</h3>
-          <BiMessageSquareError color='#6319b885' size={30} className='' style={{fontWeight:'bolder'}}/>
+        <div
+          onClick={() => setDefaultSelection('disputes')}
+          className={`d-flex flex-column justify-content-center p-3 rounded shadow flex-grow-1 hover:cursor-pointer ${
+            defaultSelection === 'disputes' ? 'bg-[#6319b885] text-white' : ''
+          }`}
+        >
+          <div className="d-flex justify-content-center gap-2">
+            <h3 className="" style={{ fontWeight: 'bolder' }}>
+              Active Disputes
+            </h3>
+            <BiMessageSquareError size={30} className="" style={{ fontWeight: 'bolder' }} />
+          </div>
+          <p className="h4 d-flex justify-content-center" style={{ fontWeight: 'bolder' }}>
+            {disputes?.filter(dispute => dispute.count > 1 && dispute.status==="active").length}
+          </p>
         </div>
-          <p className="h4 d-flex justify-content-center"style={{fontWeight:'bolder'}}>0</p>
-        
       </div>
-      
-      
-      
-      
-      
-      
-      
+
+      {defaultSelection === 'projects' && <Bar data={getChartData()} />}
+      {defaultSelection === 'freelancers' && <Freelancers applicants={freelancers}/>}
+      {defaultSelection === 'companies' && <Freelancers applicants={companies}/>}
+      {defaultSelection === 'disputes' && <Dispute disputes={disputes}/>}
     </div>
-    
-    
-  </div>
-
-  
-
-  <Bar data={getChartData()} />
-
-
-</div>
-  )
+  );
 }
-
-
-function generateDummyData(days) {
-  const data = [];
-  for (let i = 1; i <= days; i++) {
-    data.push({
-      date: `2024-05-${i < 10 ? '0' : ''}${i}`,
-      count: Math.floor(Math.random() * 100)
-    });
-  }
-  return data;
-}
-
-function capitalizeFirstLetter(string) {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }

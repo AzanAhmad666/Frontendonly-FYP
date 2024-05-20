@@ -462,6 +462,7 @@ const FreelancerApplicants = () => {
                             <img
                               src={applicant?.pfp}
                               alt="Profile"
+                              className="round flex justify-center mx-auto object-cover"
                               style={{
                                 width: "100px",
                                 height: "100px",
@@ -470,9 +471,9 @@ const FreelancerApplicants = () => {
                             />
                           ) : (
                             <img
-                              className="round"
                               src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQvzCHk4vxVX-5J0QrW4fmsT4AjslKpeLnx3A&usqp=CAU"
                               alt="user"
+                              className="round flex justify-center mx-auto object-cover"
                               style={{
                                 width: "100px",
                                 height: "100px",
@@ -486,12 +487,12 @@ const FreelancerApplicants = () => {
                           </h3>
                           <p>{applicant.email}</p>
                           <div className="">
-                            <Link
+                            {/* <Link
                               to="/allSoloProject/Profile "
                               className="applicant mx-2  "
                             >
                               Profile
-                            </Link>
+                            </Link> */}
                             <button
                               onClick={() =>
                                 handleAssignApplicantClick(applicant._id)

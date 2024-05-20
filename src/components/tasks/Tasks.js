@@ -47,9 +47,11 @@ export default function Tasks() {
   const [disputeModalOpen, setDisputeModalOpen] = useState(false);  // New state for the dispute modal
   const [disputeDescription, setDisputeDescription] = useState('');
   const [disdescription, setDisdescription] = useState('');
+  const [disputeId, setdisputeId] = useState();
 
 
   const containsCompany= window.location.pathname.includes("company");
+  const containsAdmin= window.location.pathname.includes("admin");
 
 useEffect(() => {
   
@@ -125,7 +127,9 @@ useEffect(() => {
     .then(response => response.json())
     .then(data => {
       if (data && data.description) {
+        console.log('data: ',data)
         setDisputeDescription(data.description);
+        setdisputeId(data.disputeId);
       } else {
         toast.error('No dispute found for this project');
       }
@@ -220,6 +224,32 @@ useEffect(() => {
       .catch(error => {
         console.error('Error:', error);
         toast.error('Error completing project.');
+      });
+  };
+  const discardDisputeByAdmin = () => {
+    const url = `http://localhost:3000/api/v1/dispute/${disputeId}/reset-count`; // Adjust the URL to your endpoint
+    const myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    
+    
+    const requestOptions = {
+      method: 'PUT',
+      headers: myHeaders,
+    };
+  
+    fetch(url, requestOptions)
+      .then(response => response.json())
+      .then(result => {
+        if (result.dispute) {
+          toast.success('Discard Successfully');
+          // You might want to trigger a refresh or update state here
+        } else {
+          toast.error('Failed to discard: ' + result.message);
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        toast.error('Error discarding');
       });
   };
 
@@ -477,17 +507,16 @@ useEffect(() => {
         <Modal open={finalizeModalOpen} onClose={handleFinalizeClose}>
     <Box sx={style}>
       <Typography className='text-center' variant="h6" gutterBottom>Finalize Project</Typography>
-      {status === 'disputed' ? (
-        <Typography className='text-center' style={{ marginTop: 20 }}>Dispute is raised. Please wait for the team's response.</Typography>
-      ) : (
+      
         <>
           <Typography>Choose your action:</Typography>
           <div className='mt-4 mb-3'>
             <Button onClick={completeProjectCompany} color="primary">Approve</Button>
-            <Button onClick={raiseDispute} color="secondary" style={{ float: 'right' }}>Raise Dispute</Button>
+            {containsAdmin && <Button onClick={discardDisputeByAdmin} color="primary">Discard</Button> }
+            {status!=='disputed'&&<Button onClick={raiseDispute} color="secondary" style={{ float: 'right' }}>Raise Dispute</Button>}
           </div>
         </>
-      )}
+      
     </Box>
 </Modal>
 
@@ -511,6 +540,9 @@ useEffect(() => {
       </Modal>
 
          {containsCompany && status==="complete_request"&& completedTasks.length>0 && tasks.length>0 && (
+        <Button className='text-center' onClick={handleFinalizeOpen} style={{marginLeft: '0', marginBottom:'6px'}} variant="contained" color="primary">Finalize Project</Button>
+        )}
+         {containsCompany && status==="disputed" && (
         <Button className='text-center' onClick={handleFinalizeOpen} style={{marginLeft: '0', marginBottom:'6px'}} variant="contained" color="primary">Finalize Project</Button>
         )}
         
