@@ -48,6 +48,8 @@ export default function Tasks() {
   const [disputeDescription, setDisputeDescription] = useState('');
   const [disdescription, setDisdescription] = useState('');
   const [disputeId, setdisputeId] = useState();
+  const [disputeCount, setDisputeCount] = useState();
+  const[dispute,setDispute]=useState()
 
 
   const containsCompany= window.location.pathname.includes("company");
@@ -129,6 +131,9 @@ useEffect(() => {
       if (data && data.description) {
         console.log('data: ',data)
         setDisputeDescription(data.description);
+        setDisputeCount(data.count)
+        setDispute(data)
+        
         setdisputeId(data.disputeId);
       } else {
         toast.error('No dispute found for this project');
@@ -138,6 +143,7 @@ useEffect(() => {
       console.error('Error fetching dispute description:', error);
       toast.error('Error fetching dispute details');
     });
+    console.log(disputeCount)
   };
 
   const completeProject = () => {
@@ -430,10 +436,16 @@ useEffect(() => {
           </div>
         )}
           </div>
-          {!containsCompany && status === "disputed" && (
+          {!containsCompany && status === "disputed" && disputeCount<2 && (
         <div>
           <span style={{color:'#6319b8', fontWeight:'bold'}}>Dispute Description:</span>
           {disputeDescription ? <p>{disputeDescription}</p> : <p>Loading dispute details...</p>}
+        </div>
+      )}
+      {!containsCompany && status === "disputed" && disputeCount>1 && (
+        <div>
+          <span style={{color:'#6319b8', fontWeight:'bold'}}>Dispute Description:</span>
+          <p>This dispute will be handled by admin</p>
         </div>
       )}
           <div style={{padding:"20px"}}>
@@ -545,6 +557,9 @@ useEffect(() => {
          {containsCompany && status==="disputed" && (
         <Button className='text-center' onClick={handleFinalizeOpen} style={{marginLeft: '0', marginBottom:'6px'}} variant="contained" color="primary">Finalize Project</Button>
         )}
+
+        
+        
         
     </CompanyLayout>
   )

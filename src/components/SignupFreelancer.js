@@ -16,6 +16,8 @@ const SignupFreelancer = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
 
+    
+
     const myHeaders = new Headers();
     myHeaders.append('Content-Type', 'application/json');
 
@@ -33,6 +35,11 @@ const SignupFreelancer = () => {
       body: raw,
       redirect: 'follow',
     };
+
+    if (!email.includes('@') || !email.endsWith('.com')) {
+      toast.error("Please enter a valid email (must contain '@' and end with '.com')");
+      return; // Stop the function execution if the email is not valid
+    }
 
     if (password===confirmPassword){
       try {
